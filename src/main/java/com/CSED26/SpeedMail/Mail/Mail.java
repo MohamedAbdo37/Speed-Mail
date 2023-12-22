@@ -12,7 +12,7 @@ public class Mail {
     private String subject;
     private ArrayList<CritreriaIF> types;
     private String body;
-
+    
     public Mail(User sender){
         // this.id = id;
         this.to = new ArrayList<>();

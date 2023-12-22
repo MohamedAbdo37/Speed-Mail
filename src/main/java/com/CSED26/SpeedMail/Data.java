@@ -16,7 +16,7 @@ public class Data {
         System.out.println("Shapes successfully written to JSON file.");
     }
 
-    public static Mail getMail(){
+    public static Mail getMail(String id){
         return null;
     }
 }
