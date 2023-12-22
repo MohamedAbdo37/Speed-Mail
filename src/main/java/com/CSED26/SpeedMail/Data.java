@@ -10,14 +10,10 @@ public class Data {
     
 
     public static void saveMail(Mail mail) throws IOException {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            // File file = new File();
-            // objectMapper.writeValue();
-            System.out.println("Shapes successfully written to JSON file.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        // File file = new File();
+        // objectMapper.writeValue();
+        System.out.println("Shapes successfully written to JSON file.");
     }
 
     public static Mail getMail(){
