@@ -13,10 +13,13 @@ public class User {
         this.adress = address;
         this.allMessage = Folder.createNewAccount();
     }
-    
+
+    public Folder getAllMessage() {
+        return allMessage;
+    }
+
     public static User getUser(String address) {
         return null;
     }
-    
     
 }
