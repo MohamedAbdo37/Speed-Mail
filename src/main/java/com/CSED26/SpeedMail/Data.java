@@ -1,9 +1,9 @@
-package com.CSED26.SpeedMail;
+package com.csed26.speedmail;
 
 import java.io.File;
 import java.io.IOException;
 
-import com.CSED26.SpeedMail.Mail.Mail;
+import com.csed26.speedmail.mail.Mail;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Data {
@@ -16,9 +16,9 @@ public class Data {
     private static String usersPath = "Data/Users/";
     private static String foldersPath = "Data/Folders/";
     //  Mails Data
-    public static void saveMail(String id, Mail mail) throws IOException {
+    public static void saveMail(Mail mail) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File( mailsPath + id);
+        File file = new File( mailsPath + mail.getId());
         objectMapper.writeValue(file, mail);
         System.out.println("Mail successfully written to JSON file.");
     }
@@ -33,10 +33,15 @@ public class Data {
         return mail;
     }
 
+    public static synchronized void deleteMail(Mail mail){
+        File file = new File(mailsPath + mail.getId());
+        file.delete();
+    }
+
     // Users Data
-    public static void saveUser(String address, User user) throws IOException {
+    public static void saveUser(User user) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File(usersPath + address);
+        File file = new File(usersPath + user.getAddress());
         objectMapper.writeValue(file, user);
         System.out.println("Shapes successfully written to JSON file.");
     }
@@ -52,9 +57,9 @@ public class Data {
     }
 
     //  Folders Data
-    public static void saveFolder(String id, Folder folder) throws IOException {
+    public static void saveFolder(Folder folder) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File(foldersPath + id);
+        File file = new File(foldersPath + folder.getId());
         objectMapper.writeValue(file, folder);
         System.out.println("Shapes successfully written to JSON file.");
     }
@@ -69,5 +74,9 @@ public class Data {
         return folder;
     }
 
+    public static void deleteFolder(Folder folder){
+        File file = new File(foldersPath + folder.getId());
+        file.delete();
+    }
 
 }

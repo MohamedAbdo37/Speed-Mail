@@ -1,4 +1,4 @@
-package com.CSED26.SpeedMail.Critreria;
+package com.csed26.speedmail.critreria;
 
 public class Critreria implements CritreriaIF{
     

@@ -1,22 +1,25 @@
-package com.CSED26.SpeedMail.Mail;
+package com.csed26.speedmail.mail;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-import com.CSED26.SpeedMail.User;
-import com.CSED26.SpeedMail.Critreria.CritreriaIF;
+import com.csed26.speedmail.Data;
+import com.csed26.speedmail.User;
+import com.csed26.speedmail.critreria.CritreriaIF;
 
 public class Mail {
     private String id;
-    private ArrayList<User> to;
-    private User from;
+    private ArrayList<String> to;
+    private String from;
     private String subject;
     private ArrayList<CritreriaIF> types;
     private String body;
+    private boolean isDraft;
     
-    public Mail(User sender){
-        // this.id = id;
+    public Mail(String address){
+        this.id = Server.generateId(10);
         this.to = new ArrayList<>();
-        this.from = sender;
+        this.from = address;
         this.subject = "";
         this.types = new ArrayList<>();
         this.body = "";
@@ -26,8 +29,8 @@ public class Mail {
         this.body = body;
     }
     
-    public void addRecipient(User recipient) {
-        this.to.add(recipient);
+    public void addRecipient(String address) {
+        this.to.add(address);
     }
 
     public void setSubject(String subject) {
@@ -41,8 +44,8 @@ public class Mail {
     public String getBody() {
         return body;
     }
-    public User getFrom() {
-        return from;
+    public User getFrom() throws IOException {
+        return Data.getUser(this.from);
     }
     public String getSubject() {
         return subject;
@@ -60,5 +63,21 @@ public class Mail {
         return id;
     }
 
+    public void send() throws IOException{
+        
+        Data.getUser(this.from).addToSend(this);
+        for(String address : this.to){
+                Data.getUser(address).recive(this);
+        }
 
+        if(this.isDraft)
+            Data.deleteMail(this);
+
+        this.isDraft = false;
+    }
+
+    public void save() throws IOException{
+        Data.getUser(this.from).addToDraft(this);
+        this.isDraft = true;
+    }
 }
