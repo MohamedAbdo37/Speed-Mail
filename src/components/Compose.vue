@@ -28,6 +28,15 @@
             <label for="message">Message</label>
             <textarea id="message" required v-model="message"></textarea>
         </div>
+        <div id="Priority">
+            <label for="priority_select">Choose Your priority:</label>
+            <select v-model="priority" id="priority_select">
+            <option value=100>100 %</option>
+            <option value=75>75 %</option>
+            <option value=50 selected>50 %</option>
+            <option value=25>25 %</option>
+            </select>
+        </div>
         <button @click="send()" class="send-button">Send email</button>
         <button @click="draft()" class="send-button">draft</button>
         <div class="input-container">
@@ -59,6 +68,7 @@ export default {
       from: '',
       date: '',
       tag: [],
+      priority:50,
 
     };
   },
@@ -73,6 +83,7 @@ export default {
           message: this.message,
           subject: this.subject,
           tag: this.tag,
+          priority:this.priority,
           date: Number(this.date),
         },
       }).then((r) => {

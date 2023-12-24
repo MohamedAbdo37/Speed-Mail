@@ -117,17 +117,19 @@
 
         <div>
           <label for="sort_select">Sort:</label>
-          <select id="sort_select">
-            <option selected><button>Date</button></option>
-            <option><button>Priority</button></option>
+          <select id="sort_select" v-model="sortby">
+            <option value="date" selected><button>Date</button></option>
+            <option value="priority" ><button>Priority</button></option>
           </select>
           <select id="order_select" v-model="sort">
             <option value="Ascendingly" selected><button>Ascendingly</button></option>
             <option value="Decendingly"><button>Decendingly</button></option>
           </select>
-          <button v-if="sort=='Ascendingly'" @click="datesortingasc" id="sort-button">Sort</button>
-          <button v-if="sort=='Decendingly'" @click="datesortingdes" id="sort-button">Sort</button>
-        </div>
+          <button v-if="sort=='Ascendingly'&&sortby=='date'" @click="datesortingasc" id="sort-button">Sort</button>
+          <button v-if="sort=='Decendingly'&&sortby=='date'" @click="datesortingdes" id="sort-button">Sort</button>
+          <button v-if="sort=='Ascendingly'&&sortby=='priority'" @click="prioritysortingasc" id="sort-button">Sort</button>
+          <button v-if="sort=='Decendingly'&&sortby=='priority'" @click="prioritysortingdes" id="sort-button">Sort</button>      
+          </div>
 
         <div id="filter-div">
           <label for="Filter-select">Filter by:</label>
@@ -152,6 +154,7 @@
           <div><h5>{{ mail.Subject }}</h5></div>
           <div><h5>{{ mail.Date }}</h5></div>
           <div><h5>{{ mail.Type }}</h5></div>
+          <div><h5>{{ mail.Priority}}</h5></div>
         </div>
       </div>
     </div>
@@ -170,7 +173,8 @@ export default {
     return {
       b: 0,
       i: 0,
-      sort :"",
+      sort :"Ascendingly",
+      sortby:"date",
       userName: "",
       type: "",
       search: "",
@@ -178,7 +182,7 @@ export default {
       password: "",
       foldernames: [],
       contactnames: [],
-      filterby: "",
+      filterby: "sender",
       filter: [],
       mails: [
         {
@@ -187,6 +191,7 @@ export default {
           Subject: "CO Cache Lab",
           Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
           Type: "social",
+          Priority:100,
           Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
         },
         {
@@ -195,6 +200,7 @@ export default {
           Subject: "OOP project",
           Date: "Fri Dec 25 2023 10:30:00 GMT+0200 (Eastern European Standard Time)",
           Type: "social",
+          Priority:10,
           Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
         },
         {
@@ -203,6 +209,7 @@ export default {
           Subject: "OOP project",
           Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
           Type: "crying",
+          Priority:50,
           Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
         }
       ]
@@ -212,6 +219,12 @@ export default {
     addfolder() {
 
     },
+    prioritysortingasc(){
+      this. mails.sort((a, b) => a.Priority - b.Priority);
+    },
+    prioritysortingdes(){
+      this. mails.sort((a, b) => b.Priority - a.Priority);
+},
     datesortingdes() {
   const compareDates = (a, b) => {
   const dateA = new Date(a.Date);
@@ -220,6 +233,7 @@ export default {
 };
 this.mails.sort(compareDates);
 },
+
 datesortingasc() {
   const compareDates = (a, b) => {
   const dateA = new Date(a.Date);
