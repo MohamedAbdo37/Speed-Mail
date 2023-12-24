@@ -22,7 +22,7 @@
             <input v-model="input.value" @input="updateInput(index, $event.target.value)" type="text" id="tag" required  >
             <button @click="removeInput(index)">Remove</button>
             </div>
-            <button @click="addInput">Add Input</button>
+            <button @click="addInput" class="send-button">Add Input</button>
         </div>
         <div class="form-group">
             <label for="message">Message</label>

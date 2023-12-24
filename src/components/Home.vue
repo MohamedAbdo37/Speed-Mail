@@ -69,12 +69,12 @@
 
   <div class="associated-main">
     <div class="search-field" id="search-field">
-      <button >
+      <button @click="Search">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
-      <input type="text" id="search-input" placeholder="Search mail" />
+      <input v-model="type" type="text" id="search-input" placeholder="Type" />
+      <input v-model="search" type="text" id="search" placeholder="   Search" />
     </div>
-
     <div class="light-blocker" id="light-blocker"></div>
     <div class="pop-up-window" id="move-to-folder-window">
       <div class="new-message-label" style="margin-left: 0">
@@ -162,6 +162,8 @@ export default {
     return {
       i: 0,
       userName: "",
+      type: "",
+      search: "",
       emailAddress: "",
       password: "",
       foldernames: [],
@@ -191,6 +193,17 @@ export default {
   methods: {
     addfolder() {
 
+    },
+    Search() {
+      axios.get('http://localhost:8081/search', {
+        params: {
+          search: this.search,
+          type: this.type,
+        },
+      }).then((r) => {
+        console.log('done filter');
+        console.log(r.data)
+      });
     },
     addInput() {
           this.filter.push({ value: '' });
