@@ -65,6 +65,7 @@ export default {
   methods: {
     send() {
       this.date = new Date();
+      console.log(this.date)
       axios.get('http://localhost:8081/send', {
         params: {
           to: this.to,

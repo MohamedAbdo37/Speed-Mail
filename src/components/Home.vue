@@ -59,7 +59,7 @@
       <ul  id="show" style="display: none; " class="folders">
       <li v-for="name in foldernames" :key="name.id">
         <button >
-          <i class="fa fa-folder-o"></i>
+          <i v-if="name" class="fa fa-folder-o"></i>
         </button>
         <button @click="getindex(name)" onclick=" document.getElementById('name').style.display='block', document.getElementById('re').style.display='block'" >
           {{ name }}
@@ -121,11 +121,12 @@
             <option selected><button>Date</button></option>
             <option><button>Priority</button></option>
           </select>
-          <select id="order_select">
-            <option selected><button>Ascendingly</button></option>
-            <option><button>Decendingly</button></option>
+          <select id="order_select" v-model="sort">
+            <option value="Ascendingly" selected><button>Ascendingly</button></option>
+            <option value="Decendingly"><button>Decendingly</button></option>
           </select>
-          <button id="sort-button">Sort</button>
+          <button v-if="sort=='Ascendingly'" @click="datesortingasc" id="sort-button">Sort</button>
+          <button v-if="sort=='Decendingly'" @click="datesortingdes" id="sort-button">Sort</button>
         </div>
 
         <div id="filter-div">
@@ -167,6 +168,7 @@ export default {
     return {
       b: 0,
       i: 0,
+      sort :"",
       userName: "",
       type: "",
       search: "",
@@ -181,7 +183,7 @@ export default {
           To: "Yahiaibrahime123@gmail.com",
           From: "MohamedAbdo2002@gmail.com",
           Subject: "CO Cache Lab",
-          Date: "13/12/2023",
+          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
           Type: "social",
           Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
         },
@@ -189,8 +191,16 @@ export default {
           To: "Yahiaibrahime123@gmail.com",
           From: "MohamedHassan2002@gmail.com",
           Subject: "OOP project",
-          Date: "19/12/2023",
+          Date: "Fri Dec 25 2023 10:30:00 GMT+0200 (Eastern European Standard Time)",
           Type: "social",
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
+        {
+          To: "Yahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
           Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
         }
       ]
@@ -200,6 +210,22 @@ export default {
     addfolder() {
 
     },
+    datesortingdes() {
+  const compareDates = (a, b) => {
+  const dateA = new Date(a.Date);
+  const dateB = new Date(b.Date);
+  return dateB - dateA;
+};
+this.mails.sort(compareDates);
+},
+datesortingasc() {
+  const compareDates = (a, b) => {
+  const dateA = new Date(a.Date);
+  const dateB = new Date(b.Date);
+  return dateA - dateB;
+};
+this.mails.sort(compareDates);
+},
     getindex(name) {
       this.b=this.foldernames.indexOf(name);
 },
@@ -561,5 +587,6 @@ i {
   margin-top: 10px;
   border-color: cornflowerblue;
   border-width: 2px;
+  padding-top: 25px;
 }
 </style>
