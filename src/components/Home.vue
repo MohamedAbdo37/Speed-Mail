@@ -154,7 +154,7 @@
           <div><h5>{{ mail.Subject }}</h5></div>
           <div><h5>{{ mail.Date }}</h5></div>
           <div><h5>{{ mail.Type }}</h5></div>
-          <div><h5>{{ mail.Priority}}</h5></div>
+          <div><h5>{{ mail.Priority}}%</h5></div>
         </div>
       </div>
     </div>
