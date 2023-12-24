@@ -18,7 +18,11 @@
         </div>
         <div class="form-group">
             <label for="tag">Tag</label>
-            <input type="text" id="tag" required  v-model="tag[0]">
+            <div v-for="(input, index) in tag" :key="index">
+            <input v-model="input.value" @input="updateInput(index, $event.target.value)" type="text" id="tag" required  >
+            <button @click="removeInput(index)">Remove</button>
+            </div>
+            <button @click="addInput">Add Input</button>
         </div>
         <div class="form-group">
             <label for="message">Message</label>
@@ -76,6 +80,16 @@ export default {
         console.log(this.date);
       });
     },
+    addInput() {
+          this.tag.push({ value: '' });
+        },
+        removeInput(index) {
+          this.tag.splice(index, 1);
+        },
+        updateInput(index, value) {
+          this.tag[index].value = value;
+          console.log(this.tag[index])
+        },
     draft() {
       this.date = new Date();
       axios.get('http://localhost:8081/draft', {
