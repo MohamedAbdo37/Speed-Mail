@@ -58,9 +58,14 @@
       <button @click="addid" id ="create" style="display: none;" onclick=" document.getElementById('foldername').style.display='none',document.getElementById('create').style.display='none',document.getElementById('show').style.display='block'"  >create</button>
       <ul  id="show" style="display: none; " class="folders">
       <li v-for="name in foldernames" :key="name.id">
-        <button>
-          <i class="fa fa-folder-o"></i>{{ name }}
+        <button >
+          <i class="fa fa-folder-o"></i>
         </button>
+        <button @click="getindex(name)" onclick=" document.getElementById('name').style.display='block', document.getElementById('re').style.display='block'" >
+          {{ name }}
+        </button>
+        <input type="text" id="name" style="display: none;" required  v-model="foldernames[b]">
+        <button id ="re" style="display: none;" onclick=" document.getElementById('name').style.display='none',document.getElementById('re').style.display='none'"  >rename</button>
       </li>
     </ul>
     </li>
@@ -162,6 +167,7 @@ export default {
   },
   data() {
     return {
+      b: 0,
       i: 0,
       userName: "",
       type: "",
@@ -196,6 +202,9 @@ export default {
     addfolder() {
 
     },
+    getindex(name) {
+      this.b=this.foldernames.indexOf(name);
+},
     Search() {
       axios.get('http://localhost:8081/search', {
         params: {
