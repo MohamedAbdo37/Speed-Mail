@@ -28,9 +28,9 @@
             <label for="message">Message</label>
             <textarea id="message" required v-model="message"></textarea>
         </div>
-        <div id="Priority">
+        <div id="Priority" style="padding: 20px;">
             <label for="priority_select">Choose Your priority:</label>
-            <select v-model="priority" id="priority_select">
+            <select style="background-color: lightblue;" v-model="priority" id="priority_select">
             <option value=100>100 %</option>
             <option value=75>75 %</option>
             <option value=50 selected>50 %</option>
@@ -126,6 +126,14 @@ export default {
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
+}
+
+#Priority_select {
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(128, 128, 128, 0.1);
+    border: none;
+    margin-left: 10px;
 }
 
 .header {
