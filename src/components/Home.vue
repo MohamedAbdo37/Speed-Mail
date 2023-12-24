@@ -146,12 +146,14 @@
       <hr style="margin-top: 20px; margin-bottom: 20px" id="horizontal-line" />
       <h1>Your Inbox</h1>
       <div v-for="mail in mails" :key="mail.id" class="mail">
-        <div><h5>{{ mail.From }}</h5></div>
-        <div><h5>{{ mail.Subject }}</h5></div>
-        <div><h5>{{ mail.Date }}</h5></div>
-        <div><h5>{{ mail.Type }}</h5></div>
+        <input type="checkbox">
+        <div class="properties">
+          <div><h5>{{ mail.From }}</h5></div>
+          <div><h5>{{ mail.Subject }}</h5></div>
+          <div><h5>{{ mail.Date }}</h5></div>
+          <div><h5>{{ mail.Type }}</h5></div>
+        </div>
       </div>
-
     </div>
   </div>
 </div>
@@ -579,14 +581,27 @@ i {
 
 .mail {
   width: 95%;
-  height: 50px;
-  display: grid;
-  background-color:darkgray;
+  height: 40px;
+  display: flex;
   border-radius: 5px;
   margin: auto;
   margin-top: 10px;
-  border-color: cornflowerblue;
   border-width: 2px;
-  padding-top: 25px;
+  border:dodgerblue;
+  border-style: solid;
+}
+.mail:hover {
+  box-shadow: 0 5px 5px rgba(0, 0, 0, .3);
+}
+.mail .properties{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(25%, 1fr));
+  text-align: center;
+  padding-left: 10px;
+  width: 90%;
+}
+.mail .properties h5 {
+ margin: auto;
+ margin-top: 15px;
 }
 </style>
