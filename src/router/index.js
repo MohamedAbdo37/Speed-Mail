@@ -3,7 +3,8 @@ import hoMe from '../components/Home.vue';
 import ComPose from '../components/Compose.vue';
 import TraSh from '../components/Trash.vue';
 import FolderBrowseVue from '../components/FolderBrowse.vue';
-
+import LoginVue from '../components/LoginVue.vue';
+import SignUp from '../components/SignUp.vue';
 const routes = [
   {
     path: '/',
@@ -24,6 +25,16 @@ const routes = [
     path: '/Folder',
     name: 'FolderBrowse',
     component: FolderBrowseVue,
+  },
+  {
+    path: '/login',
+    name: 'LoginVue',
+    component: LoginVue
+  },
+  {
+    path: '/SignUp',
+    name: 'SignUp',
+    component: SignUp
   },
 ];
 
