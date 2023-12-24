@@ -125,12 +125,16 @@
 
         <div id="filter-div">
           <label for="Filter-select">Filter by:</label>
-          <select id="Filter-select">
-            <option><button>Sender</button></option>
-            <option selected><button>Subject</button></option>
+          <select id="Filter-select" v-model="filterby">
+            <option value="sender"><button  >Sender </button></option>
+            <option value="subject" selected><button>Subject</button></option>
           </select>
-          <input type="text" id="filter-input" style="margin-left: 5px" />
-          <button id="filter-button" >Filter</button>
+          <div v-for="(input, index) in filter" :key="index">
+          <input v-model="input.value" @input="updateInput(index, $event.target.value)" type="text" id="filter-input" style="margin-left: 5px"   >
+          <button @click="removeInput(index)">Remove</button>
+          </div>
+          <button @click="addInput">Add Input</button>
+          <button id="filter-button" @click="Filter" >Filter</button>
         </div>
       </div>
       <hr style="margin-top: 20px; margin-bottom: 20px" id="horizontal-line" />
@@ -148,6 +152,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'hoMe',
   components: {
@@ -160,6 +166,8 @@ export default {
       password: "",
       foldernames: [],
       contactnames: [],
+      filterby: "",
+      filter: [],
       mails: [
         {
           To: "Yahiaibrahime123@gmail.com",
@@ -184,6 +192,27 @@ export default {
     addfolder() {
 
     },
+    addInput() {
+          this.filter.push({ value: '' });
+        },
+        removeInput(index) {
+          this.filter.splice(index, 1);
+        },
+        updateInput(index, value) {
+          this.filter[index].value = value;
+          console.log(this.filter[index])
+        },
+    Filter() {
+      axios.get('http://localhost:8081/filter', {
+        params: {
+          filterby: this.filterby,
+          filter: this.filter,
+        },
+      }).then((r) => {
+        console.log('done filter');
+        console.log(r.data)
+      });
+},
     addid() {
       this.i += 1;
       console.log(this.i);

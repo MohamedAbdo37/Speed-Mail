@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
             <label for="tag">Tag</label>
-            <input type="text" id="tag" required  v-model="tag">
+            <input type="text" id="tag" required  v-model="tag[0]">
         </div>
         <div class="form-group">
             <label for="message">Message</label>
