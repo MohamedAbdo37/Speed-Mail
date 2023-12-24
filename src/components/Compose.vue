@@ -84,7 +84,7 @@ export default {
           subject: this.subject,
           tag: this.tag,
           priority:this.priority,
-          date: Number(this.date),
+          date: this.date,
         },
       }).then((r) => {
         console.log('done send');
