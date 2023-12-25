@@ -1,24 +1,25 @@
-package com.csed26.speedmail;
+package com.CSED26.SpeedMail;
 
 import java.io.File;
 import java.io.IOException;
 
-import com.csed26.speedmail.mail.Mail;
+import com.CSED26.SpeedMail.Mail.Mail;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Data {
 
-    private Data(){
+    private Data() {
         throw new IllegalStateException("Data class");
     }
 
     private static String mailsPath = "Data/Mails/";
     private static String usersPath = "Data/Users/";
     private static String foldersPath = "Data/Folders/";
-    //  Mails Data
+
+    // Mails Data
     public static void saveMail(Mail mail) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File( mailsPath + mail.getId());
+        File file = new File(mailsPath + mail.getId());
         objectMapper.writeValue(file, mail);
         System.out.println("Mail successfully written to JSON file.");
     }
@@ -33,7 +34,7 @@ public class Data {
         return mail;
     }
 
-    public static synchronized void deleteMail(Mail mail){
+    public static synchronized void deleteMail(Mail mail) {
         File file = new File(mailsPath + mail.getId());
         file.delete();
     }
@@ -56,7 +57,7 @@ public class Data {
         return user;
     }
 
-    //  Folders Data
+    // Folders Data
     public static void saveFolder(Folder folder) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(foldersPath + folder.getId());
@@ -74,7 +75,7 @@ public class Data {
         return folder;
     }
 
-    public static void deleteFolder(Folder folder){
+    public static void deleteFolder(Folder folder) {
         File file = new File(foldersPath + folder.getId());
         file.delete();
     }

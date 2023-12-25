@@ -1,11 +1,11 @@
-package com.csed26.speedmail;
+package com.CSED26.SpeedMail;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.csed26.speedmail.critreria.Critreria;
-import com.csed26.speedmail.mail.Mail;
-import com.csed26.speedmail.mail.Server;
+import com.CSED26.SpeedMail.Critreria.Filter;
+import com.CSED26.SpeedMail.Mail.Mail;
+import com.CSED26.SpeedMail.Mail.Server;
 
 public class Folder {
 
@@ -102,7 +102,7 @@ public class Folder {
     }
 
     public void addToIndex(Mail mail) {
-        
+
     }
 
     public void addToDraft(Mail mail) {

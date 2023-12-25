@@ -1,8 +1,8 @@
-package com.csed26.speedmail;
+package com.CSED26.SpeedMail;
 
 import java.io.IOException;
 
-import com.csed26.speedmail.mail.Mail;
+import com.CSED26.SpeedMail.Mail.Mail;
 
 public class User {
 
@@ -55,15 +55,16 @@ public class User {
         return Data.getUser(address);
     }
 
-    public void recive(Mail mail) throws IOException{
-        this.getMainFolder().addToIndex(mail);;
+    public void recive(Mail mail) throws IOException {
+        this.getMainFolder().addToIndex(mail);
+        ;
     }
-    
-    public void addToSend(Mail mail) throws IOException{
+
+    public void addToSend(Mail mail) throws IOException {
         this.getMainFolder().addToSend(mail);
     }
 
-    public void addToDraft(Mail mail) throws IOException{
+    public void addToDraft(Mail mail) throws IOException {
         this.getMainFolder().addToDraft(mail);
     }
 }

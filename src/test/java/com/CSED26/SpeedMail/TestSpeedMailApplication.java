@@ -3,7 +3,7 @@ package com.CSED26.SpeedMail;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.TestConfiguration;
 
-import com.csed26.speedmail.SpeedMailApplication;
+import com.CSED26.speedmail.SpeedMailApplication;
 
 @TestConfiguration(proxyBeanMethods = false)
 public class TestSpeedMailApplication {

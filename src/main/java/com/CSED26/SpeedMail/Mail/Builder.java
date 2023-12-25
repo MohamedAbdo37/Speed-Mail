@@ -1,10 +1,10 @@
-package com.csed26.speedmail.mail;
+package com.CSED26.SpeedMail.Mail;
 
 import java.io.IOException;
 
-import com.csed26.speedmail.Data;
-import com.csed26.speedmail.User;
-import com.csed26.speedmail.critreria.CritreriaIF;
+import com.CSED26.SpeedMail.Data;
+import com.CSED26.SpeedMail.User;
+import com.CSED26.SpeedMail.Types;
 
 public class Builder {
     private Mail mail;
@@ -13,7 +13,7 @@ public class Builder {
         this.mail = new Mail(sender.getAddress());
     }
 
-    public void buildTo(String[] addresses){
+    public void buildTo(String[] addresses) {
         for (String address : addresses) {
             this.mail.addRecipient(address);
         }
@@ -21,7 +21,7 @@ public class Builder {
 
     public void buildType(String[] types) {
         for (String type : types) {
-            this.mail.addType(CritreriaIF.getCritreria(type));
+            this.mail.addType(type);
         }
     }
 

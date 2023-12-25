@@ -1,14 +1,14 @@
-package com.csed26.speedmail.commands;
+package com.CSED26.SpeedMail.commands;
 
 import java.io.IOException;
 
-import com.csed26.speedmail.mail.Mail;
+import com.CSED26.SpeedMail.Mail.Mail;
 
 public class SendEmail implements Command {
 
     private Mail mail;
 
-    public SendEmail(Mail mail){
+    public SendEmail(Mail mail) {
         this.mail = mail;
     }
 
@@ -22,5 +22,5 @@ public class SendEmail implements Command {
         }
         return true;
     }
-    
+
 }
