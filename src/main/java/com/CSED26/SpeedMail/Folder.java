@@ -13,26 +13,37 @@ public class Folder {
     private String folderName;
     private ArrayList<String> foldersIds;
     private ArrayList<String> mailsIds;
+    private boolean main = false;
+
+    private static String inBox = "Inbox";
+    private static String send = "Send";
+    private static String drafts = "Drafts";
+    private static String trash = "Trash";
     // private Critreria type;
 
-    private Folder(String folderName) {
+
+    public void setFolderName(String folderName) {
+        this.folderName = folderName;
+    }
+
+    private void setMain(){
+        this.main = true;
+    }
+    
+    private Folder(String folderName) throws IOException {
         this.folderName = folderName;
         this.mailsIds = new ArrayList<>();
         this.foldersIds = new ArrayList<>();
         this.setId();
-        try {
-            Data.saveFolder(this);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        Data.saveFolder(this);
     }
 
-    public static Folder createNewAccount() {
+    public static Folder createNewAccount() throws IOException {
         Folder account = new Folder("All");
-        account.createFolder("Inbox");
-        account.createFolder("Send");
-        account.createFolder("Drafts");
+        account.createFolder(inBox).setMain();
+        account.createFolder(send).setMain();
+        account.createFolder(drafts).setMain();
+        account.createFolder(trash).setMain();
         try {
             Folder inbox = account.getFolder("Inbox");
             inbox.createFolder("Social");
@@ -45,11 +56,13 @@ public class Folder {
 
     /**
      * @param folderName
+     * @throws IOException
      * 
      */
-    public void createFolder(String folderName) {
+    public Folder createFolder(String folderName) throws IOException {
         Folder folder = new Folder(folderName);
         this.foldersIds.add(folder.getId());
+        return folder;
     }
 
     /**
@@ -102,13 +115,79 @@ public class Folder {
     }
 
     public void addToIndex(Mail mail) {
-        
+        try {
+            this.getFolder(inBox).addMail(mail);
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+
+        this.placeMail(mail);
+    }
+
+    private void placeMail(Mail mail) {
+    }
+
+    public void addToTrash(Mail mail) {
+        try {
+            this.getFolder(trash).addMail(mail);
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
     }
 
     public void addToDraft(Mail mail) {
+        try {
+            this.getFolder(drafts).addMail(mail);
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
     }
 
     public void addToSend(Mail mail) {
+        try {
+            this.getFolder(send).addMail(mail);
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+    }
+
+    private void addMail(Mail mail) {
+        if (mail == null)
+            throw new NullPointerException("null mail");
+        this.mailsIds.add(mail.getId());
+    }
+
+    public void removeFromDraft(Mail mail) {
+        this.getFolder(drafts).removeMail(mail.getId());
+    }
+
+    private void removeMail(String id) {
+        this.mailsIds.remove(id);
+    }
+
+    public void removeFromSend(Mail mail) {
+        this.getFolder(drafts).removeMail(mail.getId());
+    }
+
+    public void deleteFolder(String name) {
+        this.getFolder(name).delete();
+    }
+
+    private void delete(){
+        Data.deleteFolder(this);
+    }
+
+    public void removeFromTrash(Mail mail) {
+        this.getFolder(trash).removeMail(mail.getId());
+    }
+
+
+    public void removeFrom(String source, Mail mail) {
+        this.getFolder(source).removeMail(mail.getId());
+    }
+
+    public void addTo(String dest, Mail mail) {
+        this.getFolder(dest).addMail(mail);
     }
 
 }

@@ -15,7 +15,16 @@ public class Mail {
     private ArrayList<CritreriaIF> types;
     private String body;
     private boolean isDraft;
+
     
+    public void setIsDraft(boolean check) {
+        this.isDraft = check;
+    }
+
+    public boolean getIsDraft() {
+        return this.isDraft;
+    }
+
     public Mail(String address){
         this.id = Server.generateId(10);
         this.to = new ArrayList<>();
@@ -47,12 +56,16 @@ public class Mail {
     public User getFrom() throws IOException {
         return Data.getUser(this.from);
     }
+
+    public String getFromAddress() {
+        return this.from;
+    }
     public String getSubject() {
         return subject;
     }
     
-    public User[] getTo() {
-        return (User[]) this.to.toArray();
+    public String[] getTo() {
+        return (String[]) this.to.toArray();
     }
 
     public CritreriaIF[] getTypes() {
@@ -63,21 +76,4 @@ public class Mail {
         return id;
     }
 
-    public void send() throws IOException{
-        
-        Data.getUser(this.from).addToSend(this);
-        for(String address : this.to){
-                Data.getUser(address).recive(this);
-        }
-
-        if(this.isDraft)
-            Data.deleteMail(this);
-
-        this.isDraft = false;
-    }
-
-    public void save() throws IOException{
-        Data.getUser(this.from).addToDraft(this);
-        this.isDraft = true;
-    }
 }

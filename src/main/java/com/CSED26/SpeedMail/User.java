@@ -6,15 +6,15 @@ import com.csed26.speedmail.mail.Mail;
 
 public class User {
 
-    private String adress;
+    private String address;
     private String name;
     private String password;
     private String mainFolder;
 
-    public User(String name, String address, String password) {
+    public User(String name, String address, String password) throws IOException {
         this.name = name;
         this.password = password;
-        this.adress = address;
+        this.address = address;
         this.mainFolder = Folder.createNewAccount().getId();
         try {
             Data.saveUser(this);
@@ -29,6 +29,10 @@ public class User {
 
     private String getPassword() {
         return password;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public static boolean checkPassword(String address, String password) {
@@ -47,10 +51,6 @@ public class User {
         return name;
     }
 
-    public String getAddress() {
-        return adress;
-    }
-
     public static User getUser(String address) throws IOException {
         return Data.getUser(address);
     }
@@ -58,12 +58,5 @@ public class User {
     public void recive(Mail mail) throws IOException{
         this.getMainFolder().addToIndex(mail);;
     }
-    
-    public void addToSend(Mail mail) throws IOException{
-        this.getMainFolder().addToSend(mail);
-    }
 
-    public void addToDraft(Mail mail) throws IOException{
-        this.getMainFolder().addToDraft(mail);
-    }
 }
