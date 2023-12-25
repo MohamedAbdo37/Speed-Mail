@@ -1,5 +1,6 @@
 package com.CSED26.SpeedMail.Mail;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -7,6 +8,7 @@ import com.CSED26.SpeedMail.Data;
 import com.CSED26.SpeedMail.Types;
 import com.CSED26.SpeedMail.User;
 import com.CSED26.SpeedMail.Critreria.ToFilter;
+import com.CSED26.SpeedMail.Server;
 
 public class Mail {
     private String id;
@@ -15,6 +17,7 @@ public class Mail {
     private String subject;
     private Types types;
     private String body;
+    private File[] attachments;
     private boolean isDraft;
 
     public void setIsDraft(boolean check) {
@@ -50,6 +53,10 @@ public class Mail {
         this.types.addType(type);
     }
 
+    public void addAttachment(File[] file) {
+        this.attachments = file;
+    }
+
     public String getBody() {
         return body;
     }
@@ -78,4 +85,7 @@ public class Mail {
         return id;
     }
 
+    public File[] getAttachment() {
+        return this.attachments;
+    }
 }

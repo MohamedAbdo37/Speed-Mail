@@ -1,5 +1,6 @@
 package com.CSED26.SpeedMail.Mail;
 
+import java.io.File;
 import java.io.IOException;
 
 import com.CSED26.SpeedMail.Data;
@@ -23,6 +24,10 @@ public class Builder {
         for (String type : types) {
             this.mail.addType(type);
         }
+    }
+
+    public void buildAttachmet(File[] files) {
+        this.mail.addAttachment(files);
     }
 
     public void buildSubject(String subject) {
