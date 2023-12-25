@@ -692,7 +692,7 @@ i {
 }
 .mail .properties{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(25%, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
   text-align: center;
   padding-left: 10px;
   width: 90%;
