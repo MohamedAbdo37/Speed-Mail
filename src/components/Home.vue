@@ -55,19 +55,24 @@
       </li>
       <li>
       <input type="text" id="foldername" style="display: none;" required  v-model="foldernames[i]">
-      <button @click="addid" id ="create" style="display: none;" onclick=" document.getElementById('foldername').style.display='none',document.getElementById('create').style.display='none',document.getElementById('show').style.display='block'"  >create</button>
-      <ul  id="show" style="display: none; " class="folders">
-      <li v-for="name in foldernames" :key="name.id">
-        <button >
+      <button @click="addid(foldernames[i])" id ="create" style="display: none;" onclick=" document.getElementById('foldername').style.display='none',document.getElementById('create').style.display='none',document.getElementById('show').style.display='block'"   >create</button>
+
+      <ul v-if="foldernames" id="show" style="display: none; " class="folders">
+        <div class="hh">
+      <li  v-for="name in foldernames" :key="name.id">
+        <button v-if="name">
           <i v-if="name" class="fa fa-folder-o"></i>
         </button>
-        <button @click="getindex(name)" onclick=" document.getElementById('name').style.display='block', document.getElementById('re').style.display='block'" >
+        <button v-if="name" @click="getindex(name)" onclick=" document.getElementById('name').style.display='block', document.getElementById('re').style.display='block', document.getElementById('de').style.display='block'" >
           {{ name }}
         </button>
-        <input type="text" id="name" style="display: none;" required  v-model="foldernames[b]">
-        <button id ="re" style="display: none;" onclick=" document.getElementById('name').style.display='none',document.getElementById('re').style.display='none'"  >rename</button>
+        <input type="text" id="name" style="display: none ;width: 70px;" required  v-model="foldernames[b]">
+        <button @click="rename(oldname,foldernames[b])" id ="re" style="display: none;" onclick=" document.getElementById('name').style.display='none',document.getElementById('re').style.display='none',document.getElementById('de').style.display='none'"  >rename</button>
+        <button @click="deletefolder(foldernames[b])" id ="de" style="display: none;" onclick=" document.getElementById('name').style.display='none',document.getElementById('de').style.display='none',document.getElementById('re').style.display='none'"  >Delete</button>
       </li>
+    </div>
     </ul>
+      
     </li>
     </ul>
   </div>
@@ -109,7 +114,7 @@
         >>>>>
       <select v-model="moveto">
       <option value="" disabled>To</option>
-      <option v-for="item in foldernames" :key="item.id" :value="item.id">{{ item }}</option>
+      <option v-for="folder in filteredFoldernames" :key="folder.id" :value="folder.id">{{ folder }}</option>
       </select>
 
         <button  id="delete-button" @click="deletee">
@@ -176,6 +181,7 @@ export default {
   },
   data() {
     return {
+      oldname:"",
       title:"Your Inbox",
       b: 0,
       i: 0,
@@ -187,7 +193,7 @@ export default {
       search: "",
       emailAddress: "",
       password: "",
-      foldernames: [],
+      foldernames: ['','','','','','','','','','','','','','',''],
       contactnames: [],
       filterby: "sender",
       filter: [],
@@ -245,8 +251,38 @@ export default {
         }
       ]
     };
+ 
+  },
+  computed: {
+    filteredFoldernames() {
+      return this.foldernames.filter(folder => folder !== '');
+    },
   },
   methods: {
+    deletefolder(name){
+      this.b=this.foldernames.indexOf(name);
+     // this.foldernames.splice(this.b, 1);
+      this.foldernames[this.b]="";
+      axios.get('http://localhost:8081/deletefolder', {
+        params: {
+          name:name,
+        },
+      }).then((r) => {
+        console.log('done move folder');
+        this.mails=r.data;
+      });
+    },
+    rename(old,newname){
+      axios.get('http://localhost:8081/renamefolder', {
+        params: {
+          oldname:old,
+          newname:newname,
+        },
+      }).then((r) => {
+        console.log('done move folder');
+        this.mails=r.data;
+      });
+    },
   movefolder(){
     axios.get('http://localhost:8081/movefolder', {
         params: {
@@ -327,6 +363,7 @@ this.mails.sort(compareDates);
 },
     getindex(name) {
       this.b=this.foldernames.indexOf(name);
+     this.oldname=this.foldernames[this.b]
 },
     Search() {
       axios.get('http://localhost:8081/search', {
@@ -360,9 +397,20 @@ this.mails.sort(compareDates);
         this.mails= r.data;
       });
 },
-    addid() {
+    addid(name) {
       this.i += 1;
       console.log(this.i);
+      console.log(name)
+      if(name!==''||name==null){
+      axios.get('http://localhost:8081/addfolder', {
+        params: {
+          name:name,
+        },
+      }).then((r) => {
+        console.log('done move folder');
+        console.log(r.data);
+      });
+    }
     },
     compose() {
       this.$router.push('/Compose');
@@ -696,6 +744,11 @@ i {
   text-align: center;
   padding-left: 10px;
   width: 90%;
+}
+.hh {
+  position: absolute;
+  top: 500px;
+  left: 55px;
 }
 .mail .properties h5 {
  margin: auto;
