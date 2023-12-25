@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import com.csed26.speedmail.critreria.Critreria;
 import com.csed26.speedmail.mail.Mail;
-import com.csed26.speedmail.mail.Server;
 
 public class Folder {
 
@@ -38,8 +37,17 @@ public class Folder {
         Data.saveFolder(this);
     }
 
-    public static Folder createNewAccount() throws IOException {
-        Folder account = new Folder("All");
+    private Folder(String folderName, String address) throws IOException {
+        this.folderName = folderName;
+        this.mailsIds = new ArrayList<>();
+        this.foldersIds = new ArrayList<>();
+        this.setId(address);
+        this.setMain();
+        Data.saveFolder(this);
+    }
+
+    public static Folder createNewAccount(String address) throws IOException {
+        Folder account = new Folder("main", address);
         account.createFolder(inBox).setMain();
         account.createFolder(send).setMain();
         account.createFolder(drafts).setMain();
@@ -86,6 +94,10 @@ public class Folder {
 
     private void setId() {
         this.id = Server.generateId(10);
+    }
+
+    private void setId(String address) {
+        this.id = address;
     }
 
     public String getId() {

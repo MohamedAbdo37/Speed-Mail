@@ -1,7 +1,10 @@
 package com.csed26.speedmail;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
+import com.csed26.speedmail.commands.Command;
 import com.csed26.speedmail.mail.Mail;
 
 public class User {
@@ -10,12 +13,15 @@ public class User {
     private String name;
     private String password;
     private String mainFolder;
+    private ArrayList<String> contacts;
+    private Command command;
 
     public User(String name, String address, String password) throws IOException {
         this.name = name;
         this.password = password;
         this.address = address;
-        this.mainFolder = Folder.createNewAccount().getId();
+        this.mainFolder = Folder.createNewAccount(this.address).getId();
+        this.contacts = new ArrayList<>();
         try {
             Data.saveUser(this);
         } catch (IOException e) {
@@ -42,7 +48,7 @@ public class User {
             if (password.equals(user.getPassword()))
                 return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("address dose not exist");
         }
         return false;
     }
@@ -56,7 +62,23 @@ public class User {
     }
 
     public void recive(Mail mail) throws IOException{
-        this.getMainFolder().addToIndex(mail);;
+        this.getMainFolder().addToIndex(mail);
+    }
+
+    public void addContact(String contact){
+        this.contacts.add(contact);
+    }
+
+    public String[] getContacts(){
+        return (String[]) this.contacts.toArray();
+    }
+
+    public void setCommand(Command command) {
+        this.command = command;
+    }
+
+    public boolean execute(){
+        return this.command.execute();
     }
 
 }

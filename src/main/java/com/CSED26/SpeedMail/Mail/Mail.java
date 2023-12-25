@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.csed26.speedmail.Data;
+import com.csed26.speedmail.Server;
 import com.csed26.speedmail.User;
 import com.csed26.speedmail.critreria.CritreriaIF;
 
