@@ -13,7 +13,7 @@
         </button>
       </li>
       <li>
-        <button id="trash-button">
+        <button @click="gototrash" onclick="document.getElementById('restore-button').style.display='block'" id="trash-button">
           <i class="fa-solid fa-trash-can"></i>Trash
         </button>
       </li>
@@ -103,15 +103,20 @@
           <router-link to="/">Refresh</router-link>
         </button>
 
-        <button  id="move-to-folder-button">
-          <i class="fa fa-light fa-up-down-left-right"></i>Move to folder
+        <button  id="move-to-folder-button" @click="movefolder">
+          <i class="fa fa-light fa-up-down-left-right"></i>Move folder
         </button>
+        >>>>>
+      <select v-model="moveto">
+      <option value="" disabled>To</option>
+      <option v-for="item in foldernames" :key="item.id" :value="item.id">{{ item }}</option>
+      </select>
 
-        <button  id="delete-button">
+        <button  id="delete-button" @click="deletee">
           <i class="fa-solid fa-trash-can"></i>Delete
         </button>
 
-        <button id="restore-button">
+        <button id="restore-button" style="display: none;" @click="restore">
           <i class="fa fa-light fa-trash-arrow-up"></i>Restore
         </button>
 
@@ -146,9 +151,9 @@
         </div>
       </div>
       <hr style="margin-top: 20px; margin-bottom: 20px" id="horizontal-line" />
-      <h1>Your Inbox</h1>
+      <h1 >{{ title }}</h1>
       <div v-for="mail in mails" :key="mail.id" class="mail">
-        <input type="checkbox">
+        <input type="checkbox" @change="updateSelected(mail.iD)" >
         <div class="properties">
           <div><h5>{{ mail.From }}</h5></div>
           <div><h5>{{ mail.Subject }}</h5></div>
@@ -171,8 +176,10 @@ export default {
   },
   data() {
     return {
+      title:"Your Inbox",
       b: 0,
       i: 0,
+      moveto:"",
       sort :"Ascendingly",
       sortby:"date",
       userName: "",
@@ -184,6 +191,7 @@ export default {
       contactnames: [],
       filterby: "sender",
       filter: [],
+      selected:[],
       mails: [
         {
           To: "Yahiaibrahime123@gmail.com",
@@ -192,6 +200,7 @@ export default {
           Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
           Type: "social",
           Priority:100,
+          iD:"g1",
           Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
         },
         {
@@ -201,10 +210,32 @@ export default {
           Date: "Fri Dec 25 2023 10:30:00 GMT+0200 (Eastern European Standard Time)",
           Type: "social",
           Priority:10,
+          iD:"g2",
           Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
         },
         {
           To: "Yahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
+          iD:"g3",
+          Priority:50,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        }
+      ],
+      trash: [
+        {
+          To: "hhhhhahime123@gmail.com",
+          From: "MohamedHassan2002@gmail.com",
+          Subject: "OOP project",
+          Date: "Fri Dec 25 2023 10:30:00 GMT+0200 (Eastern European Standard Time)",
+          Type: "social",
+          Priority:10,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
+        {
+          To: "Yaaaaaaaahiaibrahime123@gmail.com",
           From: "Hossamosama2003@gmail.com",
           Subject: "OOP project",
           Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
@@ -216,9 +247,61 @@ export default {
     };
   },
   methods: {
-    addfolder() {
-
+  movefolder(){
+    axios.get('http://localhost:8081/movefolder', {
+        params: {
+          ids:this.selected,
+          from:this.title,
+          to:this.moveto
+        },
+      }).then((r) => {
+        console.log('done move folder');
+        this.mails=r.data;
+      });
     },
+  gototrash(){
+  this.title="Trash";
+  const myElement = document.getElementById("trash-button");
+  myElement.style.backgroundColor = "rgb(211, 211, 212)";
+  axios.get('http://localhost:8081/Trash', {
+        params: {
+          search: this.search,
+          type: this.type,
+        },
+      }).then((r) => {
+        console.log('done trash');
+        this.mails=r.data;
+      });
+  },
+  updateSelected(id) {
+      if (!this.selected.includes(id)) {
+        this.selected.push(id);
+      } else {
+        const index = this.selected.indexOf(id);
+        this.selected.splice(index, 1);
+      }
+    },
+  deletee(){
+    axios.get('http://localhost:8081/delete', {
+        params: {
+          ID: this.selected,
+        },
+      }).then((r) => {
+        console.log('done delete');
+        this.mails= r.data;
+      });
+  
+  },
+  restore(){
+    axios.get('http://localhost:8081/restore', {
+        params: {
+          ID: this.selected,
+        },
+      }).then((r) => {
+        console.log('restore delete');
+        this.mails=r.data
+      });
+  },
     prioritysortingasc(){
       this. mails.sort((a, b) => a.Priority - b.Priority);
     },
@@ -252,8 +335,8 @@ this.mails.sort(compareDates);
           type: this.type,
         },
       }).then((r) => {
-        console.log('done filter');
-        console.log(r.data)
+        console.log('done search');
+        this.mails= r.data;
       });
     },
     addInput() {
@@ -274,7 +357,7 @@ this.mails.sort(compareDates);
         },
       }).then((r) => {
         console.log('done filter');
-        console.log(r.data)
+        this.mails= r.data;
       });
 },
     addid() {
