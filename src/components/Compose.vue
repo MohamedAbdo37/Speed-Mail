@@ -39,18 +39,18 @@
         </div>
         <button @click="send()" class="send-button">Send email</button>
         <button @click="draft()" class="send-button">draft</button>
-        <div class="input-container">
-            <label for="photo-upload" class="icon">
-              <i class="fas fa-camera"></i>
-            </label>
-            <input type="file" id="photo-upload">
-          </div>
-  <div class="input-container">
-    <label for="file-upload" class="icon">
-      <i class="fas fa-file"></i>
-    </label>
-    <input type="file" id="file-upload">
-  </div>
+ <!-- Add attachment -->
+ <div class="input-container">
+      <label for="file-upload" class="icon">
+        <i class="fas fa-file"></i>
+      </label>
+      <input type="file" id="file-upload" @change="handleFileUpload">
+    </div>
+    <!-- Display attachments -->
+    <div v-for="(attachment, index) in attachments" :key="index" class="display">
+      <span @click="viewAttachment(attachment)">{{ attachment.name }}</span>
+      <button class="send-button" @click="removeAttachment(index)">Remove</button>
+    </div>
  </div>
   </template>
 <script>
@@ -62,6 +62,7 @@ export default {
   components: {},
   data() {
     return {
+      attachments: [],
       subject: '',
       to: '',
       message: '',
@@ -73,6 +74,10 @@ export default {
     };
   },
   methods: {
+    viewAttachment(attachment) {
+      const fileURL = URL.createObjectURL(attachment);
+      window.open(fileURL);
+    },
     send() {
       this.date = new Date();
       console.log(this.date)
@@ -118,6 +123,16 @@ export default {
         console.log(r.data);
       });
     },
+    handleFileUpload(event) {
+      const files = event.target.files;
+      // Store the files in the attachments array or data property
+      for (let i = 0; i < files.length; i++) {
+        this.attachments.push(files[i]);
+      }
+    },
+    removeAttachment(index) {
+      this.attachments.splice(index, 1);
+    },
   },
 };
 </script>
@@ -135,7 +150,9 @@ export default {
     border: none;
     margin-left: 10px;
 }
-
+.display {
+  padding: 20px;
+}
 .header {
     display: flex;
     align-items: center;
