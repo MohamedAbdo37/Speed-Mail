@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import com.CSED26.SpeedMail.Critreria.Filter;
 import com.CSED26.SpeedMail.Mail.Mail;
-import com.CSED26.SpeedMail.Mail.Server;
+import com.CSED26.SpeedMail.Server;
 
 public class Folder {
 

@@ -1,4 +1,4 @@
-package com.csed26.speedmail;
+package com.CSED26.SpeedMail;
 
 import java.io.IOException;
 import java.util.Random;
@@ -8,35 +8,36 @@ public class Server {
     public static Server server;
     private boolean free = true;
 
-    private Server(){
+    private Server() {
         throw new IllegalStateException("Server class");
     }
 
     // public static synchronized Server getServer(){
-    //     if (server == null)
-    //             server = new Server();
-    //     return server;
+    // if (server == null)
+    // server = new Server();
+    // return server;
     // }
 
-    public static synchronized Server acquire(){
-        if(!server.free)
+    public static synchronized Server acquire() {
+        if (!server.free)
             return null;
         server.free = false;
         return server;
     }
 
-    void release(){
-        this.free = true;;
+    void release() {
+        this.free = true;
+        ;
     }
 
-    public synchronized User logIn(String address, String password) throws IOException{
-        if(User.checkPassword(address ,password))
+    public synchronized User logIn(String address, String password) throws IOException {
+        if (User.checkPassword(address, password))
             return null;
-        
+
         return Data.getUser(address);
     }
 
-    public synchronized User register(String name ,String address, String password) throws IOException{
+    public synchronized User register(String name, String address, String password) throws IOException {
         try {
             Data.getUser(address);
         } catch (IOException e) {
@@ -45,9 +46,8 @@ public class Server {
         return null;
     }
 
+    public static String generateId(int length) {
 
-    public static String generateId(int length){
-        
         final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
         String sb = new String();

@@ -1,4 +1,4 @@
-package com.csed26.speedmail;
+package com.CSED26.SpeedMail;
 
 import java.io.IOException;
 
@@ -24,7 +24,8 @@ public class Controller {
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody String name,@RequestBody String address, @RequestBody String password) throws IOException {
+    public User register(@RequestBody String name, @RequestBody String address, @RequestBody String password)
+            throws IOException {
         while (server != null) {
             server = Server.acquire();
         }

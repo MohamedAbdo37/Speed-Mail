@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import com.csed26.speedmail.commands.Command;
-import com.csed26.speedmail.mail.Mail;
+import com.CSED26.SpeedMail.commands.Command;
+import com.CSED26.SpeedMail.Mail.Mail;
 
 public class User {
 
