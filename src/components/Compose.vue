@@ -9,8 +9,12 @@
             <input type="text" id="from" required  v-model="from">
         </div>
         <div class="form-group">
-            <label for="to">To</label>
-            <input type="text" id="to" required  v-model="to">
+          <label for="to">To</label>
+            <div v-for="(input, index) in to" :key="index">
+            <input v-model="input.value" @input="updateInput(index, $event.target.value)" type="text" id="to" required  >
+            <button @click="removeInput(index)">Remove</button>
+            </div>
+            <button @click="addInput" class="send-button">Add Input</button>
         </div>
         <div class="form-group">
             <label for="subject">subject</label>
@@ -90,6 +94,7 @@ export default {
           tag: this.tag,
           priority:this.priority,
           date: this.date,
+          attachments:this.attachments,
         },
       }).then((r) => {
         console.log('done send');
@@ -116,7 +121,9 @@ export default {
           message: this.message,
           subject: this.subject,
           tag: this.tag,
-          date: Number(this.date),
+          priority:this.priority,
+          date: this.date,
+          attachments:this.attachments,
         },
       }).then((r) => {
         console.log('done draft');

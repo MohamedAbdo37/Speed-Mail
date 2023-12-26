@@ -156,8 +156,12 @@
         </div>
       </div>
       <hr style="margin-top: 20px; margin-bottom: 20px" id="horizontal-line" />
+      <div class="pagination" style="position: absolute;">
+      <button style="background-color: lightblue" @click="paginationleft"> &lt; </button>   
+      <button style="background-color: lightblue" @click="paginationright"> > </button>     
+      </div>
       <h1 >{{ title }}</h1>
-      <div v-for="mail in mails" :key="mail.id" class="mail">
+      <div v-for="mail in  pagination" :key="mail.id" class="mail">
         <input type="checkbox" @change="updateSelected(mail.iD)" >
         <div class="properties">
           <div><h5>{{ mail.From }}</h5></div>
@@ -181,6 +185,8 @@ export default {
   },
   data() {
     return {
+      pag1:0,
+      pag2:9,
       oldname:"",
       title:"Your Inbox",
       b: 0,
@@ -257,8 +263,19 @@ export default {
     filteredFoldernames() {
       return this.foldernames.filter(folder => folder !== '');
     },
+    pagination() {
+      return this.mails.filter((mail, index) => this.pag2>=index >= this.pag1);
+    },
   },
   methods: {
+    paginationright(){
+      this.pag1=this.pag1+10;
+      this.pag2=this.pag2+10;
+    },
+    paginationleft(){
+      this.pag1=this.pag1-10;
+      this.pag2=this.pag2-10;
+},
     deletefolder(name){
       this.b=this.foldernames.indexOf(name);
      // this.foldernames.splice(this.b, 1);
