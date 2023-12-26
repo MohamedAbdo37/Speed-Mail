@@ -1,9 +1,9 @@
-package com.CSED26.SpeedMail;
+package com.csed26.speedmail;
 
 import java.io.File;
 import java.io.IOException;
 
-import com.CSED26.SpeedMail.Mail.Mail;
+import com.csed26.speedmail.mail.Mail;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Data {

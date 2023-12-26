@@ -1,11 +1,10 @@
-package com.CSED26.SpeedMail;
+package com.csed26.speedmail;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.CSED26.SpeedMail.Critreria.Filter;
-import com.CSED26.SpeedMail.Mail.Mail;
-import com.CSED26.SpeedMail.Server;
+import com.csed26.speedmail.mail.Mail;
+
 
 public class Folder {
 
