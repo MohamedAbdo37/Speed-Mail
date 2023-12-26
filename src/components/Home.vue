@@ -156,8 +156,31 @@
         </div>
       </div>
       <hr style="margin-top: 20px; margin-bottom: 20px" id="horizontal-line" />
+      <div class="pagination" style="position: absolute;">
+      <button style="background-color: lightblue" @click="paginationleft"> &lt; </button>   
+      <button style="background-color: lightblue" @click="paginationright"> > </button>     
+      </div>
       <h1 >{{ title }}</h1>
-      <div v-for="mail in mails" :key="mail.id" class="mail">
+      <!-- <div v-for="mail in mails" :key="mail.id" class="mail">
+        <div class="properties-data" >
+          <input type="checkbox" @change="updateSelected(mail.iD)" >
+          <div class="properties" @click="if(this.opened != mail.iD)this.opened = mail.iD;else opened=''">
+            <div><h5>{{ mail.From }}</h5></div>
+            <div><h5>{{ mail.Subject }}</h5></div>
+            <div><h5>{{ mail.Date }}</h5></div>
+            <div><h5>{{ mail.Type }}</h5></div>
+            <div><h5>{{ mail.Priority}}%</h5></div>
+          </div>
+        </div>
+        <div class="message" v-show="opened == mail.iD">
+          <h3>from: {{ mail.From }}</h3>
+          <h3>date: {{ mail.Date }}</h3>
+          <h3>message:</h3>
+          <p style="float: left; white-space: pre-wrap;">{{ mail.Body }}</p>
+
+        </div>
+      </div>     -->
+      <div v-for="mail in  pagination" :key="mail.id" class="mail">
         <div class="properties-data" >
           <input type="checkbox" @change="updateSelected(mail.iD)" >
           <div class="properties" @click="if(this.opened != mail.iD)this.opened = mail.iD;else opened=''">
@@ -173,6 +196,7 @@
           <h3>date: {{ mail.Date }}</h3>
           <h3>message:</h3>
           <p style="float: left; white-space: pre-wrap;">{{ mail.Body }}</p>
+
         </div>
       </div>
     </div>
@@ -188,6 +212,8 @@ export default {
   },
   data() {
     return {
+      pag1:0,
+      pag2:9,
       oldname:"",
       title:"Your Inbox",
       b: 0,
@@ -219,12 +245,72 @@ export default {
         },
         {
           To: "Yahiaibrahime123@gmail.com",
+          From: "MohamedAbdo2002@gmail.com",
+          Subject: "CO Cache Lab",
+          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
+          Type: "social",
+          Priority:100,
+          iD:"g2",
+          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
+        },
+        {
+          To: "Yahiaibrahime123@gmail.com",
+          From: "MohamedAbdo2002@gmail.com",
+          Subject: "CO Cache Lab",
+          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
+          Type: "social",
+          Priority:100,
+          iD:"g3",
+          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
+        },
+        {
+          To: "Yahiaibrahime123@gmail.com",
+          From: "MohamedAbdo2002@gmail.com",
+          Subject: "CO Cache Lab",
+          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
+          Type: "social",
+          Priority:100,
+          iD:"g4",
+          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
+        },
+        {
+          To: "Yahiaibrahime123@gmail.com",
+          From: "MohamedAbdo2002@gmail.com",
+          Subject: "CO Cache Lab",
+          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
+          Type: "social",
+          Priority:100,
+          iD:"g5",
+          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
+        },
+        {
+          To: "Yahiaibrahime123@gmail.com",
+          From: "MohamedAbdo2002@gmail.com",
+          Subject: "CO Cache Lab",
+          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
+          Type: "social",
+          Priority:100,
+          iD:"g6",
+          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
+        },
+        {
+          To: "Yahiaibrahime123@gmail.com",
+          From: "MohamedAbdo2002@gmail.com",
+          Subject: "CO Cache Lab",
+          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
+          Type: "social",
+          Priority:100,
+          iD:"g7",
+          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
+        },
+        {
+          To: "Yahiaibrahime123@gmail.com",
           From: "MohamedHassan2002@gmail.com",
           Subject: "OOP project",
           Date: "Fri Dec 25 2023 10:30:00 GMT+0200 (Eastern European Standard Time)",
           Type: "social",
           Priority:10,
-          iD:"g2",
+          iD:"g8",
           Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
         },
         {
@@ -233,10 +319,60 @@ export default {
           Subject: "OOP project",
           Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
           Type: "crying",
-          iD:"g3",
+          iD:"g9",
           Priority:50,
           Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        }
+        },
+        {
+          To: "Yahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
+          iD:"g10",
+          Priority:50,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
+        {
+          To: "Yahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
+          iD:"g11",
+          Priority:50,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
+        {
+          To: "Yahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
+          iD:"g12",
+          Priority:50,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
+        {
+          To: "Yahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
+          iD:"g13",
+          Priority:50,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
+        {
+          To: "Yahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
+          iD:"g14",
+          Priority:50,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
       ],
       trash: [
         {
@@ -256,7 +392,70 @@ export default {
           Type: "crying",
           Priority:50,
           Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        }
+        },
+        {
+          To: "Yaaaaaaaahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
+          Priority:50,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
+        {
+          To: "Yaaaaaaaahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
+          Priority:50,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
+        {
+          To: "Yaaaaaaaahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
+          Priority:50,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
+        {
+          To: "Yaaaaaaaahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
+          Priority:50,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
+        {
+          To: "Yaaaaaaaahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
+          Priority:50,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
+        {
+          To: "Yaaaaaaaahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
+          Priority:50,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
+        {
+          To: "Yaaaaaaaahiaibrahime123@gmail.com",
+          From: "Hossamosama2003@gmail.com",
+          Subject: "OOP project",
+          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
+          Type: "crying",
+          Priority:50,
+          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
+        },
       ]
     };
  
@@ -268,8 +467,19 @@ export default {
     userEmail() {
       return this.$route.query.email;
     },
+    pagination() {
+      return this.mails.filter((mail, index) => index >= this.pag1 &&index<=this.pag2);
+    },
   },
   methods: {
+    paginationright(){
+      this.pag1=this.pag1+10;
+      this.pag2=this.pag2+10;
+    },
+    paginationleft(){
+      this.pag1=this.pag1-10;
+      this.pag2=this.pag2-10;
+},
     deletefolder(name){
       this.b=this.foldernames.indexOf(name);
      // this.foldernames.splice(this.b, 1);

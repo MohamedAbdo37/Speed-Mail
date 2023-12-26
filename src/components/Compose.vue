@@ -9,8 +9,12 @@
             <input type="text" id="from" required  v-model="from">
         </div>
         <div class="form-group">
-            <label for="to">To</label>
-            <input type="text" id="to" required  v-model="to">
+          <label for="to">To</label>
+            <div v-for="(input, index) in to" :key="index">
+            <input v-model="input.value" @input="updateInput2(index, $event.target.value)" type="text" id="to" required  >
+            <button @click="removeInput2(index)">Remove</button>
+            </div>
+            <button @click="addInput2" class="send-button">Add Input</button>
         </div>
         <div class="form-group">
             <label for="subject">subject</label>
@@ -19,10 +23,10 @@
         <div class="form-group">
             <label for="tag">Tag</label>
             <div v-for="(input, index) in tag" :key="index">
-            <input v-model="input.value" @input="updateInput(index, $event.target.value)" type="text" id="tag" required  >
-            <button @click="removeInput(index)">Remove</button>
+            <input v-model="input.value" @input="updateInput1(index, $event.target.value)" type="text" id="tag" required  >
+            <button @click="removeInput1(index)">Remove</button>
             </div>
-            <button @click="addInput" class="send-button">Add Input</button>
+            <button @click="addInput1" class="send-button">Add Input</button>
         </div>
         <div class="form-group">
             <label for="message">Message</label>
@@ -64,7 +68,7 @@ export default {
     return {
       attachments: [],
       subject: '',
-      to: '',
+      to: [],
       message: '',
       from: '',
       date: '',
@@ -90,6 +94,7 @@ export default {
           tag: this.tag,
           priority:this.priority,
           date: this.date,
+          attachments:this.attachments,
         },
       }).then((r) => {
         console.log('done send');
@@ -97,15 +102,25 @@ export default {
         console.log(this.date);
       });
     },
-    addInput() {
+    addInput1() {
           this.tag.push({ value: '' });
         },
-        removeInput(index) {
+        removeInput1(index) {
           this.tag.splice(index, 1);
         },
-        updateInput(index, value) {
+        updateInput1(index, value) {
           this.tag[index].value = value;
           console.log(this.tag[index])
+        },
+        addInput2() {
+          this.to.push({ value: '' });
+        },
+        removeInput2(index) {
+          this.to.splice(index, 1);
+        },
+        updateInput2(index, value) {
+          this.to[index].value = value;
+          console.log(this.to[index])
         },
     draft() {
       this.date = new Date();
@@ -116,7 +131,9 @@ export default {
           message: this.message,
           subject: this.subject,
           tag: this.tag,
-          date: Number(this.date),
+          priority:this.priority,
+          date: this.date,
+          attachments:this.attachments,
         },
       }).then((r) => {
         console.log('done draft');
