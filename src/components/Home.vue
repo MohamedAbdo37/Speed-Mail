@@ -103,9 +103,8 @@
 
     <div class="mails-recieved">
       <div class="emails-options" id="emails-options">
-        <button  id="refresh-button">
-          <i class="fa-solid fa-arrows-rotate"></i>
-          <router-link to="/">Refresh</router-link>
+        <button  id="refresh-button" @click="refresh">
+          <i class="fa-solid fa-arrows-rotate"></i>Refresh
         </button>
 
         <button  id="move-to-folder-button" @click="movefolder">
@@ -472,6 +471,16 @@ export default {
     },
   },
   methods: {
+    refresh(){
+      axios.get('http://localhost:8081/refresh', {
+        params: {
+          name:this.title,
+        },
+      }).then((r) => {
+        console.log('done refresh');
+        this.mails=r.data;
+      }); 
+    },
     gotofolder(name){
       this.title=name;
   axios.get('http://localhost:8081/gotofolder', {
