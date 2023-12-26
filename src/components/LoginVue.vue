@@ -2,8 +2,8 @@
     <!-- <img  class="logo" src="../assets/hospital_logo.jpeg"> -->
     <h1>Login</h1>
     <form class="login"  @submit="login">
-        <input type="email" v-model="email" placeholder="Enter Email" />
-        <input type="password" v-model="password" placeholder="Enter Password" />
+        <input type="email" v-model="email" placeholder="Enter Email" :email='email' required />
+        <input type="password" v-model="password" placeholder="Enter Password" required />
         <input type="submit" value="login" style="padding: 0%;"/>
         <p>
             <router-link to="/sign-up">sign up</router-link>
@@ -12,7 +12,8 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    //import axios from 'axios'
+    //import hoMe from './Home.vue'
     export default {
         name: "LoginVue",
         data() {
@@ -23,14 +24,16 @@
         },
         methods: {
             async login() {
-                let result = await axios.get(
-                    `http://localhost:3000/users?email=${ this.email }&password=${ this.password }`
-                )
-                if(result.status == 200 && result.data.length>0) {
-                    localStorage.setItem("user-info", JSON.stringify(result.data[0]));
-                    this.$router.push( {name: "Home"} );
-                }
-                console.log(result)
+                // let result = await axios.get(
+                //     `http://localhost:8081/users?email=${ this.email }&password=${ this.password }`
+                // ).then((r) => {
+                //    let user = r.data
+                //    if(user)
+                //        this.$router.push( { name: 'Home', query: { email: this.email } });
+                //    else
+                //        console.log("user not found")
+                //})
+                this.$router.push( { name: 'Home', query: { email: this.email } });
             }
         },
         mounted() {
@@ -38,7 +41,10 @@
             if(user) {
                 this.$router.push( {name: "Home"} );
             }
-        }
+        },
+        // components: {
+        //     hoMe,
+        // }
     }
 </script>
 

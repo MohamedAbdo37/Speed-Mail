@@ -158,13 +158,21 @@
       <hr style="margin-top: 20px; margin-bottom: 20px" id="horizontal-line" />
       <h1 >{{ title }}</h1>
       <div v-for="mail in mails" :key="mail.id" class="mail">
-        <input type="checkbox" @change="updateSelected(mail.iD)" >
-        <div class="properties">
-          <div><h5>{{ mail.From }}</h5></div>
-          <div><h5>{{ mail.Subject }}</h5></div>
-          <div><h5>{{ mail.Date }}</h5></div>
-          <div><h5>{{ mail.Type }}</h5></div>
-          <div><h5>{{ mail.Priority}}%</h5></div>
+        <div class="properties-data" >
+          <input type="checkbox" @change="updateSelected(mail.iD)" >
+          <div class="properties" @click="if(this.opened != mail.iD)this.opened = mail.iD;else opened=''">
+            <!-- <div><h5>{{ mail.From }}</h5></div> -->
+            <div><h5>{{ mail.Subject }}</h5></div>
+            <!-- <div><h5>{{ mail.Date }}</h5></div> -->
+            <div><h5>{{ mail.Type }}</h5></div>
+            <div><h5>{{ mail.Priority}}%</h5></div>
+          </div>
+        </div>
+        <div class="message" v-show="opened == mail.iD">
+          <h3>from: {{ mail.From }}</h3>
+          <h3>date: {{ mail.Date }}</h3>
+          <h3>message:</h3>
+          <p style="float: left; white-space: pre-wrap;">{{ mail.Body }}</p>
         </div>
       </div>
     </div>
@@ -174,7 +182,6 @@
 
 <script>
 import axios from 'axios';
-
 export default {
   name: 'hoMe',
   components: {
@@ -198,6 +205,7 @@ export default {
       filterby: "sender",
       filter: [],
       selected:[],
+      opened: "",
       mails: [
         {
           To: "Yahiaibrahime123@gmail.com",
@@ -256,6 +264,9 @@ export default {
   computed: {
     filteredFoldernames() {
       return this.foldernames.filter(folder => folder !== '');
+    },
+    userEmail() {
+      return this.$route.query.email;
     },
   },
   methods: {
@@ -726,32 +737,44 @@ i {
 
 .mail {
   width: 95%;
-  height: 40px;
-  display: flex;
-  border-radius: 5px;
+  height: auto;
+  display: grid;
   margin: auto;
   margin-top: 10px;
-  border-width: 2px;
-  border:dodgerblue;
-  border-style: solid;
 }
-.mail:hover {
+.mail .properties-data:hover {
   box-shadow: 0 5px 5px rgba(0, 0, 0, .3);
 }
 .mail .properties{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
-  text-align: center;
+  /* text-align: center; */
   padding-left: 10px;
   width: 90%;
+  /* height: 40px; */
+  border-width: 2px;
+  border-radius: 5px;
+}
+.mail .properties-data{
+  height: 40px;
+  border-width: 2px;
+  border-radius: 5px;
+  display: flex; 
+  border: 2px solid dodgerblue;
 }
 .hh {
   position: absolute;
   top: 500px;
   left: 55px;
 }
-.mail .properties h5 {
- margin: auto;
- margin-top: 15px;
+.mail .message{
+  background-color: darkgray;
+  width: 99%;
+  text-align: left;
+  padding-left: 10px;
+  /* word-wrap: break-word; */
+  /* overflow-wrap: break-word; */
+  /* margin: auto; */
+  overflow-wrap: break-word;
 }
 </style>

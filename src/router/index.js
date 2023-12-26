@@ -7,9 +7,10 @@ import LoginVue from '../components/LoginVue.vue';
 import SignUp from '../components/SignUp.vue';
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'Home',
     component: hoMe,
+    props: true
   },
   {
     path: '/Compose',
@@ -27,9 +28,10 @@ const routes = [
     component: FolderBrowseVue,
   },
   {
-    path: '/login',
+    path: '/',
     name: 'LoginVue',
-    component: LoginVue
+    component: LoginVue,
+    props: true
   },
   {
     path: '/SignUp',

@@ -2,7 +2,7 @@
  <div class="container">
         <div class="header">
             <h1>New Message</h1>
-          <router-link to="/">X</router-link>
+          <router-link to="/home">X</router-link>
         </div>
         <div class="form-group">
             <label for="from">from</label>
