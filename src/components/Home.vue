@@ -161,32 +161,11 @@
       <button style="background-color: lightblue" @click="paginationright"> > </button>     
       </div>
       <h1 >{{ title }}</h1>
-      <!-- <div v-for="mail in mails" :key="mail.id" class="mail">
-        <div class="properties-data" >
-          <input type="checkbox" @change="updateSelected(mail.iD)" >
-          <div class="properties" @click="if(this.opened != mail.iD)this.opened = mail.iD;else opened=''">
-            <div><h5>{{ mail.From }}</h5></div>
-            <div><h5>{{ mail.Subject }}</h5></div>
-            <div><h5>{{ mail.Date }}</h5></div>
-            <div><h5>{{ mail.Type }}</h5></div>
-            <div><h5>{{ mail.Priority}}%</h5></div>
-          </div>
-        </div>
-        <div class="message" v-show="opened == mail.iD">
-          <h3>from: {{ mail.From }}</h3>
-          <h3>date: {{ mail.Date }}</h3>
-          <h3>message:</h3>
-          <p style="float: left; white-space: pre-wrap;">{{ mail.Body }}</p>
-
-        </div>
-      </div>     -->
       <div v-for="mail in  pagination" :key="mail.id" class="mail">
         <div class="properties-data" >
           <input type="checkbox" @change="updateSelected(mail.iD)" >
           <div class="properties" @click="if(this.opened != mail.iD)this.opened = mail.iD;else opened=''">
-            <!-- <div><h5>{{ mail.From }}</h5></div> -->
             <div><h5>{{ mail.Subject }}</h5></div>
-            <!-- <div><h5>{{ mail.Date }}</h5></div> -->
             <div><h5>{{ mail.Type }}</h5></div>
             <div><h5>{{ mail.Priority}}%</h5></div>
           </div>
@@ -634,7 +613,7 @@ this.mails.sort(compareDates);
     }
     },
     compose() {
-      this.$router.push('/Compose');
+      this.$router.push( { name: 'ComPose', query: { email: this.userEmail } });
     },
   },
 };
