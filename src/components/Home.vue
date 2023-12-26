@@ -60,7 +60,7 @@
       <ul v-if="foldernames" id="show" style="display: none; " class="folders">
         <div class="hh">
       <li  v-for="name in foldernames" :key="name.id">
-        <button v-if="name">
+        <button v-if="name" @click="gotofolder(name)">
           <i v-if="name" class="fa fa-folder-o"></i>
         </button>
         <button v-if="name" @click="getindex(name)" onclick=" document.getElementById('name').style.display='block', document.getElementById('re').style.display='block', document.getElementById('de').style.display='block'" >
@@ -103,9 +103,8 @@
 
     <div class="mails-recieved">
       <div class="emails-options" id="emails-options">
-        <button  id="refresh-button">
-          <i class="fa-solid fa-arrows-rotate"></i>
-          <router-link to="/">Refresh</router-link>
+        <button  id="refresh-button" @click="refresh">
+          <i class="fa-solid fa-arrows-rotate"></i>Refresh
         </button>
 
         <button  id="move-to-folder-button" @click="movefolder">
@@ -156,7 +155,7 @@
         </div>
       </div>
       <hr style="margin-top: 20px; margin-bottom: 20px" id="horizontal-line" />
-      <div class="pagination" style="position: absolute;">
+      <div class="pagination" style="position: relative;float: left;">
       <button style="background-color: lightblue" @click="paginationleft"> &lt; </button>   
       <button style="background-color: lightblue" @click="paginationright"> > </button>     
       </div>
@@ -451,6 +450,27 @@ export default {
     },
   },
   methods: {
+    refresh(){
+      axios.get('http://localhost:8081/refresh', {
+        params: {
+          name:this.title,
+        },
+      }).then((r) => {
+        console.log('done refresh');
+        this.mails=r.data;
+      }); 
+    },
+    gotofolder(name){
+      this.title=name;
+  axios.get('http://localhost:8081/gotofolder', {
+        params: {
+          foldername: name,
+        },
+      }).then((r) => {
+        console.log('done gotofolder');
+        this.mails=r.data;
+      });
+    },
     paginationright(){
       this.pag1=this.pag1+10;
       this.pag2=this.pag2+10;
