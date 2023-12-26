@@ -1,4 +1,4 @@
-package com.CSED26.SpeedMail.commands;
+package com.csed26.speedmail.commands;
 
 public interface Command {
     public boolean execute();

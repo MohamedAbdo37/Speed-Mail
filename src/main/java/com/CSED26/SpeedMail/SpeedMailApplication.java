@@ -1,4 +1,4 @@
-package com.CSED26.SpeedMail;
+package com.csed26.speedmail;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

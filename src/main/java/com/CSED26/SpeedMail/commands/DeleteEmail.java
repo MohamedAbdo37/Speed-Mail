@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.csed26.speedmail.mail.Mail;
 
+
 public class DeleteEmail implements Command {
     private Mail mail;
 

@@ -1,11 +1,11 @@
-package com.CSED26.SpeedMail;
+package com.csed26.speedmail;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import com.CSED26.SpeedMail.commands.Command;
-import com.CSED26.SpeedMail.Mail.Mail;
+import com.csed26.speedmail.commands.Command;
+import com.csed26.speedmail.mail.Mail;
 
 public class User {
 

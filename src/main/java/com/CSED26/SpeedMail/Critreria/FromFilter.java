@@ -1,6 +1,6 @@
-package com.CSED26.SpeedMail.Critreria;
+package com.csed26.speedmail.critreria;
 
-import com.CSED26.SpeedMail.Mail.Mail;
+import com.csed26.speedmail.mail.Mail;
 
 import java.util.ArrayList;
 import java.util.List;

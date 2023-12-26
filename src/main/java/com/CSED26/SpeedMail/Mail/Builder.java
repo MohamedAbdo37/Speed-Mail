@@ -1,11 +1,11 @@
-package com.CSED26.SpeedMail.Mail;
+package com.csed26.speedmail.mail;
 
 import java.io.File;
 import java.io.IOException;
 
-import com.CSED26.SpeedMail.Data;
-import com.CSED26.SpeedMail.User;
-import com.CSED26.SpeedMail.Types;
+import com.csed26.speedmail.Data;
+import com.csed26.speedmail.User;
+import com.csed26.speedmail.Types;
 
 public class Builder {
     private Mail mail;

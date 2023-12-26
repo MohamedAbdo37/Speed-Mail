@@ -1,4 +1,4 @@
-package com.CSED26.SpeedMail;
+package com.csed26.speedmail;
 
 import java.io.IOException;
 import java.util.Random;
