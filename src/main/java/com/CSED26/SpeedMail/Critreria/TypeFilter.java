@@ -10,7 +10,6 @@ public class TypeFilter implements Filter {
 
     private String type;
 
-
     public TypeFilter(@JsonProperty("type") String type) {
         this.type = type;
     }
@@ -24,7 +23,7 @@ public class TypeFilter implements Filter {
         List<Mail> filterdMails = new ArrayList<>();
         if (mails != null) {
             for (Mail mail : mails) {
-                if (mail.getTypes().searchForType(type)) {
+                if (mail.searchForType(type)) {
                     filterdMails.add(mail);
                 }
             }

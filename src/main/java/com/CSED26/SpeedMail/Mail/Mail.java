@@ -16,18 +16,17 @@ public class Mail {
     private ArrayList<String> to;
     private String from;
     private String subject;
-    private Types types;
+    private List<String> types;
     private String body;
     private File[] attachments;
     private boolean isDraft;
     private String date;
     private int priority;
 
-
     public Mail(@JsonProperty("id") String id, @JsonProperty("from") String from,
             @JsonProperty("to") ArrayList<String> to, @JsonProperty("body") String body,
             @JsonProperty("subject") String subject, @JsonProperty("isDraft") boolean isDraft,
-            @JsonProperty("attachments") File[] attachments, @JsonProperty("types") Types types,
+            @JsonProperty("attachments") File[] attachments, @JsonProperty("types") List<String> types,
             @JsonProperty("date") String date, @JsonProperty("priority") int priority) {
 
         this.to = to;
@@ -55,7 +54,7 @@ public class Mail {
         this.to = new ArrayList<>();
         this.from = address;
         this.subject = "";
-        this.types = new Types();
+        this.types = new ArrayList<>();
         this.body = "";
     }
 
@@ -72,7 +71,7 @@ public class Mail {
     }
 
     public void addType(String type) {
-        this.types.addType(type);
+        this.types.add(type);
     }
 
     public void addAttachment(File[] file) {
@@ -103,7 +102,7 @@ public class Mail {
         return to;
     }
 
-    public Types getTypes() {
+    public List<String> getTypes() {
         return this.types;
     }
 
@@ -132,37 +131,44 @@ public class Mail {
     }
 
     // search
-    public boolean subjectHas(String content){
+    public boolean subjectHas(String content) {
         if (this.subject.contains(content))
             return true;
         return false;
     }
 
-    public boolean bodyHas(String content){
+    public boolean bodyHas(String content) {
         if (this.body.contains(content))
             return true;
         return false;
     }
 
-    public boolean fromHas(String content){
+    public boolean fromHas(String content) {
         if (this.from.contains(content))
             return true;
         return false;
     }
 
-    public boolean toHas(String content){
-        for (String address : this.to) 
-            if(address.contains(content))
+    public boolean toHas(String content) {
+        for (String address : this.to)
+            if (address.contains(content))
                 return true;
 
         return false;
     }
 
-    public boolean dateHas(String content){
+    public boolean dateHas(String content) {
         if (this.date.contains(content))
             return true;
         return false;
     }
 
+    public boolean searchForType(String type) {
+        for (String temp : this.types) {
+            if (temp.equals(type))
+                return true;
+        }
+        return false;
+    }
 
 }
