@@ -1,5 +1,6 @@
 package com.csed26.speedmail;
 
+import java.util.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -15,15 +16,17 @@ public class User {
     private Command command;
     private String password;
     private ArrayList<String> folders;
-    // private Types types;
+    private List<String> types;
 
     public User(String name, String address, String password) throws IOException {
         this.name = name;
         this.password = password;
         this.address = address;
         this.folders = new ArrayList<>();
-        // this.types.setTypes();
-        Folder.createNewAccount(address);
+        this.types = new ArrayList<>();
+        this.types.add("Social");
+        this.types.add("Offers");
+        Folder.createNewAccount(this.address);
         this.contacts = new ArrayList<>();
         try {
             Data.saveUser(this);
@@ -75,9 +78,17 @@ public class User {
         this.contacts.add(contact);
     }
 
-    // public void addType(String newType) {
-    //     this.types.addType(newType);
-    // }
+    public void addType(String newType) {
+        this.types.add(newType);
+    }
+
+    public boolean searchForType(String type) {
+        for (String temp : this.types) {
+            if (temp.equals(type))
+                return true;
+        }
+        return false;
+    }
 
     public String[] contacts() {
         return (String[]) this.contacts.toArray();
@@ -103,9 +114,13 @@ public class User {
         return name;
     }
 
-    // public String[] getTypes() {
-    //     return this.types.getTypes();
-    // }
+    public String[] types() {
+        return this.types.toArray(new String[0]);
+    }
+
+    public List<String> getTypes() {
+        return types;
+    }
 
     public String getAddress() {
         return address;

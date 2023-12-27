@@ -4,18 +4,12 @@ import java.util.*;
 
 public class Types {
     private List<String> types = new ArrayList<>();
-    public static Types userTypes;
 
     public Types() {
     }
 
-    public static synchronized Types setTypes() {
-        if (userTypes == null) {
-            userTypes = new Types();
-            userTypes.addType("Offers");
-            userTypes.addType("Social");
-        }
-        return userTypes;
+    public void setTypes(List<String> types) {
+        this.types = types;
     }
 
     public String[] getTypes() {
