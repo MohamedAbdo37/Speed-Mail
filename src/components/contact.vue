@@ -59,17 +59,9 @@
           <div>
             <label for="sort_select">Sort:</label>
             <select id="sort_select" v-model="sortby">
-              <option value="date" selected><button>Date</button></option>
-              <option value="priority" ><button>Priority</button></option>
+              <option value="date" selected><button>alpha</button></option>
             </select>
-            <select id="order_select" v-model="sort">
-              <option value="Ascendingly" selected><button>Ascendingly</button></option>
-              <option value="Decendingly"><button>Decendingly</button></option>
-            </select>
-            <button v-if="sort=='Ascendingly'&&sortby=='date'" @click="datesortingasc" id="sort-button">Sort</button>
-            <button v-if="sort=='Decendingly'&&sortby=='date'" @click="datesortingdes" id="sort-button">Sort</button>
-            <button v-if="sort=='Ascendingly'&&sortby=='priority'" @click="prioritysortingasc" id="sort-button">Sort</button>
-            <button v-if="sort=='Decendingly'&&sortby=='priority'" @click="prioritysortingdes" id="sort-button">Sort</button>      
+            <button  @click="sorting" id="sort-button">Sort</button>
             </div>
         </div>
         <hr style="margin-top: 20px; margin-bottom: 20px" id="horizontal-line" />
@@ -149,6 +141,9 @@
       pagination() {
         return this.contacts.filter((mail, index) => index >= this.pag1 &&index<=this.pag2);
       },
+      sortedArray() {
+      return this.contacts.slice().sort();
+    }
     },
     methods: {
   
@@ -215,30 +210,10 @@
         console.log(r.data)
         });
     },
-      prioritysortingasc(){
-        this. mails.sort((a, b) => a.Priority - b.Priority);
-      },
-      prioritysortingdes(){
-        this. mails.sort((a, b) => b.Priority - a.Priority);
+
+  sorting() {
+  this.contacts=this.sortedArray;
   },
-      datesortingdes() {
-    const compareDates = (a, b) => {
-    const dateA = new Date(a.Date);
-    const dateB = new Date(b.Date);
-    return dateB - dateA;
-  };
-  this.mails.sort(compareDates);
-  },
-  
-  datesortingasc() {
-    const compareDates = (a, b) => {
-    const dateA = new Date(a.Date);
-    const dateB = new Date(b.Date);
-    return dateA - dateB;
-  };
-  this.mails.sort(compareDates);
-  },
-  
   
       Search() {
         
