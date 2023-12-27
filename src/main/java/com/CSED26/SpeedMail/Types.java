@@ -6,7 +6,7 @@ public class Types {
     private List<String> types = new ArrayList<>();
     public static Types userTypes;
 
-    private Types() {
+    public Types() {
     }
 
     public static synchronized Types setTypes() {

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import com.csed26.speedmail.Data;
 import com.csed26.speedmail.Types;
 import com.csed26.speedmail.User;
-import com.csed26.speedmail.critreria.ToFilter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.csed26.speedmail.Server;
 
