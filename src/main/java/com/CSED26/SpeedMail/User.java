@@ -70,7 +70,7 @@ public class User {
     public static boolean checkPassword(String address, String password) {
         User user;
         try {
-            user = User.user(address);
+            user = Data.getUser(address);
             if (password.equals(user.getPassword()))
                 return true;
         } catch (IOException e) {
@@ -83,9 +83,6 @@ public class User {
         return name;
     }
 
-    public static User user(String address) throws IOException {
-        return Data.getUser(address);
-    }
 
     public void recive(Mail mail) throws IOException {
         this.mainFolder().addToIndex(mail);

@@ -7,38 +7,31 @@ import java.util.List;
 import com.csed26.speedmail.mail.Mail;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.csed26.speedmail.critreria.AndFilter;
-import com.csed26.speedmail.critreria.Filter;
-import com.csed26.speedmail.critreria.FromFilter;
-import com.csed26.speedmail.critreria.OrFilter;
-import com.csed26.speedmail.critreria.ToFilter;
-import com.csed26.speedmail.critreria.TypeFilter;
-
 public class Folder {
 
     private String id;
     private String folderName;
     private List<String> foldersIds;
-    private List<String> mailsIds;
+    private List<String> elementsId;
     private Boolean main = false;
 
     public static String inBox = "Inbox";
     public static String send = "Send";
     public static String drafts = "Drafts";
     public static String trash = "Trash";
-
+    public static String contacts = "Contacts";
 
     public void setFolderName(String folderName) {
         this.folderName = folderName;
     }
 
     public Folder(@JsonProperty("id") String id, @JsonProperty("folderName") String folderName,
-            @JsonProperty("foldersIds") List<String> foldersIds, @JsonProperty("mailsIds") List<String> mailsIds,
+            @JsonProperty("foldersIds") List<String> foldersIds, @JsonProperty("elementsId") List<String> elementsId,
             @JsonProperty("main") boolean main) {
         this.id = id;
         this.folderName = folderName;
         this.foldersIds = foldersIds;
-        this.mailsIds = mailsIds;
+        this.elementsId = elementsId;
         this.main = main;
     }
 
@@ -49,7 +42,7 @@ public class Folder {
 
     private Folder(String folderName) throws IOException {
         this.folderName = folderName;
-        this.mailsIds = new ArrayList<>();
+        this.elementsId = new ArrayList<>();
         this.foldersIds = new ArrayList<>();
         this.setId();
         Data.saveFolder(this);
@@ -57,7 +50,7 @@ public class Folder {
 
     private Folder(String folderName, String address) throws IOException {
         this.folderName = folderName;
-        this.mailsIds = new ArrayList<>();
+        this.elementsId = new ArrayList<>();
         this.foldersIds = new ArrayList<>();
         this.setId(address);
         this.main = true;
@@ -71,6 +64,8 @@ public class Folder {
         account.createFolder(send).setMain();
         account.createFolder(drafts).setMain();
         account.createFolder(trash).setMain();
+        account.createFolder(contacts).setMain();
+
         try {
             Folder inbox = account.folder(inBox);
             inbox.createFolder("Social");
@@ -98,8 +93,8 @@ public class Folder {
         return foldersIds;
     }
 
-    public List<String> getMailsIds() {
-        return mailsIds;
+    public List<String> getelementsId() {
+        return elementsId;
     }
 
     public Boolean getMain() {
@@ -157,7 +152,7 @@ public class Folder {
      * @return Array of all mails' ids in this folder.
      */
     public String[] Mails() {
-        return (String[]) this.mailsIds.toArray();
+        return this.elementsId.toArray(new String[0]);
     }
 
     public void addToIndex(Mail mail) {
@@ -200,7 +195,7 @@ public class Folder {
     private void addMail(Mail mail) throws Exception {
         if (mail == null)
             throw new Exception("null mail");
-        this.mailsIds.add(mail.getId());
+        this.elementsId.add(mail.getId());
     }
 
     public void removeFromDraft(Mail mail) {
@@ -208,7 +203,7 @@ public class Folder {
     }
 
     private void removeMail(String id) {
-        this.mailsIds.remove(id);
+        this.elementsId.remove(id);
     }
 
     public void removeFromSend(Mail mail) {
@@ -235,6 +230,9 @@ public class Folder {
         this.folder(dest).addMail(mail);
     }
 
+    public void addContact(Contact contact){
+        this.folder(contacts).elementsId.add(contact.getId());
+    }
     // setters
 
 }

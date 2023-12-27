@@ -220,15 +220,15 @@ public class Server implements ServerIF {
     }
 
     @Override
-    public Mail[] serachBody(String address, String content) {
+    public Mail[] serachMail(String address, String content) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'serachBody'");
+        throw new UnsupportedOperationException("Unimplemented method 'serachMails'");
     }
 
     @Override
-    public Mail[] serachC(String address, String content) {
+    public Mail[] serachContact(String address, String content) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'serachC'");
+        throw new UnsupportedOperationException("Unimplemented method 'serachContact'");
     }
 
 

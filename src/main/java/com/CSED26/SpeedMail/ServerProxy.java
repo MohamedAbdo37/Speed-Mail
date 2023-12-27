@@ -26,18 +26,6 @@ public class ServerProxy implements ServerIF {
     }
 
     @Override
-    public Mail[] serachBody(String address, String content) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'serachBody'");
-    }
-
-    @Override
-    public Mail[] serachC(String address, String content) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'serachC'");
-    }
-
-    @Override
     public boolean saveMail(String address, Mail mail) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'saveMail'");
@@ -83,6 +71,18 @@ public class ServerProxy implements ServerIF {
     public boolean deleteFolder(String address, String folderName) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteFolder'");
+    }
+
+    @Override
+    public Mail[] serachMail(String address, String content) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'serachMails'");
+    }
+
+    @Override
+    public Mail[] serachContact(String address, String content) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'serachContact'");
     }
 
 }

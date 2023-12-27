@@ -12,9 +12,9 @@ public interface ServerIF {
     public Mail createMail(String sender, String[] to, String[] types, File[] files, String subject, String body,
             String date, int priority);
     
-    public Mail[] serachBody(String address,String content);
+    public Mail[] serachMail(String address,String content);
 
-    public Mail[] serachC(String address,String content);
+    public Mail[] serachContact(String address,String content);
     // Mail Manipulation
     public boolean saveMail(String address, Mail mail);
 
