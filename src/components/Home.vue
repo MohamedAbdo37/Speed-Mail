@@ -219,7 +219,7 @@ export default {
           Type: "social",
           Priority:100,
           iD:"g1",
-          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
+          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne, voila je me regarde les autre portant je ne leur trouve rien 6555555651652"
         },
         {
           To: "Yahiaibrahime123@gmail.com",

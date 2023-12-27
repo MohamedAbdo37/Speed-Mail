@@ -8,8 +8,8 @@
       </button>
       <ul>
         <li>
-          <button  id="inbox-button">
-            <i class="fa fa-light fa-inbox" @click="home"></i>Inbox
+          <button  id="inbox-button" @click="home">
+            <i class="fa fa-light fa-inbox" ></i>Inbox
           </button>
         </li>
         <li>
@@ -125,7 +125,7 @@
         <button style="background-color: lightblue" @click="paginationleft"> &lt; </button>   
         <button style="background-color: lightblue" @click="paginationright"> > </button>     
         </div>
-        <h1 >{{ title }}</h1>
+        <h1 >Drafts</h1>
         <div v-for="mail in  pagination" :key="mail.id" class="mail">
           <div class="properties-data" @click="draftview(mail.iD)">
             <input type="checkbox" @change="updateSelected(mail.iD)" >
