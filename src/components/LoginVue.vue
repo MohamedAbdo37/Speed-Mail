@@ -1,10 +1,10 @@
 <template>
     <!-- <img  class="logo" src="../assets/hospital_logo.jpeg"> -->
     <h1>Login</h1>
-    <form class="login"  @submit="login">
+    <form class="login"  >
         <input type="email" v-model="email" placeholder="Enter Email" :email='email' required />
         <input type="password" v-model="password" placeholder="Enter Password" required />
-        <input type="submit" value="login" style="padding: 0%;"/>
+        <input type="button" value="login" style="padding: 0%;" @click="login"/>
         <p>
             <router-link to="/SignUp">sign up</router-link>
         </p>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    //import axios from 'axios'
+    import axios from 'axios'
     //import hoMe from './Home.vue'
     export default {
         name: "LoginVue",
@@ -24,16 +24,22 @@
         },
         methods: {
             async login() {
-                // let result = await axios.get(
-                //     `http://localhost:8081/users?email=${ this.email }&password=${ this.password }`
-                // ).then((r) => {
-                //    let user = r.data
-                //    if(user)
-                //        this.$router.push( { name: 'Home', query: { email: this.email } });
-                //    else
-                //        console.log("user not found")
-                //})
-                this.$router.push( { name: 'Home', query: { email: this.email } });
+                await axios.get(
+                    "http://localhost:8081/login", {
+                        params: {
+                            address: this.email,
+                            password: String(this.password)
+                        }
+                    }
+                ).then((r) => {
+                   let user = r.data
+                   console.log(user)
+                   if(user)
+                       this.$router.push( { name: 'Home', query: { email: this.email } });
+                   else
+                       console.log("user not found")
+                })
+                // this.$router.push( { name: 'Home', query: { email: this.email } });
             }
         },
         mounted() {
