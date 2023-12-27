@@ -236,13 +236,21 @@ public class Server implements ServerIF {
     }
 
     @Override
-    public Mail[] serachMail(String address, String content) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'serachMails'");
+    public Mail[] serachMail(String address, String content, String type) {
+        Folder folder = this.userMainFolder(address);
+
+        switch (type) {
+            case "Sender":
+                
+                break;
+        
+            default:
+                break;
+        }
     }
 
     @Override
-    public Mail[] serachContact(String address, String content) {
+    public Mail[] serachContact(String address, String content, String type) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'serachContact'");
     }

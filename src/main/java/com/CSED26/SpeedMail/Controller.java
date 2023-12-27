@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.csed26.speedmail.mail.Mail;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController

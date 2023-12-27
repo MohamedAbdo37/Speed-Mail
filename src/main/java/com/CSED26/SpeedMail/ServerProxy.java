@@ -74,16 +74,17 @@ public class ServerProxy implements ServerIF {
     }
 
     @Override
-    public Mail[] serachMail(String address, String content) {
+    public Mail[] serachMail(String address, String content, String type) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'serachMails'");
+        throw new UnsupportedOperationException("Unimplemented method 'serachMail'");
     }
 
     @Override
-    public Mail[] serachContact(String address, String content) {
+    public Mail[] serachContact(String address, String content, String type) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'serachContact'");
     }
+
 
     @Override
     public Mail[] filterMailsByTo(String toString, Mail[] mails) {
@@ -122,5 +123,6 @@ public class ServerProxy implements ServerIF {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'orFilterMails'");
     }
+
 
 }

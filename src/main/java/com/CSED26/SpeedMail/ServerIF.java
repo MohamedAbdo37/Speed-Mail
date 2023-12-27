@@ -11,11 +11,10 @@ public interface ServerIF {
 
     public Mail createMail(String sender, String[] to, String[] types, File[] files, String subject, String body,
             String date, int priority);
+    
+    public Mail[] serachMail(String address,String content, String type);
 
-    public Mail[] serachMail(String address, String content);
-
-    public Mail[] serachContact(String address, String content);
-
+    public Mail[] serachContact(String address,String content, String type);
     // Mail Manipulation
     public boolean saveMail(String address, Mail mail);
 

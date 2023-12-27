@@ -93,7 +93,7 @@ public class Folder {
         return foldersIds;
     }
 
-    public List<String> getelementsId() {
+    public List<String> getElementsId() {
         return elementsId;
     }
 
