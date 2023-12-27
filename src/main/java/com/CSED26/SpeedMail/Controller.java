@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @CrossOrigin
 public class Controller {
-    public User user = null;
 
     @PostMapping("/login")
     public User logIN(@RequestParam String address, @RequestParam String password) {
+        User user = null;
         try {
             user = Server.getServer().logIn(address, password);
         } catch (IOException e) {
@@ -32,6 +32,7 @@ public class Controller {
 
     @PostMapping("/register")
     public User register(@RequestParam String name, @RequestParam String address, @RequestParam String password) {
+        User user = null;
         try {
             Server server = Server.getServer();
             user = server.register(name, address, password);
@@ -44,107 +45,99 @@ public class Controller {
     }
 
     @PostMapping("/draft")
-    public boolean draft(@RequestParam String to, @RequestParam String from, @RequestParam String messasge,
-            @RequestParam String subject, @RequestParam String tag, @RequestParam int priority,
-            @RequestParam String date, @RequestParam File attachments) {
+    public boolean draft(@RequestParam String[] to, @RequestParam String from, @RequestParam String messasge,
+            @RequestParam String subject, @RequestParam String[] tag, @RequestParam int priority,
+            @RequestParam String date, @RequestParam File[] attachments) {
         Server server = Server.getServer();
-        Mail newMail = server.createMail(messasge, null, null, null, subject, tag, date, priority);
+        Mail newMail = server.createMail(from, to, tag, attachments, subject, messasge, date, priority);
         boolean check = server.saveMail(from, newMail);
         return check;
     }
 
     @PostMapping("/send")
-    public boolean send(@RequestParam String to, @RequestParam String from, @RequestParam String messasge,
-            @RequestParam String subject, @RequestParam String tag, @RequestParam int priority,
-            @RequestParam String date, @RequestParam File attachments) {
+    public boolean send(@RequestParam String[] to, @RequestParam String from, @RequestParam String messasge,
+            @RequestParam String subject, @RequestParam String[] tag, @RequestParam int priority,
+            @RequestParam String date, @RequestParam File[] attachments) {
         Server server = Server.getServer();
-        Mail newMail = server.createMail(messasge, null, null, null, subject, tag, date, priority);
+        Mail newMail = server.createMail(from, to, tag, attachments, subject, messasge, date, priority);
         boolean check = server.sendMail(from, newMail);
         return check;
     }
 
     @PostMapping("/refresh")
-    public Mail[] refresh(@RequestParam String name) throws IOException {
+    public Mail[] refresh(@RequestParam String address, @RequestParam String name) {
         Server server = Server.getServer();
-        List<Mail> mails = new ArrayList<>();
-        for (String mailId : user.mainFolder().folder(name).getMailsIds()) {
-            mails.add(server.getMail(mailId));
-        }
-        return mails.toArray(new Mail[0]);
+
+        return server.getFolder(name, address);
     }
 
     @PostMapping("/gotofolder")
-    public Mail[] gotoFolder(@RequestParam String foldername) throws IOException {
+    public Mail[] gotoFolder(@RequestParam String address, @RequestParam String foldername) {
         Server server = Server.getServer();
-        List<Mail> mails = new ArrayList<>();
-        for (String mailId : user.mainFolder().folder(foldername).getMailsIds()) {
-            mails.add(server.getMail(mailId));
-        }
-        return mails.toArray(new Mail[0]);
+        return server.getFolder(foldername, address);
     }
 
     @DeleteMapping("/deletefolder")
-    public void deleteFolder(@RequestParam String name) throws IOException {
-        user.mainFolder().deleteFolder(name);
+    public boolean deleteFolder(@RequestParam String address, @RequestParam String name) {
+        Server server = Server.getServer();
+        return server.deleteFolder(address, name);
     }
 
     @PostMapping("/renamefolder")
-    public void renameFolder(@RequestParam String oldname, @RequestParam String newname) throws IOException {
-        List<Mail> folderMails = new ArrayList<>();
-        user.mainFolder().folder(oldname).setFolderName(newname);
-    }
-
-    /* ................... */@PostMapping("/movefolder")
-    public Mail[] moveFolder(@RequestParam String[] ids, @RequestParam String from, @RequestParam String to) {
-        List<Mail> folderMails = new ArrayList<>();
-
-        return folderMails.toArray(new Mail[0]);
-    }
-
-    /* ................... */@PostMapping("/Trash")
-    public void trash(@RequestParam String address, @RequestParam String name) {
+    public boolean renameFolder(@RequestParam String address, @RequestParam String oldname,
+            @RequestParam String newname) {
         Server server = Server.getServer();
+        return server.renameFolder(address, oldname, newname);
 
-        server.deleteMail(address, na);
     }
 
-    /* ................... */@PostMapping("/delete")
-    public Mail[] delete(@RequestParam String ID) {
-        List<Mail> folderMails = new ArrayList<>();
-
-        return folderMails.toArray(new Mail[0]);
+    @PostMapping("/movefolder")
+    public boolean moveFolder(@RequestParam String address, @RequestParam String[] ids, @RequestParam String from,
+            @RequestParam String to) {
+        Server server = Server.getServer();
+        for (String id : ids) {
+            if (!server.moveMail(address, from, to, server.getMail(id)))
+                return false;
+        }
+        return true;
     }
 
-    /* ................... */@PostMapping("/restore")
-    public Mail[] restore(@RequestParam String ID) {
-        List<Mail> folderMails = new ArrayList<>();
+    @PostMapping("/delete")
+    public boolean delete(@RequestParam String address, @RequestParam String[] ids) {
+        Server server = Server.getServer();
+        for (String id : ids) {
+            if (!server.deleteMail(address, server.getMail(id)))
+                return false;
+        }
+        return true;
+    }
 
-        return folderMails.toArray(new Mail[0]);
+    @PostMapping("/restore")
+    public boolean restore(@RequestParam String address, @RequestParam String[] ids) {
+        Server server = Server.getServer();
+        for (String id : ids) {
+            if (!server.restoreMail(address, server.getMail(id)))
+                return false;
+        }
+        return true;
     }
 
     @PostMapping("/addfolder")
-    public void addFolder(@RequestParam String name) throws IOException {
-        user.addFolder(name);
+    public boolean addFolder(@RequestParam String address, @RequestParam String name) {
+        Server server = Server.getServer();
+        return server.createFolder(address, name);
     }
 
     @PostMapping("/filter")
-    public Mail[] filter(@RequestParam String filterby, @RequestParam String filter, @RequestParam Mail[] mails) {
-        return Data.filterBy(filterby, filter, mails);
+    public Mail[] filter(@RequestParam String address, @RequestParam String filterby, @RequestParam String[] filer,
+            @RequestParam String folder) {
+
+        return new Mail[0];
     }
 
     /* ................... */@PostMapping("/search")
     public Mail[] search(@RequestParam String search, @RequestParam String type) {
         return null;
-    }
-
-    @PostMapping("/gotoinbox")
-    public Mail[] gotoInbox(@RequestParam String foldername) throws IOException {
-        Server server = Server.getServer();
-        List<Mail> mails = new ArrayList<>();
-        for (String mailId : user.mainFolder().folder(foldername).getMailsIds()) {
-            mails.add(server.getMail(mailId));
-        }
-        return mails.toArray(new Mail[0]);
     }
 
 }

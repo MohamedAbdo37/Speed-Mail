@@ -85,4 +85,42 @@ public class ServerProxy implements ServerIF {
         throw new UnsupportedOperationException("Unimplemented method 'serachContact'");
     }
 
+    @Override
+    public Mail[] filterMailsByTo(String toString, Mail[] mails) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'filterMailsByTo'");
+    }
+
+    @Override
+    public Mail[] filterMailsByFrom(String fromString, Mail[] mails) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'filterMailsByFrom'");
+    }
+
+    @Override
+    public Mail[] filterMailsByType(String typeString, Mail[] mails) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'filterMailsByType'");
+    }
+
+    @Override
+    public Mail[] filterBy(String filterBy, String filterString, Mail[] mails) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'filterBy'");
+    }
+
+    @Override
+    public Mail[] andFilterMails(String firstCri, String firstCriString, String secondCri, String secondCriString,
+            Mail[] mails) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'andFilterMails'");
+    }
+
+    @Override
+    public Mail[] orFilterMails(String firstCri, String firstCriString, String secondCri, String secondCriString,
+            Mail[] mails) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'orFilterMails'");
+    }
+
 }
