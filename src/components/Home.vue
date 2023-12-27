@@ -147,7 +147,7 @@
             <option value="subject" selected><button>Subject</button></option>
           </select>
           <div v-for="(input, index) in filter" :key="index">
-          <input v-model="input.value" @input="updateInput(index, $event.target.value)" type="text" id="filter-input" style="margin-left: 5px"   >
+          <input v-model="input.value" @input="updateInput(index, $event.target.value)" type="text" :id="'filter-input' + index" style="margin-left: 5px"   >
           <button @click="removeInput(index)">Remove</button>
           </div>
           <button @click="addInput">Add Input</button>
@@ -438,6 +438,25 @@ export default {
     };
  
   },
+  mounted(){
+      this.title="inbox";
+      const myElement = document.getElementById("inbox-button");
+  myElement.style.backgroundColor = "rgb(211, 211, 212)";
+  axios.get('http://localhost:8081/gotoinbox', {
+        params: {
+          foldername: "inbox",
+        },
+      }).then((r) => {
+        console.log('done gotoinbox');
+        this.mails=r.data;
+      });
+    
+      axios.get('http://localhost:8081/mountfoldernames', {
+      }).then((r) => {
+        console.log('done gotoinbox');
+        this.foldernames=r.data;
+      });
+  },
   computed: {
     filteredFoldernames() {
       return this.foldernames.filter(folder => folder !== '');
@@ -450,6 +469,19 @@ export default {
     },
   },
   methods: {
+    gotosend(){
+      this.title="sent";
+      const myElement = document.getElementById("sent-button");
+  myElement.style.backgroundColor = "rgb(211, 211, 212)";
+  axios.get('http://localhost:8081/gotosend', {
+        params: {
+          foldername: "send",
+        },
+      }).then((r) => {
+        console.log('done gotosend');
+        this.mails=r.data;
+      });
+    },
     gotoinbox(){
       this.title="inbox";
       const myElement = document.getElementById("inbox-button");
@@ -627,6 +659,9 @@ this.mails.sort(compareDates);
           console.log(this.filter[index])
         },
     Filter() {
+      this.filter.forEach((input, index) => {
+      this.filter[index] = input.value;
+    });
       console.log(this.filterby);
       console.log(this.filter[0].value);
       axios.get('http://localhost:8081/filter', {

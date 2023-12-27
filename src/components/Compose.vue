@@ -11,7 +11,7 @@
         <div class="form-group">
           <label for="to">To</label>
             <div v-for="(input, index) in to" :key="index">
-            <input v-model="input.value" @input="updateInput2(index, $event.target.value)" type="text" id="to" required  >
+            <input v-model="input.value" @input="updateInput2(index, $event.target.value)" type="text" :id="'to' + index" required  >
             <button @click="removeInput2(index)">Remove</button>
             </div>
             <button @click="addInput2" class="send-button">Add Input</button>
@@ -21,12 +21,12 @@
             <input type="text" id="subject" required  v-model="subject">
         </div>
         <div class="form-group">
-            <label for="tag">Tag</label>
-            <div v-for="(input, index) in tag" :key="index">
-            <input v-model="input.value" @input="updateInput1(index, $event.target.value)" type="text" id="tag" required  >
-            <button @click="removeInput1(index)">Remove</button>
-            </div>
-            <button @click="addInput1" class="send-button">Add Input</button>
+          <label for="tag">Tag</label>
+          <div v-for="(input, index) in tag" :key="index">
+          <input v-model="input.value" @input="updateInput1(index, $event.target.value)" type="text" :id="'tag' + index" required>
+          <button @click="removeInput1(index)">Remove</button>
+</div>
+<button @click="addInput1" class="send-button">Add Input</button>
         </div>
         <div class="form-group">
             <label for="message">Message</label>
@@ -88,6 +88,12 @@ export default {
     send() {
       this.date = new Date();
       console.log(this.date)
+      this.tag.forEach((input, index) => {
+      this.tag[index] = input.value;
+    });
+    this.to.forEach((input, index) => {
+      this.to[index] = input.value;
+    });
       axios.get('http://localhost:8081/send', {
         params: {
           to: this.to,
@@ -127,6 +133,12 @@ export default {
         },
     draft() {
       this.date = new Date();
+      this.tag.forEach((input, index) => {
+      this.tag[index] = input.value;
+    });
+    this.to.forEach((input, index) => {
+      this.to[index] = input.value;
+    });
       axios.get('http://localhost:8081/draft', {
         params: {
           to: this.to,
@@ -158,7 +170,10 @@ export default {
     userEmail() {
       return this.$route.query.email;
     },
+    tagvalues(){
+      return this.tag.filter(tag1 => tag1.value);
   }
+}
 };
 </script>
 <style scoped>
