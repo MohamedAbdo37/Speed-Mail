@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -63,7 +64,7 @@ public class Controller {
     }
 
     @PostMapping("/refresh")
-    public Mail[] send(@RequestParam String name) throws IOException {
+    public Mail[] refresh(@RequestParam String name) throws IOException {
         Server server = Server.getServer();
         List<Mail> mails = new ArrayList<>();
         for (String mailId : user.mainFolder().folder(name).getMailsIds()) {
@@ -75,49 +76,46 @@ public class Controller {
     @PostMapping("/gotofolder")
     public Mail[] gotoFolder(@RequestParam String foldername) throws IOException {
         Server server = Server.getServer();
-        user.mainFolder()
-        List<Mail> folderMails = new ArrayList<>();
-        Folder currentFolder = Data.getFolder(foldername);
-
-        return currentFolder.Mails();
+        List<Mail> mails = new ArrayList<>();
+        for (String mailId : user.mainFolder().folder(foldername).getMailsIds()) {
+            mails.add(server.getMail(mailId));
+        }
+        return mails.toArray(new Mail[0]);
     }
 
-    @PostMapping("/deletefolder")
-    public Mail[] deleteFolder(@RequestParam String name) {
-        List<Mail> folderMails = new ArrayList<>();
-
-        return folderMails.toArray(new Mail[0]);
+    @DeleteMapping("/deletefolder")
+    public void deleteFolder(@RequestParam String name) throws IOException {
+        user.mainFolder().deleteFolder(name);
     }
 
     @PostMapping("/renamefolder")
-    public Mail[] renameFolder(@RequestParam String oldname, @RequestParam String newname) {
+    public void renameFolder(@RequestParam String oldname, @RequestParam String newname) throws IOException {
+        List<Mail> folderMails = new ArrayList<>();
+        user.mainFolder().folder(oldname).setFolderName(newname);
+    }
+
+    /* ................... */@PostMapping("/movefolder")
+    public Mail[] moveFolder(@RequestParam String[] ids, @RequestParam String from, @RequestParam String to) {
         List<Mail> folderMails = new ArrayList<>();
 
         return folderMails.toArray(new Mail[0]);
     }
 
-    @PostMapping("/movefolder")
-    public Mail[] moveFolder(@RequestParam String ids, @RequestParam String from, @RequestParam String to) {
-        List<Mail> folderMails = new ArrayList<>();
+    /* ................... */@PostMapping("/Trash")
+    public void trash(@RequestParam String address, @RequestParam String name) {
+        Server server = Server.getServer();
 
-        return folderMails.toArray(new Mail[0]);
+        server.deleteMail(address, na);
     }
 
-    @PostMapping("/Trash")
-    public Mail[] trash(@RequestParam String name) {
-        List<Mail> folderMails = new ArrayList<>();
-
-        return folderMails.toArray(new Mail[0]);
-    }
-
-    @PostMapping("/delete")
+    /* ................... */@PostMapping("/delete")
     public Mail[] delete(@RequestParam String ID) {
         List<Mail> folderMails = new ArrayList<>();
 
         return folderMails.toArray(new Mail[0]);
     }
 
-    @PostMapping("/restore")
+    /* ................... */@PostMapping("/restore")
     public Mail[] restore(@RequestParam String ID) {
         List<Mail> folderMails = new ArrayList<>();
 
@@ -125,10 +123,8 @@ public class Controller {
     }
 
     @PostMapping("/addfolder")
-    public Mail[] addFolder(@RequestParam String name) {
-        List<Mail> folderMails = new ArrayList<>();
-
-        return folderMails.toArray(new Mail[0]);
+    public void addFolder(@RequestParam String name) throws IOException {
+        user.addFolder(name);
     }
 
     @PostMapping("/filter")
@@ -136,16 +132,19 @@ public class Controller {
         return Data.filterBy(filterby, filter, mails);
     }
 
-    @PostMapping("/search")
+    /* ................... */@PostMapping("/search")
     public Mail[] search(@RequestParam String search, @RequestParam String type) {
         return null;
     }
 
     @PostMapping("/gotoinbox")
-    public Mail[] gotoInbox(@RequestParam String foldername) {
-        List<Mail> folderMails = new ArrayList<>();
-
-        return folderMails.toArray(new Mail[0]);
+    public Mail[] gotoInbox(@RequestParam String foldername) throws IOException {
+        Server server = Server.getServer();
+        List<Mail> mails = new ArrayList<>();
+        for (String mailId : user.mainFolder().folder(foldername).getMailsIds()) {
+            mails.add(server.getMail(mailId));
+        }
+        return mails.toArray(new Mail[0]);
     }
 
 }
