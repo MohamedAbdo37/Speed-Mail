@@ -30,6 +30,10 @@ public class User {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        this.addFolder(Folder.inBox);
+        this.addFolder("Social");
+        this.addFolder("Offers");
     }
 
     public User(@JsonProperty("address") String address, @JsonProperty("name") String name,

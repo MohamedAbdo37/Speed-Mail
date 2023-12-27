@@ -22,11 +22,11 @@ public class Folder {
     private List<String> mailsIds;
     private Boolean main = false;
 
-    private static String inBox = "Inbox";
-    private static String send = "Send";
-    private static String drafts = "Drafts";
-    private static String trash = "Trash";
-    // private Critreria type;
+    public static String inBox = "Inbox";
+    public static String send = "Send";
+    public static String drafts = "Drafts";
+    public static String trash = "Trash";
+
 
     public void setFolderName(String folderName) {
         this.folderName = folderName;
@@ -66,18 +66,15 @@ public class Folder {
 
     public static Folder createNewAccount(String address) throws IOException {
         Folder account = new Folder("main", address);
-        User user = Data.getUser(address);
 
         account.createFolder(inBox).setMain();
         account.createFolder(send).setMain();
         account.createFolder(drafts).setMain();
         account.createFolder(trash).setMain();
         try {
-            Folder inbox = account.folder("Inbox");
+            Folder inbox = account.folder(inBox);
             inbox.createFolder("Social");
-            user.addFolder("Social");
             inbox.createFolder("Offers");
-            user.addFolder("Offers");
         } catch (Exception e) {
             e.printStackTrace();
         }
