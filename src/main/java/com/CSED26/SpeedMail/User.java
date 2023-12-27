@@ -1,26 +1,27 @@
 package com.csed26.speedmail;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import com.csed26.speedmail.commands.Command;
 import com.csed26.speedmail.mail.Mail;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
 
     private String address;
     private String name;
-    private String password;
-    private String mainFolder;
     private ArrayList<String> contacts;
     private Command command;
+    private String password;
+    private ArrayList<String> folders;
 
     public User(String name, String address, String password) throws IOException {
         this.name = name;
         this.password = password;
         this.address = address;
-        this.mainFolder = Folder.createNewAccount(this.address).getId();
+        this.folders  = new ArrayList<>();
+        Folder.createNewAccount(this.address);
         this.contacts = new ArrayList<>();
         try {
             Data.saveUser(this);
@@ -29,22 +30,36 @@ public class User {
         }
     }
 
-    public Folder getMainFolder() throws IOException {
-        return Data.getFolder(this.mainFolder);
+    public User(@JsonProperty("address") String address, @JsonProperty("name") String name,
+            @JsonProperty("contacts") ArrayList<String> contacts,@JsonProperty("folders") ArrayList<String> folders,
+            @JsonProperty("password") String password) {
+        this.address = address;
+        this.name = name;
+        this.contacts = contacts;
+        this.password = password;
+        this.folders = folders;
     }
 
-    private String getPassword() {
-        return password;
+    public Folder mainFolder() throws IOException {
+        return Data.getFolder(this.address);
     }
 
     public String getAddress() {
         return address;
     }
 
+    public ArrayList<String> getFolders() {
+        return folders;
+    }
+    
+    public void addFolder(String folder) throws IOException{
+        this.folders.add(folder);
+        Data.saveUser(this);
+    }
     public static boolean checkPassword(String address, String password) {
         User user;
         try {
-            user = User.getUser(address);
+            user = User.user(address);
             if (password.equals(user.getPassword()))
                 return true;
         } catch (IOException e) {
@@ -57,20 +72,24 @@ public class User {
         return name;
     }
 
-    public static User getUser(String address) throws IOException {
+    public static User user(String address) throws IOException {
         return Data.getUser(address);
     }
 
     public void recive(Mail mail) throws IOException {
-        this.getMainFolder().addToIndex(mail);
+        this.mainFolder().addToIndex(mail);
     }
 
     public void addContact(String contact) {
         this.contacts.add(contact);
     }
 
-    public String[] getContacts() {
+    public String[] contacts() {
         return (String[]) this.contacts.toArray();
+    }
+
+    public ArrayList<String> getContacts() {
+        return contacts;
     }
 
     public void setCommand(Command command) {
@@ -81,4 +100,7 @@ public class User {
         return this.command.execute();
     }
 
+    public String getPassword() {
+        return password;
+    }
 }

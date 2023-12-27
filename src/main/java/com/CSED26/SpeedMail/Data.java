@@ -3,9 +3,14 @@ package com.csed26.speedmail;
 import java.io.File;
 import java.io.IOException;
 
+
 import com.csed26.speedmail.mail.Mail;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class Data {
 
     private Data() {
@@ -19,7 +24,7 @@ public class Data {
     // Mails Data
     public static void saveMail(Mail mail) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File(mailsPath + mail.getId());
+        File file = new File(mailsPath + mail.getId() + ".json");
         objectMapper.writeValue(file, mail);
         System.out.println("Mail successfully written to JSON file.");
     }
@@ -27,56 +32,61 @@ public class Data {
     public static Mail getMail(String id) throws IOException {
         Mail mail;
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File(mailsPath + id);
+        File file = new File(mailsPath + id + ".json");
 
         // Read JSON file
-        mail = objectMapper.readValue(file, Mail.class);
+        mail = objectMapper.readValue(file, new TypeReference<Mail>() {});
         return mail;
     }
 
     public static synchronized void deleteMail(Mail mail) {
-        File file = new File(mailsPath + mail.getId());
+        File file = new File(mailsPath + mail.getId()+".json");
         file.delete();
     }
 
     // Users Data
     public static void saveUser(User user) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File(usersPath + user.getAddress());
+        File file = new File(usersPath + user.getAddress() + ".json");
         objectMapper.writeValue(file, user);
-        System.out.println("Shapes successfully written to JSON file.");
+        System.out.println("User successfully written to JSON file.");
     }
 
     public static User getUser(String address) throws IOException {
-        User user;
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File(usersPath + address);
+        File file = new File(usersPath + address + ".json");
 
         // Read JSON file
-        user = objectMapper.readValue(file, User.class);
+        User user = objectMapper.readValue(file, new TypeReference<User>() {} );
         return user;
     }
 
     // Folders Data
     public static void saveFolder(Folder folder) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File(foldersPath + folder.getId());
+        File file = new File(foldersPath + folder.getId() + ".json");
         objectMapper.writeValue(file, folder);
-        System.out.println("Shapes successfully written to JSON file.");
+        System.out.println("folder successfully written to JSON file.");
     }
 
     public static Folder getFolder(String id) throws IOException {
-        Folder folder;
-        ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File(foldersPath + id);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            File file = new File(foldersPath + id + ".json");
 
-        // Read JSON file
-        folder = objectMapper.readValue(file, Folder.class);
-        return folder;
+            // Read JSON file and map it to a list of shapee objects
+            Folder folder = objectMapper.readValue(file, new TypeReference<Folder>() {});
+
+            return folder;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public static void deleteFolder(Folder folder) {
-        File file = new File(foldersPath + folder.getId());
+        File file = new File(foldersPath + folder.getId()+".json");
         file.delete();
     }
 

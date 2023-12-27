@@ -3,34 +3,37 @@ package com.csed26.speedmail;
 import java.io.IOException;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @CrossOrigin
 public class Controller {
 
-    Server server = null;
-
-    @PostMapping("/logIn")
-    public User logIN(@RequestBody String address, @RequestBody String password) throws IOException {
-        while (server != null) {
-            server = Server.acquire();
+    @PostMapping("/login")
+    public User logIN(@RequestParam String address, @RequestParam String password) {
+        User user = null;
+        try {
+            user = Server.getServer().logIn(address, password);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
-        User user = server.logIn(address, password);
-        server.release();
         return user;
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody String name, @RequestBody String address, @RequestBody String password)
-            throws IOException {
-        while (server != null) {
-            server = Server.acquire();
+    public User register(@RequestParam String name, @RequestParam String address, @RequestParam String password) {
+        User user;
+        try {
+            Server server = Server.getServer();
+            user = server.register(name, address, password);
+        } catch (IOException e) {
+            e.getStackTrace();
+            System.out.println("email already exist");
+            return null;
         }
-        User user = server.register(name, address, password);
-        server.release();
         return user;
     }
 

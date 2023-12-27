@@ -24,10 +24,13 @@ public class Move implements Command {
     public boolean execute() {
         Folder folder;
         try {
-            folder = user.getMainFolder();
+            folder = user.mainFolder();
             folder.removeFrom(source, mail);
             folder.addTo(dest, mail);
         } catch (IOException e) {
+            System.out.println("Faild to move");
+            return false;
+        } catch (Exception e) {
             System.out.println("Faild to move");
             return false;
         }

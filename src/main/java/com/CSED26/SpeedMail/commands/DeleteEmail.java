@@ -16,11 +16,11 @@ public class DeleteEmail implements Command {
     public boolean execute() {
         try {
             if (this.mail.getIsDraft()) 
-                this.mail.getFrom().getMainFolder().removeFromDraft(this.mail);
+                this.mail.fromUser().mainFolder().removeFromDraft(this.mail);
             else
-                this.mail.getFrom().getMainFolder().removeFromSend(this.mail);
+                this.mail.fromUser().mainFolder().removeFromSend(this.mail);
 
-            this.mail.getFrom().getMainFolder().addToTrash(mail);
+            this.mail.fromUser().mainFolder().addToTrash(mail);
         } catch (IOException e) {
             System.out.println("Faild to delete mail");
             return false;

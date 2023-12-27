@@ -17,7 +17,8 @@ public class CreateFolder implements Command{
     @Override
     public boolean execute() {
         try {
-            this.user.getMainFolder().createFolder(this.folderName);
+            this.user.mainFolder().createFolder(this.folderName);
+            this.user.addFolder(folderName);
         } catch (IOException e) {
             System.out.println("faild to create folder");
             return false;

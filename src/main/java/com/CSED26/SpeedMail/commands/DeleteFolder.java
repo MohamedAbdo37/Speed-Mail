@@ -11,7 +11,7 @@ public class DeleteFolder implements Command {
     private String folderName;
 
     public DeleteFolder(User user, String folderName) throws IOException{
-        this.folder = user.getMainFolder();
+        this.folder = user.mainFolder();
         this.folderName = folderName;
     }
 

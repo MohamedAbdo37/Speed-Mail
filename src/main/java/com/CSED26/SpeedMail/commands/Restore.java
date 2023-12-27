@@ -19,14 +19,14 @@ public class Restore implements Command {
     @Override
     public boolean execute() {
         try {
-            this.user.getMainFolder().removeFromTrash(this.mail);
+            this.user.mainFolder().removeFromTrash(this.mail);
             if (this.mail.getIsDraft()) 
-                this.user.getMainFolder().addToDraft(this.mail);
+                this.user.mainFolder().addToDraft(this.mail);
             else{
-                if(this.mail.getFromAddress().equals(this.user.getAddress()))
-                    this.user.getMainFolder().addToSend(this.mail);
+                if(this.mail.getFrom().equals(this.user.getAddress()))
+                    this.user.mainFolder().addToSend(this.mail);
                 else
-                    this.user.getMainFolder().addToIndex(this.mail);
+                    this.user.mainFolder().addToIndex(this.mail);
             }  
         } catch (IOException e) {
             System.out.println("Faild to restore");

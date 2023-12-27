@@ -3,41 +3,29 @@ package com.csed26.speedmail;
 import java.io.IOException;
 import java.util.Random;
 
-public class Server {
+import com.csed26.speedmail.mail.Mail;
+
+public class Server implements ServerIF {
 
     public static Server server;
-    private boolean free = true;
 
     private Server() {
-        throw new IllegalStateException("Server class");
     }
 
-    // public static synchronized Server getServer(){
-    // if (server == null)
-    // server = new Server();
-    // return server;
-    // }
-
-    public static synchronized Server acquire() {
-        if (!server.free)
-            return null;
-        server.free = false;
+    public static synchronized Server getServer() {
+        if (server == null)
+            server = new Server();
         return server;
     }
 
-    void release() {
-        this.free = true;
-        ;
-    }
-
-    public synchronized User logIn(String address, String password) throws IOException {
+    public User logIn(String address, String password) throws IOException {
         if (User.checkPassword(address, password))
-            return null;
+            return Data.getUser(address);
 
-        return Data.getUser(address);
+        throw new IOException("Wrong password");
     }
 
-    public synchronized User register(String name, String address, String password) throws IOException {
+    public User register(String name, String address, String password) throws IOException {
         try {
             Data.getUser(address);
         } catch (IOException e) {
@@ -50,7 +38,7 @@ public class Server {
 
         final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-        String sb = new String();
+        String sb = "";
         Random random = new Random();
 
         for (int i = 0; i < length; i++) {
@@ -61,4 +49,34 @@ public class Server {
 
         return sb;
     }
+
+    @Override
+    public Mail getMail(String id) {
+        try {
+            return Data.getMail(id);
+        } catch (IOException e) {
+            System.out.println("Mail dosen't exist!");
+            return null;
+        }
+    }
+
+    @Override
+    public Mail[] getFolder(String folderName, String address) {
+        Folder folder;
+        try {
+            folder = Data.getFolder(address).folder(folderName);
+        } catch (IOException e) {
+            System.out.println("folder dosen't exist");
+            return new Mail[0];
+        }
+
+        String[] mailsId = folder.Mails();
+        Mail[] mails = new Mail[mailsId.length];
+        for (int i = 0; i < mails.length; i++) {
+            mails[i] = this.getMail(mailsId[i]);
+        }
+        return mails;
+    }
+
+    
 }

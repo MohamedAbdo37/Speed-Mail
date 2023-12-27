@@ -15,7 +15,7 @@ public class SaveEmail implements Command{
     @Override
     public boolean execute() {
         try {
-            this.mail.getFrom().getMainFolder().addToDraft(mail);
+            this.mail.fromUser().mainFolder().addToDraft(mail);
         } catch (IOException e) {
             System.out.println("Faild to save mail");
             return false;

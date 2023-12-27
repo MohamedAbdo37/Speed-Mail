@@ -17,12 +17,12 @@ public class SendEmail implements Command {
     @Override
     public boolean execute() {
         try {
-            User user = this.mail.getFrom();
+            User user = this.mail.fromUser();
 
             if (this.mail.getIsDraft())
-                user.getMainFolder().removeFromDraft(this.mail);
+                user.mainFolder().removeFromDraft(this.mail);
 
-            user.getMainFolder().addToSend(mail);
+            user.mainFolder().addToSend(mail);
 
             for (String address : this.mail.getTo()) {
                 Data.getUser(address).recive(this.mail);

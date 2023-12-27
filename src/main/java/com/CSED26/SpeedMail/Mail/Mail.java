@@ -8,6 +8,7 @@ import com.csed26.speedmail.Data;
 import com.csed26.speedmail.Types;
 import com.csed26.speedmail.User;
 import com.csed26.speedmail.critreria.ToFilter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.csed26.speedmail.Server;
 
 public class Mail {
@@ -19,6 +20,21 @@ public class Mail {
     private String body;
     private File[] attachments;
     private boolean isDraft;
+
+    public Mail(@JsonProperty("id") String id, @JsonProperty("from") String from,
+            @JsonProperty("to") ArrayList<String> to, @JsonProperty("body") String body,
+            @JsonProperty("subject") String subject, @JsonProperty("isDraft") boolean isDraft,
+            @JsonProperty("attachments") File[] attachments, @JsonProperty("types") Types types) {
+
+        this.to = to;
+        this.types = types;
+        this.attachments = attachments;
+        this.body = body;
+        this.from = from;
+        this.id = id;
+        this.subject = subject;
+        this.isDraft = isDraft;
+    }
 
     public void setIsDraft(boolean check) {
         this.isDraft = check;
@@ -61,20 +77,24 @@ public class Mail {
         return body;
     }
 
-    public User getFrom() throws IOException {
+    public User fromUser() throws IOException {
         return Data.getUser(this.from);
     }
 
-    public String getFromAddress() {
-        return this.from;
+    public String getFrom() {
+        return from;
     }
 
     public String getSubject() {
         return subject;
     }
 
-    public String[] getTo() {
+    public String[] to() {
         return (String[]) this.to.toArray();
+    }
+
+    public ArrayList<String> getTo() {
+        return to;
     }
 
     public Types getTypes() {
