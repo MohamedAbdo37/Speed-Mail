@@ -36,11 +36,6 @@ const routes = [
     component: TraSh,
   },
   {
-    path: '/Folder',
-    name: 'FolderBrowse',
-    component: FolderBrowseVue,
-  },
-  {
     path: '/',
     name: 'LoginVue',
     component: LoginVue,

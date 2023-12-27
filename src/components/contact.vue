@@ -7,7 +7,11 @@
         
         
         
-       
+        <li>
+          <button @click="gotoinbox" id="inbox-button">
+            <i class="fa fa-light fa-inbox"></i>Inbox
+          </button>
+        </li>
         <li>
           <button
             style="font-weight: bold"
@@ -70,20 +74,14 @@
         </div>
         <hr style="margin-top: 20px; margin-bottom: 20px" id="horizontal-line" />
         <h1 >{{ title }}</h1>
-        <div v-for="mail in  pagination" :key="mail.id" class="mail">
-          <div class="properties-data" >
-            <input type="checkbox" @change="updateSelected(mail.iD)" >
-            <div class="properties" @click="if(this.opened != mail.iD)this.opened = mail.iD;else opened=''">
-              <div><h5>{{ mail.Subject }}</h5></div>
-              <div><h5>{{ mail.Type }}</h5></div>
-              <div><h5>{{ mail.Priority}}%</h5></div>
+        <div v-for="contact in  pagination" :key="contact.id" class="mail">
+          <div class="properties-data">
+            <input type="checkbox" @change="updateSelected(contact.iD)" >
+            <div class="properties"  @click="contactview(contact.iD)">
+              <div><h5>{{ contact.Subject }}</h5></div>
+              <div><h5>{{ contact.Type }}</h5></div>
+              <div><h5>{{ contact.Priority}}%</h5></div>
             </div>
-          </div>
-          <div class="message" v-show="opened == mail.iD">
-            <h3>from: {{ mail.From }}</h3>
-            <h3>date: {{ mail.Date }}</h3>
-            <h3>message:</h3>
-            <p style="float: left; white-space: pre-wrap;">{{ mail.Body }}</p>
           </div>
         </div>
       </div>
@@ -111,7 +109,8 @@
         password: "",
         selected:[],
         opened: "",
-        mails: [
+        mails: [],
+        contacts: [
         
           
          
@@ -148,7 +147,7 @@
         return this.$route.query.email;
       },
       pagination() {
-        return this.mails.filter((mail, index) => index >= this.pag1 &&index<=this.pag2);
+        return this.contacts.filter((mail, index) => index >= this.pag1 &&index<=this.pag2);
       },
     },
     methods: {
@@ -156,7 +155,9 @@
   
   
   
-  
+      contactview(iD) {
+        this.$router.push( { name: 'addContact', query: { email: this.userEmail, iD: iD} });
+      },
       refresh(){
         axios.get('http://localhost:8081/refresh', {
           params: {
@@ -267,6 +268,9 @@
       },
       contact() {
         this.$router.push( { name: 'ContacT', query: { email: this.userEmail } }); 
+      },
+      gotoinbox() {
+        this.$router.push( { name: 'Home', query: { email: this.userEmail } });
       }
     },
   };
