@@ -15,15 +15,15 @@ public class User {
     private Command command;
     private String password;
     private ArrayList<String> folders;
-    private Types types;
+    // private Types types;
 
     public User(String name, String address, String password) throws IOException {
         this.name = name;
         this.password = password;
         this.address = address;
         this.folders = new ArrayList<>();
-        this.types.setTypes();
-        Folder.createNewAccount(this.address);
+        // this.types.setTypes();
+        Folder.createNewAccount(address);
         this.contacts = new ArrayList<>();
         try {
             Data.saveUser(this);
@@ -50,18 +50,6 @@ public class User {
         return Data.getFolder(this.address);
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public ArrayList<String> getFolders() {
-        return folders;
-    }
-
-    public String[] getTypes() {
-        return this.types.getTypes();
-    }
-
     public void addFolder(String folder) throws IOException {
         this.folders.add(folder);
         Data.saveUser(this);
@@ -79,11 +67,6 @@ public class User {
         return false;
     }
 
-    public String getName() {
-        return name;
-    }
-
-
     public void recive(Mail mail) throws IOException {
         this.mainFolder().addToIndex(mail);
     }
@@ -92,16 +75,12 @@ public class User {
         this.contacts.add(contact);
     }
 
-    public void addType(String newType) {
-        this.types.addType(newType);
-    }
+    // public void addType(String newType) {
+    //     this.types.addType(newType);
+    // }
 
     public String[] contacts() {
         return (String[]) this.contacts.toArray();
-    }
-
-    public ArrayList<String> getContacts() {
-        return contacts;
     }
 
     public void setCommand(Command command) {
@@ -115,4 +94,25 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public ArrayList<String> getContacts() {
+        return contacts;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    // public String[] getTypes() {
+    //     return this.types.getTypes();
+    // }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public ArrayList<String> getFolders() {
+        return folders;
+    }
+
 }
