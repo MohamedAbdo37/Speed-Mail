@@ -12,8 +12,7 @@
 </template>
 
 <script>
-    import axios from 'axios'
-    //import hoMe from './Home.vue'
+    //import axios from 'axios'
     export default {
         name: "LoginVue",
         data() {
@@ -24,22 +23,22 @@
         },
         methods: {
             async login() {
-                await axios.get(
-                    "http://localhost:8081/login", {
-                        params: {
-                            address: this.email,
-                            password: String(this.password)
-                        }
-                    }
-                ).then((r) => {
-                   let user = r.data
-                   console.log(user)
-                   if(user)
-                       this.$router.push( { name: 'Home', query: { email: this.email } });
-                   else
-                       console.log("user not found")
-                })
-                // this.$router.push( { name: 'Home', query: { email: this.email } });
+                // await axios.get(
+                //     "http://localhost:8081/login", {
+                //         params: {
+                //             address: this.email,
+                //             password: String(this.password)
+                //         }
+                //     }
+                // ).then((r) => {
+                //    let user = r.data
+                //    console.log(user)
+                //    if(user)
+                //        this.$router.push( { name: 'Home', query: { email: this.email } });
+                //    else
+                //        console.log("user not found")
+                // })
+                this.$router.push( { name: 'Home', query: { email: this.email } });
             }
         },
         mounted() {

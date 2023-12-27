@@ -71,9 +71,9 @@
         </div>
         <h1 >Drafts</h1>
         <div v-for="mail in  pagination" :key="mail.id" class="mail">
-          <div class="properties-data" @click="draftview(mail.iD)">
+          <div class="properties-data">
             <input type="checkbox" @change="updateSelected(mail.iD)" >
-            <div class="properties" @click="if(this.opened != mail.iD)this.opened = mail.iD;else opened=''">
+            <div class="properties" @click="draftview(mail.iD)">
               <div><h5>{{ mail.Subject }}</h5></div>
               <div><h5>{{ mail.Type }}</h5></div>
               <div><h5>{{ mail.Priority}}%</h5></div>
