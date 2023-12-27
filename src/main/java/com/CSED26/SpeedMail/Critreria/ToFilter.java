@@ -3,7 +3,6 @@ package com.csed26.speedmail.critreria;
 import com.csed26.speedmail.mail.Mail;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ToFilter implements Filter {

@@ -3,7 +3,7 @@ package com.csed26.speedmail;
 import java.io.File;
 import java.io.IOException;
 
-
+import com.csed26.speedmail.critreria.TypeFilter;
 import com.csed26.speedmail.mail.Mail;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -20,6 +20,7 @@ public class Data {
     private static String mailsPath = "Data/Mails/";
     private static String usersPath = "Data/Users/";
     private static String foldersPath = "Data/Folders/";
+    private static String typssPath = "Data/Types/";
 
     // Mails Data
     public static void saveMail(Mail mail) throws IOException {
@@ -90,4 +91,32 @@ public class Data {
         file.delete();
     }
 
+    // Types data
+    public static void saveType(TypeFilter type) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File(foldersPath + type.getType() + ".json");
+        objectMapper.writeValue(file, type);
+        System.out.println("type successfully written to JSON file.");
+    }
+
+    public static TypeFilter getType(String typeName) throws IOException {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            File file = new File(foldersPath + typeName + ".json");
+
+            // Read JSON file and map it to a list of shapee objects
+            TypeFilter type = objectMapper.readValue(file, new TypeReference<TypeFilter>() {});
+
+            return type;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static void deleteType(TypeFilter type) {
+        File file = new File(foldersPath + type.getType() + ".json");
+        file.delete();
+    }
 }

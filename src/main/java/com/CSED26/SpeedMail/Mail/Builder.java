@@ -4,14 +4,12 @@ import java.io.File;
 import java.io.IOException;
 
 import com.csed26.speedmail.Data;
-import com.csed26.speedmail.User;
-import com.csed26.speedmail.Types;
 
 public class Builder {
     private Mail mail;
 
-    public Builder(User sender) {
-        this.mail = new Mail(sender.getAddress());
+    public Builder(String sender) {
+        this.mail = new Mail(sender);
     }
 
     public void buildTo(String[] addresses) {
@@ -36,6 +34,14 @@ public class Builder {
 
     public void buildBody(String body) {
         this.mail.setSubject(body);
+    }
+
+    public void buildDate(String date) {
+        this.mail.setDate(date);
+    }
+
+    public void buildPriority(int priority) {
+        this.mail.setPriority(priority);
     }
 
     public Mail getMail() {

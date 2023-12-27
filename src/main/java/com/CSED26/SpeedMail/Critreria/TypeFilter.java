@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.csed26.speedmail.mail.Mail;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TypeFilter implements Filter {
 
     private String type;
 
-    public TypeFilter(String type) {
+
+    public TypeFilter(@JsonProperty("type") String type) {
         this.type = type;
+    }
+
+    public String getType() {
+        return type;
     }
 
     @Override

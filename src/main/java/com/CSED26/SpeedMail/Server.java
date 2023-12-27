@@ -1,16 +1,26 @@
 package com.csed26.speedmail;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
+import com.csed26.speedmail.commands.CreateFolder;
+import com.csed26.speedmail.commands.DeleteEmail;
+import com.csed26.speedmail.commands.DeleteFolder;
+import com.csed26.speedmail.commands.Move;
+import com.csed26.speedmail.commands.RenameFolder;
+import com.csed26.speedmail.commands.Restore;
+import com.csed26.speedmail.commands.SaveEmail;
+import com.csed26.speedmail.commands.SendEmail;
+import com.csed26.speedmail.mail.Builder;
 import com.csed26.speedmail.mail.Mail;
 
 public class Server implements ServerIF {
 
-    public static Server server;
+    private static Server server;
+    private static Random random = new Random();
 
-    private Server() {
-    }
+    private Server() {}
 
     public static synchronized Server getServer() {
         if (server == null)
@@ -38,16 +48,15 @@ public class Server implements ServerIF {
 
         final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-        String sb = "";
-        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < length; i++) {
             int randomIndex = random.nextInt(CHARACTERS.length());
             char randomChar = CHARACTERS.charAt(randomIndex);
-            sb += String.valueOf(randomChar);
+            sb.append(String.valueOf(randomChar));
         }
 
-        return sb;
+        return sb.toString();
     }
 
     @Override
@@ -78,5 +87,150 @@ public class Server implements ServerIF {
         return mails;
     }
 
-    
+    @Override
+    public Mail createMail(String sender, String[] to, String[] types, File[] files, String subject, String body,
+            String date, int priority) {
+
+        Builder builder = new Builder(sender);
+
+        if (to != new String[0])
+            builder.buildTo(to);
+
+        if (types != new String[0])
+            builder.buildType(types);
+
+        if (files != new File[0])
+            builder.buildAttachmet(files);
+
+        if (!("".equals(subject)))
+            builder.buildSubject(subject);
+
+        if (!("".equals(body)))
+            builder.buildBody(body);
+
+        if (!("".equals(date)))
+            builder.buildDate(date);
+
+        builder.buildPriority(priority);
+
+        return builder.getMail();
+    }
+
+    @Override
+    public boolean saveMail(String address, Mail mail) {
+        User user;
+        try {
+            user = Data.getUser(address);
+            user.setCommand(new SaveEmail(mail));
+        } catch (IOException e) {
+            return false;
+        }
+
+        return user.execute();
+    }
+
+    @Override
+    public boolean sendMail(String address, Mail mail) {
+        User user;
+        try {
+            user = Data.getUser(address);
+            user.setCommand(new SendEmail(mail));
+        } catch (IOException e) {
+            return false;
+        }
+
+        return user.execute();
+    }
+
+    @Override
+    public boolean deleteMail(String address, Mail mail) {
+        User user;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            return false;
+        }
+        user.setCommand(new DeleteEmail(mail));
+        return user.execute();
+    }
+
+    @Override
+    public boolean restoreMail(String address, Mail mail) {
+        User user;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            return false;
+        }
+        user.setCommand(new Restore(user, mail));
+        return user.execute();
+    }
+
+    @Override
+    public boolean moveMail(String address, String source, String dest, Mail mail) {
+        User user;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            return false;
+        }
+        user.setCommand(new Move(user, source, dest, mail));
+        return user.execute();
+    }
+
+    @Override
+    public boolean createFolder(String address, String folderName) {
+        User user;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            return false;
+        }
+        user.setCommand(new CreateFolder(user, folderName));
+        return user.execute();
+    }
+
+    @Override
+    public boolean renameFolder(String address, String oldName, String newName) {
+        User user;
+        Folder folder;
+        try {
+            user = Data.getUser(address);
+            folder = user.mainFolder().folder(oldName);
+        } catch (IOException e) {
+            return false;
+        }
+        user.setCommand(new RenameFolder(folder, newName));
+        return user.execute();
+    }
+
+    @Override
+    public boolean deleteFolder(String address, String folderName) {
+        User user;
+        Folder folder;
+        try {
+            user = Data.getUser(address);
+            folder = user.mainFolder().folder(folderName);
+        } catch (IOException e) {
+            return false;
+        }
+        user.setCommand(new DeleteFolder(folder, folderName));
+        return user.execute();
+        
+    }
+
+    @Override
+    public Mail[] serachBody(String address, String content) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'serachBody'");
+    }
+
+    @Override
+    public Mail[] serachC(String address, String content) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'serachC'");
+    }
+
+
+
 }
