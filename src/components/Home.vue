@@ -31,6 +31,7 @@
         <button
           style="font-weight: bold"
           id="contacts-button"
+          @click="contact"  
         >
           Contacts
         </button>
@@ -352,89 +353,6 @@ export default {
           Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
         },
       ],
-      trash: [
-        {
-          To: "hhhhhahime123@gmail.com",
-          From: "MohamedHassan2002@gmail.com",
-          Subject: "OOP project",
-          Date: "Fri Dec 25 2023 10:30:00 GMT+0200 (Eastern European Standard Time)",
-          Type: "social",
-          Priority:10,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-      ]
     };
  
   },
@@ -723,6 +641,9 @@ this.mails.sort(compareDates);
     },
     draft() {
       this.$router.push( { name: 'DraftBrowse', query: { email: this.userEmail } }); 
+    },
+    contact() {
+      this.$router.push( { name: 'ContacT', query: { email: this.userEmail } }); 
     }
   },
 };
