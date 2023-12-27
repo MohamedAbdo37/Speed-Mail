@@ -85,7 +85,7 @@ export default {
       const fileURL = URL.createObjectURL(attachment);
       window.open(fileURL);
     },
-    send() {
+   async send() {
       this.date = new Date();
       console.log(this.date)
       this.tag.forEach((input, index) => {
@@ -94,16 +94,16 @@ export default {
     this.to.forEach((input, index) => {
       this.to[index] = input.value;
     });
-      axios.get('http://localhost:8081/send', {
+    await  axios.get("http://localhost:8081/send", {
         params: {
-          to: this.to,
-          from: this.from,
-          message: this.message,
-          subject: this.subject,
-          tag: this.tag,
-          priority:this.priority,
-          date: this.date,
-          attachments:this.attachments,
+          to: ["hossam",'hossam'],
+          from: "hossam",
+          messasge: "hossam",
+          subject: "hossam",
+          tag: ["hossam"],
+          priority:100,
+          date: "hossam",
+          attachment:null,
         },
       }).then((r) => {
         console.log('done send');
