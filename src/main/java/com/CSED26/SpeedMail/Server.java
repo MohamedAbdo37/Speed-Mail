@@ -44,6 +44,14 @@ public class Server implements ServerIF {
         return null;
     }
 
+    public Folder userMainFolder(String address){
+        try {
+            return Data.getUser(address).mainFolder();
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
     public static String generateId(int length) {
 
         final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
