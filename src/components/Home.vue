@@ -363,6 +363,7 @@ export default {
   axios.get('http://localhost:8081/gotoinbox', {
         params: {
           foldername: "inbox",
+          address:this.userEmail,
         },
       }).then((r) => {
         console.log('done gotoinbox');
@@ -370,6 +371,9 @@ export default {
       });
     
       axios.get('http://localhost:8081/mountfoldernames', {
+        param:{
+          address:this.userEmail,
+        }
       }).then((r) => {
         console.log('done gotoinbox');
         this.foldernames=r.data;
@@ -395,6 +399,7 @@ export default {
   axios.get('http://localhost:8081/gotosend', {
         params: {
           foldername: "send",
+          address:this.userEmail,
         },
       }).then((r) => {
         console.log('done gotosend');
@@ -410,6 +415,7 @@ export default {
   axios.get('http://localhost:8081/gotoinbox', {
         params: {
           foldername: "inbox",
+          address:this.userEmail,
         },
       }).then((r) => {
         console.log('done gotoinbox');
@@ -422,6 +428,7 @@ export default {
       axios.get('http://localhost:8081/refresh', {
         params: {
           name:this.title,
+          address:this.userEmail,
         },
       }).then((r) => {
         console.log('done refresh');
@@ -435,6 +442,7 @@ export default {
   axios.get('http://localhost:8081/gotofolder', {
         params: {
           foldername: name,
+          address:this.userEmail,
         },
       }).then((r) => {
         console.log('done gotofolder');
@@ -460,6 +468,7 @@ export default {
       axios.get('http://localhost:8081/deletefolder', {
         params: {
           name:name,
+          address:this.userEmail,
         },
       }).then((r) => {
         console.log('done move folder');
@@ -475,6 +484,7 @@ export default {
         params: {
           oldname:old,
           newname:newname,
+          address:this.userEmail,
         },
       }).then((r) => {
         console.log('done move folder');
@@ -488,7 +498,8 @@ export default {
         params: {
           ids:this.selected,
           from:this.title,
-          to:this.moveto
+          to:this.moveto,
+          address:this.userEmail,
         },
       }).then((r) => {
         console.log('done move folder');
@@ -505,6 +516,7 @@ console.log(r.data)
   axios.get('http://localhost:8081/Trash', {
         params: {
           name: "trash",
+          address:this.userEmail,
         },
       }).then((r) => {
         console.log('done trash');
@@ -525,6 +537,7 @@ console.log(r.data)
     axios.get('http://localhost:8081/delete', {
         params: {
           ID: this.selected,
+          address:this.userEmail,
         },
       }).then((r) => {
         console.log('done delete');
@@ -538,6 +551,7 @@ console.log(r.data)
     axios.get('http://localhost:8081/restore', {
         params: {
           ID: this.selected,
+          address:this.userEmail,
         },
       }).then((r) => {
         console.log('restore delete');
@@ -582,6 +596,7 @@ this.mails.sort(compareDates);
         params: {
           search: this.search,
           type: this.type,
+          address:this.userEmail,
         },
       }).then((r) => {
         console.log('done search');
@@ -610,6 +625,8 @@ this.mails.sort(compareDates);
         params: {
           filterby: this.filterby,
           filter: this.filter,
+          address:this.userEmail,
+          name:this.title
         },
       }).then((r) => {
         console.log('done filter');
@@ -625,6 +642,7 @@ this.mails.sort(compareDates);
       axios.get('http://localhost:8081/addfolder', {
         params: {
           name:name,
+          address:this.userEmail,
         },
       }).then((r) => {
         console.log('done move folder');
