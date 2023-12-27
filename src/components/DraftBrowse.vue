@@ -22,11 +22,11 @@
             <i class="fa fa-light fa-paper-plane"></i>Sent
           </button>
         </li>
-        <!-- <li>
-          <button  id="draft-button">
+         <li>
+          <button  id="draft-button" style="background-color: rgb(211, 211, 212);">
             <i class="fa-regular fa-file"></i>Draft
           </button>
-        </li> -->
+        </li> 
         <li>
           <button
             style="font-weight: bold"
@@ -44,13 +44,7 @@
     </div>
   
     <div class="associated-main">
-      <div class="search-field" id="search-field">
-        <button @click="Search">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-        <input v-model="type" type="text" id="search-input" placeholder="Type" />
-        <input v-model="search" type="text" id="search" placeholder="   Search" />
-      </div>
+      
       <div class="light-blocker" id="light-blocker"></div>
       <div class="pop-up-window" id="move-to-folder-window">
         <div class="new-message-label" style="margin-left: 0">
@@ -69,56 +63,6 @@
   
       <div class="mails-recieved">
         <div class="emails-options" id="emails-options">
-          <button  id="refresh-button" @click="refresh">
-            <i class="fa-solid fa-arrows-rotate"></i>Refresh
-          </button>
-  
-          <button  id="move-to-folder-button" @click="movefolder">
-            <i class="fa fa-light fa-up-down-left-right"></i>Move folder
-          </button>
-          >>>>>
-        <select v-model="moveto">
-        <option value="" disabled>To</option>
-        <option v-for="folder in filteredFoldernames" :key="folder.id" :value="folder.id">{{ folder }}</option>
-        </select>
-  
-          <button  id="delete-button" @click="deletee">
-            <i class="fa-solid fa-trash-can"></i>Delete
-          </button>
-  
-          <button id="restore-button" style="display: none;" @click="restore">
-            <i class="fa fa-light fa-trash-arrow-up"></i>Restore
-          </button>
-  
-          <div>
-            <label for="sort_select">Sort:</label>
-            <select id="sort_select" v-model="sortby">
-              <option value="date" selected><button>Date</button></option>
-              <option value="priority" ><button>Priority</button></option>
-            </select>
-            <select id="order_select" v-model="sort">
-              <option value="Ascendingly" selected><button>Ascendingly</button></option>
-              <option value="Decendingly"><button>Decendingly</button></option>
-            </select>
-            <button v-if="sort=='Ascendingly'&&sortby=='date'" @click="datesortingasc" id="sort-button">Sort</button>
-            <button v-if="sort=='Decendingly'&&sortby=='date'" @click="datesortingdes" id="sort-button">Sort</button>
-            <button v-if="sort=='Ascendingly'&&sortby=='priority'" @click="prioritysortingasc" id="sort-button">Sort</button>
-            <button v-if="sort=='Decendingly'&&sortby=='priority'" @click="prioritysortingdes" id="sort-button">Sort</button>      
-            </div>
-  
-          <div id="filter-div">
-            <label for="Filter-select">Filter by:</label>
-            <select id="Filter-select" v-model="filterby">
-              <option value="sender"><button  >Sender </button></option>
-              <option value="subject" selected><button>Subject</button></option>
-            </select>
-            <div v-for="(input, index) in filter" :key="index">
-            <input v-model="input.value" @input="updateInput(index, $event.target.value)" type="text" id="filter-input" style="margin-left: 5px"   >
-            <button @click="removeInput(index)">Remove</button>
-            </div>
-            <button @click="addInput">Add Input</button>
-            <button id="filter-button" @click="Filter" >Filter</button>
-          </div>
         </div>
         <hr style="margin-top: 20px; margin-bottom: 20px" id="horizontal-line" />
         <div class="pagination" style="position: relative;float: left;">
@@ -137,7 +81,7 @@
           </div>
         </div>
       </div>
-    </div>
+</div>
   </div>
   </template>
   

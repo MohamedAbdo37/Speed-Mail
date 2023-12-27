@@ -8,7 +8,7 @@
     </button>
     <ul>
       <li>
-        <button  id="inbox-button">
+        <button @click="gotoinbox" id="inbox-button">
           <i class="fa fa-light fa-inbox"></i>Inbox
         </button>
       </li>
@@ -18,7 +18,7 @@
         </button>
       </li>
       <li>
-        <button  id="sent-button">
+        <button @click="gotosend" id="sent-button">
           <i class="fa fa-light fa-paper-plane"></i>Sent
         </button>
       </li>

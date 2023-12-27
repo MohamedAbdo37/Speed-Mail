@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import hoMe from '../components/Home.vue';
 import ComPose from '../components/Compose.vue';
 import TraSh from '../components/Trash.vue';
-import FolderBrowseVue from '../components/FolderBrowse.vue';
 import LoginVue from '../components/LoginVue.vue';
 import SignUp from '../components/SignUp.vue';
 import DraftBrowse from '../components/DraftBrowse.vue'
@@ -23,11 +22,7 @@ const routes = [
     name: 'Trash',
     component: TraSh,
   },
-  {
-    path: '/Folder',
-    name: 'FolderBrowse',
-    component: FolderBrowseVue,
-  },
+
   {
     path: '/',
     name: 'LoginVue',
