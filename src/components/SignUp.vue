@@ -7,7 +7,7 @@
         <input type="password" v-model="password" placeholder="Enter Password" />
         <input type="submit" value="sign up" style="padding: 0px;"/>
         <p>
-            <router-link to="/Login">Login</router-link>
+            <router-link to="/">Login</router-link>
         </p>
     </form>
 </template>
@@ -25,6 +25,7 @@ import axios from 'axios'
         methods: {
             async signUp() {
                 await axios.post("http://localhost:8081/users/", { 
+                    
                     name: this.name,
                     email: this.email,
                     password: this.password
