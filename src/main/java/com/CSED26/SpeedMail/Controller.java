@@ -84,15 +84,8 @@ public class Controller {
     }
 
     @DeleteMapping("/deletefolder")
-<<<<<<< HEAD
     public void deleteFolder(@RequestParam String name) throws IOException {
         user.mainFolder().deleteFolder(name);
-=======
-    public Mail[] deleteFolder(@RequestParam String name) {
-        List<Mail> folderMails = new ArrayList<>();
-
-        return folderMails.toArray(new Mail[0]);
->>>>>>> c282562f681ecab6a6bbb2cde2170e24fd1fe6e5
     }
 
     @PostMapping("/renamefolder")
