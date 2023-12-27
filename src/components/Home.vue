@@ -214,7 +214,7 @@ export default {
       pag1:0,
       pag2:9,
       oldname:"",
-      title:"Your Inbox",
+      title:"inbox",
       b: 0,
       i: 0,
       moveto:"",
@@ -471,6 +471,19 @@ export default {
     },
   },
   methods: {
+    gotoinbox(){
+      this.title="inbox";
+      const myElement = document.getElementById("inbox-button");
+  myElement.style.backgroundColor = "rgb(211, 211, 212)";
+  axios.get('http://localhost:8081/gotoinbox', {
+        params: {
+          foldername: "inbox",
+        },
+      }).then((r) => {
+        console.log('done gotoinbox');
+        this.mails=r.data;
+      });
+    },
     refresh(){
       axios.get('http://localhost:8081/refresh', {
         params: {
@@ -510,7 +523,8 @@ export default {
         },
       }).then((r) => {
         console.log('done move folder');
-        this.mails=r.data;
+        console.log(r.data)
+       // this.mails=r.data;
       });
     },
     rename(old,newname){
@@ -521,7 +535,8 @@ export default {
         },
       }).then((r) => {
         console.log('done move folder');
-        this.mails=r.data;
+       // this.mails=r.data;
+        console.log(r.data)
       });
     },
   movefolder(){
@@ -533,7 +548,8 @@ export default {
         },
       }).then((r) => {
         console.log('done move folder');
-        this.mails=r.data;
+//this.mails=r.data;
+console.log(r.data)
       });
     },
   gototrash(){
@@ -542,8 +558,7 @@ export default {
   myElement.style.backgroundColor = "rgb(211, 211, 212)";
   axios.get('http://localhost:8081/Trash', {
         params: {
-          search: this.search,
-          type: this.type,
+          name: "trash",
         },
       }).then((r) => {
         console.log('done trash');
@@ -565,7 +580,8 @@ export default {
         },
       }).then((r) => {
         console.log('done delete');
-        this.mails= r.data;
+       // this.mails= r.data;
+       console.log(r.data)
       });
   
   },
@@ -576,7 +592,8 @@ export default {
         },
       }).then((r) => {
         console.log('restore delete');
-        this.mails=r.data
+      //  this.mails=r.data
+      console.log(r.data)
       });
   },
     prioritysortingasc(){
@@ -607,6 +624,9 @@ this.mails.sort(compareDates);
      this.oldname=this.foldernames[this.b]
 },
     Search() {
+      
+      console.log(this.search);
+      console.log(this.type);
       axios.get('http://localhost:8081/search', {
         params: {
           search: this.search,
@@ -628,6 +648,8 @@ this.mails.sort(compareDates);
           console.log(this.filter[index])
         },
     Filter() {
+      console.log(this.filterby);
+      console.log(this.filter[0].value);
       axios.get('http://localhost:8081/filter', {
         params: {
           filterby: this.filterby,
@@ -649,7 +671,8 @@ this.mails.sort(compareDates);
         },
       }).then((r) => {
         console.log('done move folder');
-        console.log(r.data);
+      //  console.log(r.data);
+        console.log(r.data)
       });
     }
     },
