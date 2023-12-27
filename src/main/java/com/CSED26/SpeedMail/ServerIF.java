@@ -27,9 +27,25 @@ public interface ServerIF {
     public boolean moveMail(String address, String source, String dest, Mail mail);
 
     // Folder Manipulation
-    public boolean createFolder (String address, String folderName);
+    public boolean createFolder(String address, String folderName);
 
-    public boolean renameFolder (String address, String oldName, String newName);
-    
-    public boolean deleteFolder (String address, String folderName);
+    public boolean renameFolder(String address, String oldName, String newName);
+
+    public boolean deleteFolder(String address, String folderName);
+
+    // filter maniputlaion
+    public Mail[] filterMailsByTo(String toString, Mail[] mails);
+
+    public Mail[] filterMailsByFrom(String fromString, Mail[] mails);
+
+    public Mail[] filterMailsByType(String typeString, Mail[] mails);
+
+    public Mail[] filterBy(String filterBy, String filterString, Mail[] mails);
+
+    public Mail[] andFilterMails(String firstCri, String firstCriString, String secondCri,
+            String secondCriString, Mail[] mails);
+
+    public Mail[] orFilterMails(String firstCri, String firstCriString, String secondCri,
+            String secondCriString, Mail[] mails);
+
 }

@@ -57,7 +57,7 @@ public class Data {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(usersPath + user.getAddress() + ".json");
         objectMapper.writeValue(file, user);
-        System.out.println("User "+user.getAddress()+" successfully written to JSON file.");
+        System.out.println("User " + user.getAddress() + " successfully written to JSON file.");
     }
 
     public static User getUser(String address) throws IOException {
@@ -75,7 +75,7 @@ public class Data {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(foldersPath + folder.getId() + ".json");
         objectMapper.writeValue(file, folder);
-        System.out.println("folder "+folder.getFolderName()+" successfully written to JSON file.");
+        System.out.println("folder " + folder.getFolderName() + " successfully written to JSON file.");
     }
 
     public static Folder getFolder(String id) throws IOException {
@@ -105,7 +105,7 @@ public class Data {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(foldersPath + contact.getId() + ".json");
         objectMapper.writeValue(file, contact);
-        System.out.println("Contact "+contact.getName()+" successfully written to JSON file.");
+        System.out.println("Contact " + contact.getName() + " successfully written to JSON file.");
     }
 
     public static Contact getContact(String id) throws IOException {
@@ -128,7 +128,7 @@ public class Data {
     public static void deleteContact(Contact contact) {
         File file = new File(foldersPath + contact.getId() + ".json");
         file.delete();
-        System.out.println("Contact " +contact.getName()+" successfully deleted.");
+        System.out.println("Contact " + contact.getName() + " successfully deleted.");
     }
 
     // Types data
@@ -145,7 +145,8 @@ public class Data {
             File file = new File(foldersPath + typeName + ".json");
 
             // Read JSON file and map it to a list of shapee objects
-            TypeFilter type = objectMapper.readValue(file, new TypeReference<TypeFilter>() {});
+            TypeFilter type = objectMapper.readValue(file, new TypeReference<TypeFilter>() {
+            });
 
             return type;
         } catch (IOException e) {
@@ -159,96 +160,6 @@ public class Data {
         File file = new File(foldersPath + type.getType() + ".json");
         file.delete();
         System.out.println("type " + type.getType() + " successfully deleted.");
-    }
-
-    public static Mail[] filterMailsByTo(String toString, Mail[] mails) {
-        Filter toFilter = new ToFilter(toString);
-        List<Mail> filterdMails = toFilter.apply(mails);
-        return filterdMails.toArray(new Mail[0]);
-    }
-
-    public static Mail[] filterMailsByFrom(String fromString, Mail[] mails) {
-        Filter fromFilter = new FromFilter(fromString);
-        List<Mail> filterdMails = fromFilter.apply(mails);
-
-        return filterdMails.toArray(new Mail[0]);
-    }
-
-    public static Mail[] filterMailsByType(String typeString, Mail[] mails) {
-        Filter typeFilter = new TypeFilter(typeString);
-        List<Mail> filterdMails = typeFilter.apply(mails);
-
-        return filterdMails.toArray(new Mail[0]);
-    }
-
-    public static Mail[] filterBy(String filterBy, String filterString, Mail[] mails) {
-        Mail[] filterdMails = null;
-        if (filterBy.equalsIgnoreCase("fromfilter")) {
-            filterdMails = filterMailsByFrom(filterString, mails);
-        } else if (filterBy.equalsIgnoreCase("tofilter")) {
-            filterdMails = filterMailsByTo(filterString, mails);
-        } else if (filterBy.equalsIgnoreCase("typefilter")) {
-            filterdMails = filterMailsByType(filterString, mails);
-        } else {
-            throw new UnsupportedOperationException();
-        }
-        return filterdMails;
-    }
-
-    public static Mail[] andFilterMails(String firstCri, String firstCriString, String secondCri,
-            String secondCriString, Mail[] mails) {
-        Filter firstFilter;
-        Filter secondFilter;
-        if (firstCri.equalsIgnoreCase("fromfilter")) {
-            firstFilter = new FromFilter(firstCriString);
-        } else if (firstCri.equalsIgnoreCase("tofilter")) {
-            firstFilter = new ToFilter(firstCriString);
-        } else if (firstCri.equalsIgnoreCase("typefilter")) {
-            firstFilter = new TypeFilter(firstCriString);
-        } else {
-            throw new UnsupportedOperationException();
-        }
-        if (secondCri.equalsIgnoreCase("fromfilter")) {
-            secondFilter = new FromFilter(secondCriString);
-        } else if (secondCri.equalsIgnoreCase("tofilter")) {
-            secondFilter = new ToFilter(secondCriString);
-        } else if (secondCri.equalsIgnoreCase("typefilter")) {
-            secondFilter = new TypeFilter(secondCriString);
-        } else {
-            throw new UnsupportedOperationException();
-        }
-        Filter andFilter = new AndFilter(firstFilter, secondFilter);
-        List<Mail> filterdMails = andFilter.apply(mails);
-
-        return filterdMails.toArray(new Mail[0]);
-    }
-
-    public static Mail[] orFilterMails(String firstCri, String firstCriString, String secondCri,
-            String secondCriString, Mail[] mails) {
-        Filter firstFilter;
-        Filter secondFilter;
-        if (firstCri.equalsIgnoreCase("fromfilter")) {
-            firstFilter = new FromFilter(firstCriString);
-        } else if (firstCri.equalsIgnoreCase("tofilter")) {
-            firstFilter = new ToFilter(firstCriString);
-        } else if (firstCri.equalsIgnoreCase("typefilter")) {
-            firstFilter = new TypeFilter(firstCriString);
-        } else {
-            throw new UnsupportedOperationException();
-        }
-        if (secondCri.equalsIgnoreCase("fromfilter")) {
-            secondFilter = new FromFilter(secondCriString);
-        } else if (secondCri.equalsIgnoreCase("tofilter")) {
-            secondFilter = new ToFilter(secondCriString);
-        } else if (secondCri.equalsIgnoreCase("typefilter")) {
-            secondFilter = new TypeFilter(secondCriString);
-        } else {
-            throw new UnsupportedOperationException();
-        }
-        Filter orFilter = new OrFilter(firstFilter, secondFilter);
-        List<Mail> filterdMails = orFilter.apply(mails);
-
-        return filterdMails.toArray(new Mail[0]);
     }
 
 }
