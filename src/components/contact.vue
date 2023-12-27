@@ -157,10 +157,11 @@
         axios.get('http://localhost:8081/refresh', {
           params: {
             name:this.title,
+            address:this.userEmail,
           },
         }).then((r) => {
           console.log('done refresh');
-          this.mails=r.data;
+          this.contacts=r.data;
         }); 
       },
   
@@ -190,6 +191,7 @@
       axios.get('http://localhost:8081/delete', {
           params: {
             ID: this.selected,
+            address:this.userEmail,
           },
         }).then((r) => {
           console.log('done delete');
@@ -203,6 +205,7 @@
       axios.get('http://localhost:8081/restore', {
           params: {
             ID: this.selected,
+            address:this.userEmail,
           },
         }).then((r) => {
           console.log('restore delete');
@@ -221,10 +224,11 @@
         axios.get('http://localhost:8081/search', {
           params: {
             search: this.search,
+            address:this.userEmail,
           },
         }).then((r) => {
           console.log('done search');
-          this.mails= r.data;
+          this.contacts=r.data;
         });
       },
   
