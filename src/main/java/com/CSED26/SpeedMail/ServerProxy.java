@@ -85,8 +85,7 @@ public class ServerProxy implements ServerIF {
         throw new UnsupportedOperationException("Unimplemented method 'serachContact'");
     }
 
-<<<<<<< HEAD
-=======
+
     @Override
     public Mail[] filterMailsByTo(String toString, Mail[] mails) {
         // TODO Auto-generated method stub
@@ -124,6 +123,6 @@ public class ServerProxy implements ServerIF {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'orFilterMails'");
     }
->>>>>>> 53632a4ddc0f70a60ad2b4b6b514478f44672c47
+
 
 }
