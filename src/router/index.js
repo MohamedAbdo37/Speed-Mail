@@ -5,6 +5,7 @@ import TraSh from '../components/Trash.vue';
 import FolderBrowseVue from '../components/FolderBrowse.vue';
 import LoginVue from '../components/LoginVue.vue';
 import SignUp from '../components/SignUp.vue';
+import DraftBrowse from '../components/DraftBrowse.vue'
 const routes = [
   {
     path: '/home',
@@ -37,6 +38,11 @@ const routes = [
     path: '/SignUp',
     name: 'SignUp',
     component: SignUp
+  },
+  {
+    path: '/draft',
+    name: 'DraftBrowse',
+    component: DraftBrowse
   },
 ];
 

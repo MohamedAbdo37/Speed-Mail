@@ -23,7 +23,7 @@
         </button>
       </li>
       <li>
-        <button  id="draft-button">
+        <button  id="draft-button" @click="draft">
           <i class="fa-regular fa-file"></i>Draft
         </button>
       </li>
@@ -658,6 +658,9 @@ this.mails.sort(compareDates);
     compose() {
       this.$router.push( { name: 'ComPose', query: { email: this.userEmail } });
     },
+    draft() {
+      this.$router.push( { name: 'DraftBrowse', query: { email: this.userEmail } }); 
+    }
   },
 };
 </script>
