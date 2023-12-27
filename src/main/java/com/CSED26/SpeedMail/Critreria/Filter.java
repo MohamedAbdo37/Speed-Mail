@@ -5,6 +5,6 @@ import java.util.*;
 
 public interface Filter {
 
-    public List<Mail> apply(List<Mail> mails);
+    public List<Mail> apply(Mail[] mails);
 
 }

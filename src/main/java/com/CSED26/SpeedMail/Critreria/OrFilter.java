@@ -16,10 +16,10 @@ public class OrFilter implements Filter {
     }
 
     @Override
-    public List<Mail> apply(List<Mail> mails) {
+    public List<Mail> apply(Mail[] mails) {
         List<Mail> filterdMails = new ArrayList<>();
         filterdMails = firstFilter.apply(mails);
-        filterdMails = secondFilter.apply(filterdMails);
+        filterdMails = secondFilter.apply(filterdMails.toArray(new Mail[0]));
         return filterdMails;
     }
 

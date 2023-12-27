@@ -14,7 +14,6 @@ import com.csed26.speedmail.critreria.OrFilter;
 import com.csed26.speedmail.critreria.ToFilter;
 import com.csed26.speedmail.critreria.TypeFilter;
 
-
 public class Folder {
 
     private String id;
@@ -36,11 +35,11 @@ public class Folder {
     public Folder(@JsonProperty("id") String id, @JsonProperty("folderName") String folderName,
             @JsonProperty("foldersIds") List<String> foldersIds, @JsonProperty("mailsIds") List<String> mailsIds,
             @JsonProperty("main") boolean main) {
-            this.id = id;
-            this.folderName = folderName;
-            this.foldersIds = foldersIds;
-            this.mailsIds = mailsIds;
-            this.main = main;
+        this.id = id;
+        this.folderName = folderName;
+        this.foldersIds = foldersIds;
+        this.mailsIds = mailsIds;
+        this.main = main;
     }
 
     private void setMain() throws IOException {
@@ -82,7 +81,6 @@ public class Folder {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         return account;
     }
@@ -163,108 +161,6 @@ public class Folder {
      */
     public String[] Mails() {
         return (String[]) this.mailsIds.toArray();
-    }
-
-    public String[] filterMailsByTo(String toString) {
-        Filter toFilter = new ToFilter(toString);
-        List<Mail> filterdMails = toFilter.apply(getMailsAsMails());
-        List<String> filterdMailsIds = new ArrayList<>();
-        for (Mail mail : filterdMails) {
-            filterdMailsIds.add(mail.getId());
-        }
-        return filterdMailsIds.toArray(new String[0]);
-    }
-
-    public String[] filterMailsByFrom(String fromString) {
-        Filter fromFilter = new FromFilter(fromString);
-        List<Mail> filterdMails = fromFilter.apply(getMailsAsMails());
-        List<String> filterdMailsIds = new ArrayList<>();
-        for (Mail mail : filterdMails) {
-            filterdMailsIds.add(mail.getId());
-        }
-        return filterdMailsIds.toArray(new String[0]);
-    }
-
-    public String[] filterMailsByType(String typeString) {
-        Filter typeFilter = new TypeFilter(typeString);
-        List<Mail> filterdMails = typeFilter.apply(getMailsAsMails());
-        List<String> filterdMailsIds = new ArrayList<>();
-        for (Mail mail : filterdMails) {
-            filterdMailsIds.add(mail.getId());
-        }
-        return filterdMailsIds.toArray(new String[0]);
-    }
-
-    public String[] andFilterMails(String firstCri, String firstCriString, String secondCri, String secondCriString) {
-        Filter firstFilter;
-        Filter secondFilter;
-        if (firstCri.equalsIgnoreCase("fromfilter")) {
-            firstFilter = new FromFilter(firstCriString);
-        } else if (firstCri.equalsIgnoreCase("tofilter")) {
-            firstFilter = new ToFilter(firstCriString);
-        } else if (firstCri.equalsIgnoreCase("typefilter")) {
-            firstFilter = new TypeFilter(firstCriString);
-        } else {
-            throw new UnsupportedOperationException();
-        }
-        if (secondCri.equalsIgnoreCase("fromfilter")) {
-            secondFilter = new FromFilter(secondCriString);
-        } else if (secondCri.equalsIgnoreCase("tofilter")) {
-            secondFilter = new ToFilter(secondCriString);
-        } else if (secondCri.equalsIgnoreCase("typefilter")) {
-            secondFilter = new TypeFilter(secondCriString);
-        } else {
-            throw new UnsupportedOperationException();
-        }
-        Filter andFilter = new AndFilter(firstFilter, secondFilter);
-        List<Mail> filterdMails = andFilter.apply(getMailsAsMails());
-        List<String> filterdMailsIds = new ArrayList<>();
-        for (Mail mail : filterdMails) {
-            filterdMailsIds.add(mail.getId());
-        }
-        return filterdMailsIds.toArray(new String[0]);
-    }
-
-    public String[] orFilterMails(String firstCri, String firstCriString, String secondCri, String secondCriString) {
-        Filter firstFilter;
-        Filter secondFilter;
-        if (firstCri.equalsIgnoreCase("fromfilter")) {
-            firstFilter = new FromFilter(firstCriString);
-        } else if (firstCri.equalsIgnoreCase("tofilter")) {
-            firstFilter = new ToFilter(firstCriString);
-        } else if (firstCri.equalsIgnoreCase("typefilter")) {
-            firstFilter = new TypeFilter(firstCriString);
-        } else {
-            throw new UnsupportedOperationException();
-        }
-        if (secondCri.equalsIgnoreCase("fromfilter")) {
-            secondFilter = new FromFilter(secondCriString);
-        } else if (secondCri.equalsIgnoreCase("tofilter")) {
-            secondFilter = new ToFilter(secondCriString);
-        } else if (secondCri.equalsIgnoreCase("typefilter")) {
-            secondFilter = new TypeFilter(secondCriString);
-        } else {
-            throw new UnsupportedOperationException();
-        }
-        Filter orFilter = new OrFilter(firstFilter, secondFilter);
-        List<Mail> filterdMails = orFilter.apply(getMailsAsMails());
-        List<String> filterdMailsIds = new ArrayList<>();
-        for (Mail mail : filterdMails) {
-            filterdMailsIds.add(mail.getId());
-        }
-        return filterdMailsIds.toArray(new String[0]);
-    }
-
-    public List<Mail> getMailsAsMails() {
-        List<Mail> mails = new ArrayList<>();
-        for (String id : this.mailsIds) {
-            try {
-                mails.add(Data.getMail(id));
-            } catch (Exception IOException) {
-                System.out.println("Error in getMailsAsMails:Folder.java");
-            }
-        }
-        return mails;
     }
 
     public void addToIndex(Mail mail) {
