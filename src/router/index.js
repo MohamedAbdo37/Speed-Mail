@@ -5,6 +5,8 @@ import TraSh from '../components/Trash.vue';
 import LoginVue from '../components/LoginVue.vue';
 import SignUp from '../components/SignUp.vue';
 import DraftBrowse from '../components/DraftBrowse.vue'
+import addContact from '../components/addcontact.vue';
+import ContacT from '../components/contact.vue';
 const routes = [
   {
     path: '/home',
@@ -13,14 +15,30 @@ const routes = [
     props: true
   },
   {
+    path: '/ContacT',
+    name: 'ContacT',
+    component: ContacT,
+    props: true
+  },
+  {
     path: '/Compose',
     name: 'ComPose',
     component: ComPose,
   },
   {
+    path: '/addContact',
+    name: 'addContact',
+    component: addContact,
+  },
+  {
     path: '/Trash',
     name: 'Trash',
     component: TraSh,
+  },
+  {
+    path: '/Folder',
+    name: 'FolderBrowse',
+    component: FolderBrowseVue,
   },
   {
     path: '/',

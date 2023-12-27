@@ -8,7 +8,7 @@
     </button>
     <ul>
       <li>
-        <button  id="inbox-button">
+        <button @click="gotoinbox" id="inbox-button">
           <i class="fa fa-light fa-inbox"></i>Inbox
         </button>
       </li>
@@ -18,7 +18,7 @@
         </button>
       </li>
       <li>
-        <button  id="sent-button">
+        <button @click="gotosend" id="sent-button">
           <i class="fa fa-light fa-paper-plane"></i>Sent
         </button>
       </li>
@@ -31,15 +31,16 @@
         <button
           style="font-weight: bold"
           id="contacts-button"
+          @click="contact"  
         >
           Contacts
         </button>
       </li>
       <li>
-        <button>
-          <i class="fa-solid fa-plus"></i>Add Contact
+        <button @click="addcontact">
+          <i class="fa-solid fa-plus"></i>Add contact
         </button>
-      </li>
+      </li> 
       <li>
         <button
           style="font-weight: bold"
@@ -352,89 +353,6 @@ export default {
           Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
         },
       ],
-      trash: [
-        {
-          To: "hhhhhahime123@gmail.com",
-          From: "MohamedHassan2002@gmail.com",
-          Subject: "OOP project",
-          Date: "Fri Dec 25 2023 10:30:00 GMT+0200 (Eastern European Standard Time)",
-          Type: "social",
-          Priority:10,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yaaaaaaaahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-      ]
     };
  
   },
@@ -469,6 +387,7 @@ export default {
     },
   },
   methods: {
+
     gotosend(){
       this.title="sent";
       const myElement = document.getElementById("sent-button");
@@ -482,6 +401,8 @@ export default {
         this.mails=r.data;
       });
     },
+
+
     gotoinbox(){
       this.title="inbox";
       const myElement = document.getElementById("inbox-button");
@@ -495,6 +416,8 @@ export default {
         this.mails=r.data;
       });
     },
+
+
     refresh(){
       axios.get('http://localhost:8081/refresh', {
         params: {
@@ -505,6 +428,8 @@ export default {
         this.mails=r.data;
       }); 
     },
+
+
     gotofolder(name){
       this.title=name;
   axios.get('http://localhost:8081/gotofolder', {
@@ -516,6 +441,8 @@ export default {
         this.mails=r.data;
       });
     },
+
+
     paginationright(){
       this.pag1=this.pag1+10;
       this.pag2=this.pag2+10;
@@ -524,6 +451,8 @@ export default {
       this.pag1=this.pag1-10;
       this.pag2=this.pag2-10;
 },
+
+
     deletefolder(name){
       this.b=this.foldernames.indexOf(name);
      // this.foldernames.splice(this.b, 1);
@@ -538,6 +467,9 @@ export default {
        // this.mails=r.data;
       });
     },
+
+
+
     rename(old,newname){
       axios.get('http://localhost:8081/renamefolder', {
         params: {
@@ -550,6 +482,7 @@ export default {
         console.log(r.data)
       });
     },
+
   movefolder(){
     axios.get('http://localhost:8081/movefolder', {
         params: {
@@ -563,6 +496,8 @@ export default {
 console.log(r.data)
       });
     },
+
+
   gototrash(){
   this.title="Trash";
   const myElement = document.getElementById("trash-button");
@@ -584,6 +519,8 @@ console.log(r.data)
         this.selected.splice(index, 1);
       }
     },
+
+
   deletee(){
     axios.get('http://localhost:8081/delete', {
         params: {
@@ -596,6 +533,7 @@ console.log(r.data)
       });
   
   },
+
   restore(){
     axios.get('http://localhost:8081/restore', {
         params: {
@@ -630,10 +568,12 @@ datesortingasc() {
 };
 this.mails.sort(compareDates);
 },
+
     getindex(name) {
       this.b=this.foldernames.indexOf(name);
      this.oldname=this.foldernames[this.b]
 },
+
     Search() {
       
       console.log(this.search);
@@ -648,6 +588,7 @@ this.mails.sort(compareDates);
         this.mails= r.data;
       });
     },
+
     addInput() {
           this.filter.push({ value: '' });
         },
@@ -658,6 +599,7 @@ this.mails.sort(compareDates);
           this.filter[index].value = value;
           console.log(this.filter[index])
         },
+
     Filter() {
       this.filter.forEach((input, index) => {
       this.filter[index] = input.value;
@@ -674,6 +616,7 @@ this.mails.sort(compareDates);
         this.mails= r.data;
       });
 },
+
     addid(name) {
       this.i += 1;
       console.log(this.i);
@@ -690,11 +633,17 @@ this.mails.sort(compareDates);
       });
     }
     },
+    addcontact() {
+      this.$router.push( { name: 'addContact', query: { email: this.userEmail } });
+    },
     compose() {
       this.$router.push( { name: 'ComPose', query: { email: this.userEmail } });
     },
     draft() {
       this.$router.push( { name: 'DraftBrowse', query: { email: this.userEmail } }); 
+    },
+    contact() {
+      this.$router.push( { name: 'ContacT', query: { email: this.userEmail } }); 
     }
   },
 };
