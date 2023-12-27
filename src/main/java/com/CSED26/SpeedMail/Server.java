@@ -284,10 +284,45 @@ public class Server implements ServerIF {
             case "subject":
                 allMails = getFolder("Inbox", address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].fromHas(content)) 
+                    if (allMails[i].subjectHas(content)) 
+                        result.add(allMails[i]);
+                        
+                allMails = getFolder(Folder.send, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].subjectHas(content)) 
+                        result.add(allMails[i]);
+
+                allMails = getFolder(Folder.drafts, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].subjectHas(content)) 
+                        result.add(allMails[i]);
+                
+                allMails = getFolder(Folder.trash, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].subjectHas(content)) 
                         result.add(allMails[i]);
                 break;
             default:
+            
+                allMails = getFolder("Inbox", address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].bodyHas(content)) 
+                        result.add(allMails[i]);
+                        
+                allMails = getFolder(Folder.send, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].bodyHas(content)) 
+                        result.add(allMails[i]);
+
+                allMails = getFolder(Folder.drafts, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].bodyHas(content)) 
+                        result.add(allMails[i]);
+                
+                allMails = getFolder(Folder.trash, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].bodyHas(content)) 
+                        result.add(allMails[i]);
                 break;
         }
 
@@ -295,9 +330,27 @@ public class Server implements ServerIF {
     }
 
     @Override
-    public Mail[] serachContact(String address, String content, String type) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'serachContact'");
+    public Contact[] serachContact(String address, String content, String type) {
+        type = type.toLowerCase();
+        Contact[] allContacts;
+        List<Contact> result = new ArrayList<>();
+        switch (type) {
+            case "name":
+                allContacts = getContacts(address);
+                for (int i = 0; i < allContacts.length; i++)
+                    if (allContacts[i].nameHas(content)) 
+                        result.add(allContacts[i]);
+                break;
+            
+            default:
+                allContacts = getContacts(address);
+                for (int i = 0; i < allContacts.length; i++)
+                    if (allContacts[i].addressesHas(content)) 
+                        result.add(allContacts[i]);
+                break;
+        }
+
+        return result.toArray(new Contact[0]);
     }
 
     @Override
@@ -394,6 +447,33 @@ public class Server implements ServerIF {
         List<Mail> filterdMails = orFilter.apply(mails);
 
         return filterdMails.toArray(new Mail[0]);
+    }
+
+    @Override
+    public Contact[] getContacts(String address) {
+        Folder folder = null;
+        try {
+            folder = Data.getFolder(address).folder("Inbox");
+        } catch (IOException e) {
+            System.out.println("folder dosen't exist");
+            return new Contact[0];
+        }
+        String[] contactsId = folder.Mails();
+        Contact[] contacts = new Contact[contactsId.length];
+        for (int i = 0; i < contacts.length; i++) {
+            contacts[i] = this.getContact(contactsId[i]);
+        }
+        return contacts;
+    }
+
+    @Override
+    public Contact getContact(String id) {
+        try {
+            return Data.getContact(id);
+        } catch (IOException e) {
+            System.out.println("Contact dosen't exist!");
+            return null;
+        }
     }
 
 }
