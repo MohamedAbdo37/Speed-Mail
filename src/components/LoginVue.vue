@@ -42,9 +42,6 @@
                 this.$router.push( {name: "Home"} );
             }
         },
-        // components: {
-        //     hoMe,
-        // }
     }
 </script>
 

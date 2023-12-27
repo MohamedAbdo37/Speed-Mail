@@ -2,7 +2,7 @@
  <div class="container">
         <div class="header">
             <h1>New Message</h1>
-          <router-link to="/home">X</router-link>
+          <router-link to="/home" @click="home">X</router-link>
         </div>
         <div class="form-group">
             <label for="from">from</label>
@@ -78,6 +78,9 @@ export default {
     };
   },
   methods: {
+    home() {
+      this.$router.push( { name: 'Home', query: { email: this.userEmail } });
+    },
     viewAttachment(attachment) {
       const fileURL = URL.createObjectURL(attachment);
       window.open(fileURL);
@@ -151,6 +154,11 @@ export default {
       this.attachments.splice(index, 1);
     },
   },
+  computed: {
+    userEmail() {
+      return this.$route.query.email;
+    },
+  }
 };
 </script>
 <style scoped>
