@@ -241,12 +241,13 @@ public class Server implements ServerIF {
 
         switch (type) {
             case "Sender":
-                
+
                 break;
-        
+
             default:
                 break;
         }
+        return null;
     }
 
     @Override
