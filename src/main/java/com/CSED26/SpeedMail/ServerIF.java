@@ -6,15 +6,19 @@ import com.csed26.speedmail.mail.Mail;
 
 public interface ServerIF {
     public Mail getMail(String id);
+    
+    public Contact getContact(String id);
 
     public Mail[] getFolder(String folder, String address);
+
+    public Contact[] getContacts(String address);
 
     public Mail createMail(String sender, String[] to, String[] types, File[] files, String subject, String body,
             String date, int priority);
     
     public Mail[] serachMail(String address,String content, String type);
 
-    public Mail[] serachContact(String address,String content, String type);
+    public Contact[] serachContact(String address,String content, String type);
     // Mail Manipulation
     public boolean saveMail(String address, Mail mail);
 

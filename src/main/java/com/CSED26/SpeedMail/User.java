@@ -53,18 +53,6 @@ public class User {
         return Data.getFolder(this.address);
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public ArrayList<String> getFolders() {
-        return folders;
-    }
-
-    public String[] getTypes() {
-        return types.toArray(new String[0]);
-    }
-
     public void addFolder(String folder) throws IOException {
         this.folders.add(folder);
         Data.saveUser(this);
@@ -80,10 +68,6 @@ public class User {
             System.out.println("address dose not exist");
         }
         return false;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void recive(Mail mail) throws IOException {
@@ -110,10 +94,6 @@ public class User {
         return (String[]) this.contacts.toArray();
     }
 
-    public ArrayList<String> getContacts() {
-        return contacts;
-    }
-
     public void setCommand(Command command) {
         this.command = command;
     }
@@ -125,4 +105,29 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public ArrayList<String> getContacts() {
+        return contacts;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String[] types() {
+        return this.types.toArray(new String[0]);
+    }
+
+    public List<String> getTypes() {
+        return types;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public ArrayList<String> getFolders() {
+        return folders;
+    }
+
 }

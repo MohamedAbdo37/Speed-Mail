@@ -2,6 +2,7 @@ package com.csed26.speedmail;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -89,7 +90,24 @@ public class Server implements ServerIF {
     public Mail[] getFolder(String folderName, String address) {
         Folder folder;
         try {
-            folder = Data.getFolder(address).folder(folderName);
+            switch (folderName) {
+                case "Inbox":
+                    folder = Data.getFolder(address).folder("Inbox");
+                    break;
+                case "Send":
+                    folder = Data.getFolder(address).folder("Send");
+                    break;
+                case "Drafts":
+                    folder = Data.getFolder(address).folder("Drafts");
+                    break;
+                case "Trash":
+                    folder = Data.getFolder(address).folder("Trash");
+                    break;
+                default:
+                    folder = Data.getFolder(address).folder("Inbox").folder(folderName);
+                    break;
+            }
+            
         } catch (IOException e) {
             System.out.println("folder dosen't exist");
             return new Mail[0];
@@ -237,23 +255,113 @@ public class Server implements ServerIF {
 
     @Override
     public Mail[] serachMail(String address, String content, String type) {
-        Folder folder = this.userMainFolder(address);
-
+        type = type.toLowerCase();
+        Mail[] allMails;
+        List<Mail> result = new ArrayList<>();
         switch (type) {
+<<<<<<< HEAD
             case "Sender":
 
                 break;
 
+=======
+            case "sender":
+                allMails = getFolder("Inbox", address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].fromHas(content)) 
+                        result.add(allMails[i]);
+                break;
+            case "receivers":
+                allMails = getFolder(Folder.send, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].fromHas(content)) 
+                        result.add(allMails[i]);
+
+                allMails = getFolder(Folder.drafts, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].fromHas(content)) 
+                        result.add(allMails[i]);
+                
+                allMails = getFolder(Folder.trash, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].fromHas(content)) 
+                        result.add(allMails[i]);
+                break;
+            case "subject":
+                allMails = getFolder("Inbox", address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].subjectHas(content)) 
+                        result.add(allMails[i]);
+                        
+                allMails = getFolder(Folder.send, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].subjectHas(content)) 
+                        result.add(allMails[i]);
+
+                allMails = getFolder(Folder.drafts, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].subjectHas(content)) 
+                        result.add(allMails[i]);
+                
+                allMails = getFolder(Folder.trash, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].subjectHas(content)) 
+                        result.add(allMails[i]);
+                break;
+>>>>>>> f65a574f945d1d6f05c4fd4761d56776ba7fcf99
             default:
+            
+                allMails = getFolder("Inbox", address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].bodyHas(content)) 
+                        result.add(allMails[i]);
+                        
+                allMails = getFolder(Folder.send, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].bodyHas(content)) 
+                        result.add(allMails[i]);
+
+                allMails = getFolder(Folder.drafts, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].bodyHas(content)) 
+                        result.add(allMails[i]);
+                
+                allMails = getFolder(Folder.trash, address);
+                for (int i = 0; i < allMails.length; i++)
+                    if (allMails[i].bodyHas(content)) 
+                        result.add(allMails[i]);
                 break;
         }
+<<<<<<< HEAD
         return null;
+=======
+
+        return result.toArray(new Mail[0]);
+>>>>>>> f65a574f945d1d6f05c4fd4761d56776ba7fcf99
     }
 
     @Override
-    public Mail[] serachContact(String address, String content, String type) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'serachContact'");
+    public Contact[] serachContact(String address, String content, String type) {
+        type = type.toLowerCase();
+        Contact[] allContacts;
+        List<Contact> result = new ArrayList<>();
+        switch (type) {
+            case "name":
+                allContacts = getContacts(address);
+                for (int i = 0; i < allContacts.length; i++)
+                    if (allContacts[i].nameHas(content)) 
+                        result.add(allContacts[i]);
+                break;
+            
+            default:
+                allContacts = getContacts(address);
+                for (int i = 0; i < allContacts.length; i++)
+                    if (allContacts[i].addressesHas(content)) 
+                        result.add(allContacts[i]);
+                break;
+        }
+
+        return result.toArray(new Contact[0]);
     }
 
     @Override
@@ -350,6 +458,33 @@ public class Server implements ServerIF {
         List<Mail> filterdMails = orFilter.apply(mails);
 
         return filterdMails.toArray(new Mail[0]);
+    }
+
+    @Override
+    public Contact[] getContacts(String address) {
+        Folder folder = null;
+        try {
+            folder = Data.getFolder(address).folder("Inbox");
+        } catch (IOException e) {
+            System.out.println("folder dosen't exist");
+            return new Contact[0];
+        }
+        String[] contactsId = folder.Mails();
+        Contact[] contacts = new Contact[contactsId.length];
+        for (int i = 0; i < contacts.length; i++) {
+            contacts[i] = this.getContact(contactsId[i]);
+        }
+        return contacts;
+    }
+
+    @Override
+    public Contact getContact(String id) {
+        try {
+            return Data.getContact(id);
+        } catch (IOException e) {
+            System.out.println("Contact dosen't exist!");
+            return null;
+        }
     }
 
 }
