@@ -13,8 +13,7 @@ import com.csed26.speedmail.critreria.FromFilter;
 import com.csed26.speedmail.critreria.OrFilter;
 import com.csed26.speedmail.critreria.ToFilter;
 import com.csed26.speedmail.critreria.TypeFilter;
-import com.csed26.speedmail.mail.Mail;
-import com.csed26.speedmail.Server;
+
 
 public class Folder {
 
