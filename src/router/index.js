@@ -5,6 +5,7 @@ import TraSh from '../components/Trash.vue';
 import LoginVue from '../components/LoginVue.vue';
 import SignUp from '../components/SignUp.vue';
 import DraftBrowse from '../components/DraftBrowse.vue'
+import addContact from '../components/addcontact.vue';
 const routes = [
   {
     path: '/home',
@@ -16,6 +17,11 @@ const routes = [
     path: '/Compose',
     name: 'ComPose',
     component: ComPose,
+  },
+  {
+    path: '/addContact',
+    name: 'addContact',
+    component: addContact,
   },
   {
     path: '/Trash',
