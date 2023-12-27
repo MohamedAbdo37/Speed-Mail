@@ -57,7 +57,7 @@ public class Data {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(usersPath + user.getAddress() + ".json");
         objectMapper.writeValue(file, user);
-        System.out.println("User successfully written to JSON file.");
+        System.out.println("User "+user.getAddress()+" successfully written to JSON file.");
     }
 
     public static User getUser(String address) throws IOException {
@@ -75,7 +75,7 @@ public class Data {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(foldersPath + folder.getId() + ".json");
         objectMapper.writeValue(file, folder);
-        System.out.println("folder successfully written to JSON file.");
+        System.out.println("folder "+folder.getFolderName()+" successfully written to JSON file.");
     }
 
     public static Folder getFolder(String id) throws IOException {
@@ -100,13 +100,43 @@ public class Data {
         file.delete();
     }
 
+    // Contacts Data
+    public static void saveContact(Contact contact) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File(foldersPath + contact.getId() + ".json");
+        objectMapper.writeValue(file, contact);
+        System.out.println("Contact "+contact.getName()+" successfully written to JSON file.");
+    }
+
+    public static Contact getContact(String id) throws IOException {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            File file = new File(foldersPath + id + ".json");
+
+            // Read JSON file and map it to a list of shapee objects
+            Contact contact = objectMapper.readValue(file, new TypeReference<Contact>() {
+            });
+
+            return contact;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static void deleteContact(Contact contact) {
+        File file = new File(foldersPath + contact.getId() + ".json");
+        file.delete();
+        System.out.println("Contact " +contact.getName()+" successfully deleted.");
+    }
 
     // Types data
     public static void saveType(TypeFilter type) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(foldersPath + type.getType() + ".json");
         objectMapper.writeValue(file, type);
-        System.out.println("type successfully written to JSON file.");
+        System.out.println("type " + type.getType() + " successfully written to JSON file.");
     }
 
     public static TypeFilter getType(String typeName) throws IOException {
@@ -128,6 +158,7 @@ public class Data {
     public static void deleteType(TypeFilter type) {
         File file = new File(foldersPath + type.getType() + ".json");
         file.delete();
+        System.out.println("type " + type.getType() + " successfully deleted.");
     }
 
     public static Mail[] filterMailsByTo(String toString, Mail[] mails) {

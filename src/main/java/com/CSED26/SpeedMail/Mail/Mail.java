@@ -3,6 +3,7 @@ package com.csed26.speedmail.mail;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.csed26.speedmail.Data;
 import com.csed26.speedmail.Types;
@@ -95,10 +96,10 @@ public class Mail {
     }
 
     public String[] to() {
-        return (String[]) this.to.toArray();
+        return this.to.toArray(new String[0]);
     }
 
-    public ArrayList<String> getTo() {
+    public List<String> getTo() {
         return to;
     }
 
@@ -129,4 +130,39 @@ public class Mail {
     public void setPriority(int priority) {
         this.priority = priority;
     }
+
+    // search
+    public boolean subjectHas(String content){
+        if (this.subject.contains(content))
+            return true;
+        return false;
+    }
+
+    public boolean bodyHas(String content){
+        if (this.body.contains(content))
+            return true;
+        return false;
+    }
+
+    public boolean fromHas(String content){
+        if (this.from.contains(content))
+            return true;
+        return false;
+    }
+
+    public boolean toHas(String content){
+        for (String address : this.to) 
+            if(address.contains(content))
+                return true;
+
+        return false;
+    }
+
+    public boolean dateHas(String content){
+        if (this.date.contains(content))
+            return true;
+        return false;
+    }
+
+
 }
