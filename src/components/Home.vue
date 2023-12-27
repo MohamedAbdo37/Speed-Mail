@@ -36,10 +36,29 @@
         </button>
       </li>
       <li>
-        <button>
-          <i class="fa-solid fa-plus"></i>Add Contact
+        <button @click="addfolder" onclick="document.getElementById('contactname').style.display='block',document.getElementById('createe').style.display='block'">
+          <i class="fa-solid fa-plus"></i>Add contact
         </button>
       </li>
+      <li>
+      <input type="text" id="contactname" style="display: none;" required  v-model="contactnames[c]">
+      <button @click="addidcontact(contactnames[c])" id ="createe" style="display: none;" onclick=" document.getElementById('contactname').style.display='none',document.getElementById('createe').style.display='none',document.getElementById('showw').style.display='block'"   >create</button>
+
+      <ul v-if="contactnames" id="showw" style="display: none; " class="contacts">
+      <li  v-for="name in contactnames" :key="name.id">
+        <button v-if="name">
+          <i v-if="name" class="fa fa-address-card-o"></i>
+        </button>
+        <button v-if="name" @click="getindexcontact(name)" onclick=" document.getElementById('namee').style.display='block', document.getElementById('ree').style.display='block', document.getElementById('dee').style.display='block'" >
+          {{ name }}
+        </button>
+        <input type="text" id="namee" style="display: none ;width: 70px;" required  v-model="contactnames[o]">
+        <button @click="renamecontact(oldnamee,contactnames[o])" id ="ree" style="display: none;" onclick=" document.getElementById('namee').style.display='none',document.getElementById('ree').style.display='none',document.getElementById('dee').style.display='none'"  >rename</button>
+        <button @click="deletecontact(contactnames[o])" id ="dee" style="display: none;" onclick=" document.getElementById('namee').style.display='none',document.getElementById('dee').style.display='none',document.getElementById('ree').style.display='none'"  >Delete</button>
+      </li>
+    </ul>
+      
+    </li>
       <li>
         <button
           style="font-weight: bold"
@@ -193,9 +212,12 @@ export default {
       pag1:0,
       pag2:9,
       oldname:"",
+      oldnamee:"",
       title:"inbox",
       b: 0,
       i: 0,
+      c:0,
+      o:0,
       moveto:"",
       sort :"Ascendingly",
       sortby:"date",
@@ -469,6 +491,7 @@ export default {
     },
   },
   methods: {
+
     gotosend(){
       this.title="sent";
       const myElement = document.getElementById("sent-button");
@@ -482,6 +505,8 @@ export default {
         this.mails=r.data;
       });
     },
+
+
     gotoinbox(){
       this.title="inbox";
       const myElement = document.getElementById("inbox-button");
@@ -495,6 +520,8 @@ export default {
         this.mails=r.data;
       });
     },
+
+
     refresh(){
       axios.get('http://localhost:8081/refresh', {
         params: {
@@ -505,6 +532,8 @@ export default {
         this.mails=r.data;
       }); 
     },
+
+
     gotofolder(name){
       this.title=name;
   axios.get('http://localhost:8081/gotofolder', {
@@ -516,6 +545,8 @@ export default {
         this.mails=r.data;
       });
     },
+
+
     paginationright(){
       this.pag1=this.pag1+10;
       this.pag2=this.pag2+10;
@@ -524,6 +555,8 @@ export default {
       this.pag1=this.pag1-10;
       this.pag2=this.pag2-10;
 },
+
+
     deletefolder(name){
       this.b=this.foldernames.indexOf(name);
      // this.foldernames.splice(this.b, 1);
@@ -538,6 +571,24 @@ export default {
        // this.mails=r.data;
       });
     },
+
+    
+    deletecontact(name){
+      this.o=this.contactnames.indexOf(name);
+     // this.foldernames.splice(this.b, 1);
+      this.contactnames[this.o]="";
+      axios.get('http://localhost:8081/deletecontact', {
+        params: {
+          name:name,
+        },
+      }).then((r) => {
+        console.log('done delete contact');
+        console.log(r.data)
+       // this.mails=r.data;
+      });
+    },
+
+
     rename(old,newname){
       axios.get('http://localhost:8081/renamefolder', {
         params: {
@@ -550,6 +601,20 @@ export default {
         console.log(r.data)
       });
     },
+
+    renamecontact(old,newname){
+      axios.get('http://localhost:8081/renamecontact', {
+        params: {
+          oldname:old,
+          newname:newname,
+        },
+      }).then((r) => {
+        console.log('done rename folder');
+       // this.mails=r.data;
+        console.log(r.data)
+      });
+    },
+
   movefolder(){
     axios.get('http://localhost:8081/movefolder', {
         params: {
@@ -563,6 +628,8 @@ export default {
 console.log(r.data)
       });
     },
+
+
   gototrash(){
   this.title="Trash";
   const myElement = document.getElementById("trash-button");
@@ -584,6 +651,8 @@ console.log(r.data)
         this.selected.splice(index, 1);
       }
     },
+
+
   deletee(){
     axios.get('http://localhost:8081/delete', {
         params: {
@@ -596,6 +665,8 @@ console.log(r.data)
       });
   
   },
+
+
   restore(){
     axios.get('http://localhost:8081/restore', {
         params: {
@@ -630,10 +701,18 @@ datesortingasc() {
 };
 this.mails.sort(compareDates);
 },
+
     getindex(name) {
       this.b=this.foldernames.indexOf(name);
      this.oldname=this.foldernames[this.b]
 },
+
+getindexcontact(name) {
+      this.o=this.contactnames.indexOf(name);
+     this.oldnamee=this.contactnames[this.o]
+},
+
+
     Search() {
       
       console.log(this.search);
@@ -648,6 +727,7 @@ this.mails.sort(compareDates);
         this.mails= r.data;
       });
     },
+
     addInput() {
           this.filter.push({ value: '' });
         },
@@ -658,6 +738,7 @@ this.mails.sort(compareDates);
           this.filter[index].value = value;
           console.log(this.filter[index])
         },
+
     Filter() {
       this.filter.forEach((input, index) => {
       this.filter[index] = input.value;
@@ -674,6 +755,7 @@ this.mails.sort(compareDates);
         this.mails= r.data;
       });
 },
+
     addid(name) {
       this.i += 1;
       console.log(this.i);
@@ -690,6 +772,23 @@ this.mails.sort(compareDates);
       });
     }
     },
+    addidcontact(name) {
+      this.c += 1;
+      console.log(this.c);
+      console.log(name)
+      if(name!==''||name==null){
+      axios.get('http://localhost:8081/addcontact', {
+        params: {
+          name:name,
+        },
+      }).then((r) => {
+        console.log('done add contact');
+      //  console.log(r.data);
+        console.log(r.data)
+      });
+    }
+    },
+
     compose() {
       this.$router.push( { name: 'ComPose', query: { email: this.userEmail } });
     },
