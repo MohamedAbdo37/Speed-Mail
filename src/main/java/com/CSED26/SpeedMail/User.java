@@ -15,12 +15,14 @@ public class User {
     private Command command;
     private String password;
     private ArrayList<String> folders;
+    private Types types;
 
     public User(String name, String address, String password) throws IOException {
         this.name = name;
         this.password = password;
         this.address = address;
-        this.folders  = new ArrayList<>();
+        this.folders = new ArrayList<>();
+        this.types.setTypes();
         Folder.createNewAccount(this.address);
         this.contacts = new ArrayList<>();
         try {
@@ -35,7 +37,7 @@ public class User {
     }
 
     public User(@JsonProperty("address") String address, @JsonProperty("name") String name,
-            @JsonProperty("contacts") ArrayList<String> contacts,@JsonProperty("folders") ArrayList<String> folders,
+            @JsonProperty("contacts") ArrayList<String> contacts, @JsonProperty("folders") ArrayList<String> folders,
             @JsonProperty("password") String password) {
         this.address = address;
         this.name = name;
@@ -55,11 +57,16 @@ public class User {
     public ArrayList<String> getFolders() {
         return folders;
     }
-    
-    public void addFolder(String folder) throws IOException{
+
+    public String[] getTypes() {
+        return this.types.getTypes();
+    }
+
+    public void addFolder(String folder) throws IOException {
         this.folders.add(folder);
         Data.saveUser(this);
     }
+
     public static boolean checkPassword(String address, String password) {
         User user;
         try {
@@ -86,6 +93,10 @@ public class User {
 
     public void addContact(String contact) {
         this.contacts.add(contact);
+    }
+
+    public void addType(String newType) {
+        this.types.addType(newType);
     }
 
     public String[] contacts() {

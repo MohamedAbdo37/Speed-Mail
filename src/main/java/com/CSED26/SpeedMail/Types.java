@@ -4,10 +4,18 @@ import java.util.*;
 
 public class Types {
     private List<String> types = new ArrayList<>();
+    public static Types userTypes;
 
-    public Types() {
-        types.add("Offers");
-        types.add("Social");
+    private Types() {
+    }
+
+    public static synchronized Types setTypes() {
+        if (userTypes == null) {
+            userTypes = new Types();
+            userTypes.addType("Offers");
+            userTypes.addType("Social");
+        }
+        return userTypes;
     }
 
     public String[] getTypes() {

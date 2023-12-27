@@ -13,7 +13,7 @@ public class ToFilter implements Filter {
     }
 
     @Override
-    public List<Mail> apply(List<Mail> mails) {
+    public List<Mail> apply(Mail[] mails) {
         List<Mail> filterdMails = new ArrayList<>();
         if (mails != null) {
             for (Mail mail : mails) {
