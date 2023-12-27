@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.csed26.speedmail.mail.Mail;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
@@ -46,7 +47,7 @@ public class Controller {
     @PostMapping("/draft")
     public boolean draft(@RequestParam String to, @RequestParam String from, @RequestParam String messasge,
             @RequestParam String subject, @RequestParam String tag, @RequestParam int priority,
-            @RequestParam String date, @RequestParam File attachments) {
+            @RequestParam String date, @RequestBody File attachments) {
         Server server = Server.getServer();
         Mail newMail = server.createMail(messasge, null, null, null, subject, tag, date, priority);
         boolean check = server.saveMail(from, newMail);
@@ -67,7 +68,7 @@ public class Controller {
     public Mail[] refresh(@RequestParam String name) throws IOException {
         Server server = Server.getServer();
         List<Mail> mails = new ArrayList<>();
-        for (String mailId : user.mainFolder().folder(name).getMailsIds()) {
+        for (String mailId : user.mainFolder().folder(name).getElementsId()) {
             mails.add(server.getMail(mailId));
         }
         return mails.toArray(new Mail[0]);
@@ -77,7 +78,7 @@ public class Controller {
     public Mail[] gotoFolder(@RequestParam String foldername) throws IOException {
         Server server = Server.getServer();
         List<Mail> mails = new ArrayList<>();
-        for (String mailId : user.mainFolder().folder(foldername).getMailsIds()) {
+        for (String mailId : user.mainFolder().folder(foldername).getElementsId()) {
             mails.add(server.getMail(mailId));
         }
         return mails.toArray(new Mail[0]);
@@ -102,10 +103,10 @@ public class Controller {
     }
 
     /* ................... */@PostMapping("/Trash")
-    public void trash(@RequestParam String address, @RequestParam String name) {
+    public void trash(@RequestParam String address, @RequestParam String id) {
         Server server = Server.getServer();
-
-        server.deleteMail(address, na);
+        Mail mail = server.getMail(id);
+        server.deleteMail(address, mail);
     }
 
     /* ................... */@PostMapping("/delete")
@@ -141,7 +142,7 @@ public class Controller {
     public Mail[] gotoInbox(@RequestParam String foldername) throws IOException {
         Server server = Server.getServer();
         List<Mail> mails = new ArrayList<>();
-        for (String mailId : user.mainFolder().folder(foldername).getMailsIds()) {
+        for (String mailId : user.mainFolder().folder(foldername).getElementsId()) {
             mails.add(server.getMail(mailId));
         }
         return mails.toArray(new Mail[0]);
