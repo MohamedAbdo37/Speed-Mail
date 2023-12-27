@@ -20,11 +20,15 @@ public class Mail {
     private String body;
     private File[] attachments;
     private boolean isDraft;
+    private String date;
+    private int priority;
+
 
     public Mail(@JsonProperty("id") String id, @JsonProperty("from") String from,
             @JsonProperty("to") ArrayList<String> to, @JsonProperty("body") String body,
             @JsonProperty("subject") String subject, @JsonProperty("isDraft") boolean isDraft,
-            @JsonProperty("attachments") File[] attachments, @JsonProperty("types") Types types) {
+            @JsonProperty("attachments") File[] attachments, @JsonProperty("types") Types types,
+            @JsonProperty("date") String date, @JsonProperty("priority") int priority) {
 
         this.to = to;
         this.types = types;
@@ -34,6 +38,8 @@ public class Mail {
         this.id = id;
         this.subject = subject;
         this.isDraft = isDraft;
+        this.date = date;
+        this.priority = priority;
     }
 
     public void setIsDraft(boolean check) {
@@ -107,5 +113,21 @@ public class Mail {
 
     public File[] getAttachment() {
         return this.attachments;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 }
