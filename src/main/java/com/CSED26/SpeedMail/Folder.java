@@ -196,17 +196,19 @@ public class Folder {
         if (mail == null)
             throw new Exception("null mail");
         this.elementsId.add(mail.getId());
+        Data.saveFolder(this);
     }
 
-    public void removeFromDraft(Mail mail) {
+    public void removeFromDraft(Mail mail) throws IOException {
         this.folder(drafts).removeMail(mail.getId());
     }
 
-    private void removeMail(String id) {
+    private void removeMail(String id) throws IOException {
         this.elementsId.remove(id);
+        Data.saveFolder(this);
     }
 
-    public void removeFromSend(Mail mail) {
+    public void removeFromSend(Mail mail) throws IOException {
         this.folder(drafts).removeMail(mail.getId());
     }
 
@@ -218,11 +220,11 @@ public class Folder {
         Data.deleteFolder(this);
     }
 
-    public void removeFromTrash(Mail mail) {
+    public void removeFromTrash(Mail mail) throws IOException {
         this.folder(trash).removeMail(mail.getId());
     }
 
-    public void removeFrom(String source, Mail mail) {
+    public void removeFrom(String source, Mail mail) throws IOException {
         this.folder(source).removeMail(mail.getId());
     }
 
