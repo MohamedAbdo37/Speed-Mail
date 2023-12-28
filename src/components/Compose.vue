@@ -113,12 +113,13 @@ export default {
     this.attachments.forEach(file => {
       params.append('attachments', file);
     });
-    await axios.post(`http://localhost:8081/send?to=${this.to2.join(',')}&from=${this.userEmail}&subject=${this.subject}&tag2=${this.tag.join(',')}&priority=${this.priority}&date=${this.date}&messasge=${this.message}`
+    await axios.post(`http://localhost:8081/send?to=${this.to2.join(',')}&from=${this.userEmail}&subject=${this.subject}&tag=${this.tag2.join(',')}&priority=${this.priority}&date=${this.date}&messasge=${this.message}`
         ).then((r) => {
         console.log('done send');
         console.log(r.data);
         console.log(this.date);
       });
+      this.$router.push( { name: 'Home', query: { email: this.userEmail } });
     },
     addInput1() {
           this.tag.push({ value: '' });

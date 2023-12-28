@@ -228,6 +228,9 @@ export default {
         console.log('done gotoinbox');
         this.mails=r.data;
       });
+      axios.get(`http://localhost:8081/foldes?address=${this.userEmail}`).then((r) => {
+        this.foldernames = r.data
+      })
   },
   computed: {
     filteredFoldernames() {
@@ -384,12 +387,7 @@ console.log(r.data)
   },
 
   restore(){
-    axios.get('http://localhost:8081/restore', {
-        params: {
-          ID: this.selected,
-          address:this.userEmail,
-        },
-      }).then((r) => {
+    axios.put(`http://localhost:8081/restore?address=${this.userEmail}&ids=${this.ids}`).then((r) => {
         console.log('restore delete');
       //  this.mails=r.data
       console.log(r.data)
