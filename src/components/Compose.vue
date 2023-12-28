@@ -86,16 +86,19 @@ export default {
       window.open(fileURL);
     },
    async send() {
-      this.date = new Date();
-      console.log(this.date)
-      this.tag.forEach((input, index) => {
-      this.tag[index] = input.value;
+    this.date = new Date();
+    console.log(this.date)
+    this.tag.forEach((input, index) => {
+    this.tag[index] = input.value;
     });
     this.to.forEach((input, index) => {
       this.to[index] = input.value;
     });
-    
-    await  axios.get("http://localhost:8081/send", {
+    const params = new URLSearchParams();
+    this.attachments.forEach(file => {
+      params.append('attachments', file);
+    });
+    await  axios.get("http://localhost:8081/send?" + params.toString(), {
         params: {
           to: this.to.join(','),
           from: this.from,
@@ -104,8 +107,10 @@ export default {
           tag: this.tag.join(','),
           priority:100,
           date: "hossam",
-          //attachments: this.attachments.join(',')
+          
         },
+    
+
       }).then((r) => {
         console.log('done send');
         console.log(r.data);
