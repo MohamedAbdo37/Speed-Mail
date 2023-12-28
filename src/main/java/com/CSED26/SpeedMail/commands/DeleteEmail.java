@@ -25,7 +25,7 @@ public class DeleteEmail implements Command {
             }
             else
                 user.mainFolder().removeFromInbox(this.mail);
-            this.mail.fromUser().mainFolder().addToTrash(mail);
+            user.mainFolder().addToTrash(mail);
         } catch (IOException e) {
             System.out.println("Faild to delete mail");
             return false;
