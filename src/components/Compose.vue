@@ -96,14 +96,14 @@ export default {
     });
     await  axios.get("http://localhost:8081/send", {
         params: {
-          to: ["hossam",'hossam'],
+          to: ["hossam","hossam"],
           from: "hossam",
           messasge: "hossam",
           subject: "hossam",
-          tag: ["hossam"],
+          tag: ["hossam", "hossam"],
           priority:100,
           date: "hossam",
-          attachment:null,
+          attachments :this.attachments,
         },
       }).then((r) => {
         console.log('done send');
