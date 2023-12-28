@@ -22,7 +22,12 @@ public class DeleteFolder implements Command {
 
     @Override
     public boolean execute() {
-        this.folder.deleteFolder(folderName);
+        try {
+            this.folder.deleteFolder(folderName);
+        } catch (IOException e) {
+            System.out.println("Folder dose not exist");
+            return false;
+        }
         List<String> folders = user.getFolders();
         folders.remove(folderName);
         try {

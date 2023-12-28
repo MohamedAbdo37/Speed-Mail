@@ -213,8 +213,9 @@ public class Folder {
         this.folder(drafts).removeMail(mail.getId());
     }
 
-    public void deleteFolder(String name) {
+    public void deleteFolder(String name) throws IOException {
         this.folder(name).delete();
+        Data.saveFolder(this);
     }
 
     private void delete() {
@@ -237,5 +238,12 @@ public class Folder {
         this.folder(contacts).elementsId.add(contact.getId());
     }
     // setters
+
+    public void removeFromInbox(Mail mail) throws IOException {
+        this.folder(inBox).removeMail(mail.getId());
+        for (Folder folder : this.folder(inBox).folders()) {
+            folder.removeMail(mail.getId());
+        }
+    }
 
 }

@@ -184,7 +184,7 @@ public class Server implements ServerIF {
         } catch (IOException e) {
             return false;
         }
-        user.setCommand(new DeleteEmail(mail));
+        user.setCommand(new DeleteEmail(mail, user));
         return user.execute();
     }
 
@@ -466,6 +466,17 @@ public class Server implements ServerIF {
         return contacts;
     }
 
+    public String[] userFolders(String address){
+        User user;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            System.out.println("User dose not exist");
+            return new String[0];
+        }
+
+        return user.getFolders().toArray(new String[0]);
+    }
     @Override
     public Contact getContact(String id) {
         try {

@@ -113,7 +113,7 @@ public class Controller {
         return true;
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String address, @RequestParam String[] ids) {
         Server server = Server.getServer();
         for (String id : ids) {
@@ -123,7 +123,7 @@ public class Controller {
         return true;
     }
 
-    @PostMapping("/restore")
+    @PutMapping("/restore")
     public boolean restore(@RequestParam String address, @RequestParam String[] ids) {
         Server server = Server.getServer();
         for (String id : ids) {
@@ -150,5 +150,12 @@ public class Controller {
     public Mail[] search(@RequestParam String search, @RequestParam String type) {
         return null;
     }
+
+    @GetMapping("path")
+    public String[] getMethodName(@RequestParam String address) {
+        Server server =  Server.getServer();
+        return server.userFolders(address);
+    }
+    
 
 }
