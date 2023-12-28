@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.csed26.speedmail.mail.Mail;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
@@ -65,7 +65,7 @@ public class Controller {
         return check;
     }
 
-    @PostMapping("/refresh")
+    @PutMapping("/refresh")
     public Mail[] refresh(@RequestParam String address, @RequestParam String name) {
         Server server = Server.getServer();
 
@@ -84,7 +84,7 @@ public class Controller {
         return server.deleteFolder(address, name);
     }
 
-    @PostMapping("/renamefolder")
+    @PutMapping("/renamefolder")
     public boolean renameFolder(@RequestParam String address, @RequestParam String oldname,
             @RequestParam String newname) {
         Server server = Server.getServer();
@@ -92,7 +92,7 @@ public class Controller {
 
     }
 
-    @PostMapping("/movefolder")
+    @PutMapping("/movefolder")
     public boolean moveFolder(@RequestParam String address, @RequestParam String[] ids, @RequestParam String from,
             @RequestParam String to) {
         Server server = Server.getServer();

@@ -13,7 +13,7 @@ public class Move implements Command {
     private String dest;
     private Mail mail;
 
-    public Move(User user ,String source, String dest, Mail mail){
+    public Move(User user, String source, String dest, Mail mail) {
         this.user = user;
         this.source = source;
         this.dest = dest;
@@ -25,7 +25,12 @@ public class Move implements Command {
         Folder folder;
         try {
             folder = user.mainFolder();
-            folder.removeFrom(source, mail);
+            if (!folder.folder(source).getMain()) {
+                folder = folder.folder(Folder.inBox);
+                folder.removeFrom(source, mail);
+            } else
+                folder = folder.folder(Folder.inBox);
+
             folder.addTo(dest, mail);
         } catch (IOException e) {
             System.out.println("Faild to move");

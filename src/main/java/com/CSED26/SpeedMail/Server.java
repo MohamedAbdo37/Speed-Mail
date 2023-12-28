@@ -234,7 +234,7 @@ public class Server implements ServerIF {
         } catch (IOException e) {
             return false;
         }
-        user.setCommand(new RenameFolder(folder, newName));
+        user.setCommand(new RenameFolder(folder, newName, user));
         return user.execute();
     }
 
@@ -244,11 +244,11 @@ public class Server implements ServerIF {
         Folder folder;
         try {
             user = Data.getUser(address);
-            folder = user.mainFolder().folder(folderName);
+            folder = user.mainFolder().folder(Folder.inBox);
         } catch (IOException e) {
             return false;
         }
-        user.setCommand(new DeleteFolder(folder, folderName));
+        user.setCommand(new DeleteFolder(folder, folderName, user));
         return user.execute();
 
     }

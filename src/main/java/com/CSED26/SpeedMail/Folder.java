@@ -21,8 +21,9 @@ public class Folder {
     public static String trash = "Trash";
     public static String contacts = "Contacts";
 
-    public void setFolderName(String folderName) {
+    public void setFolderName(String folderName) throws IOException {
         this.folderName = folderName;
+        Data.saveFolder(this);
     }
 
     public Folder(@JsonProperty("id") String id, @JsonProperty("folderName") String folderName,
