@@ -75,6 +75,7 @@ export default {
       tag: [],
       priority:50,
       to2: [],
+      tag2:[],
     };
   },
   mounted() {
@@ -103,16 +104,16 @@ export default {
     this.date = new Date();
     console.log(this.date)
     this.tag.forEach((input, index) => {
-    this.tag[index] = input.value;
+    this.tag2[index] = input.value;
     });
     this.to.forEach((input, index) => {
-      this.to[index] = input.value;
+      this.to2[index] = input.value;
     });
     const params = new URLSearchParams();
     this.attachments.forEach(file => {
       params.append('attachments', file);
     });
-    await axios.post(`http://localhost:8081/send?to=${this.to.join(',')}&from=${this.userEmail}&subject=${this.subject}&tag=${this.tag.join(',')}&priority=${this.priority}&date=${this.date}&messasge=${this.message}`
+    await axios.post(`http://localhost:8081/send?to=${this.to2.join(',')}&from=${this.userEmail}&subject=${this.subject}&tag2=${this.tag.join(',')}&priority=${this.priority}&date=${this.date}&messasge=${this.message}`
         ).then((r) => {
         console.log('done send');
         console.log(r.data);
@@ -142,12 +143,12 @@ export default {
     draft() {
       this.date = new Date();
       this.tag.forEach((input, index) => {
-      this.tag[index] = input.value;
+      this.tag2[index] = input.value;
     });
     this.to.forEach((input, index) => {
       this.to2[index] = input.value;
     });
-    axios.post(`http://localhost:8081/draft?to=${this.to.join(',')}&from=${this.userEmail}&subject=${this.subject}&tag=${this.tag.join(',')}&priority=${this.priority}&date=${this.date}&messasge=${this.message}`
+    axios.post(`http://localhost:8081/draft?to=${this.to2.join(',')}&from=${this.userEmail}&subject=${this.subject}&tag=${this.tag2.join(',')}&priority=${this.priority}&date=${this.date}&messasge=${this.message}`
         ).then((r) => {
         console.log('done draft');
         console.log(r.data);
