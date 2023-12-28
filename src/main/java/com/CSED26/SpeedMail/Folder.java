@@ -210,7 +210,7 @@ public class Folder {
     }
 
     public void removeFromSend(Mail mail) throws IOException {
-        this.folder(drafts).removeMail(mail.getId());
+        this.folder(send).removeMail(mail.getId());
     }
 
     public void deleteFolder(String name) throws IOException {
@@ -250,6 +250,10 @@ public class Folder {
     }
 
     public void removeFromContact(Contact contact) {
+        this.folder(contacts).removeContact(contact.getId());
+    }
+
+    private void removeContact(String id2) {
     }
 
 }

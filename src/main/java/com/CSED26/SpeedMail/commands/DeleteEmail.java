@@ -17,7 +17,7 @@ public class DeleteEmail implements Command {
     @Override
     public boolean execute() {
         try {
-            if (mail.getFrom() == user.getAddress()) {
+            if (mail.getFrom().equals(user.getAddress())) {
                 if (this.mail.getIsDraft())
                     user.mainFolder().removeFromDraft(this.mail);
                 else
