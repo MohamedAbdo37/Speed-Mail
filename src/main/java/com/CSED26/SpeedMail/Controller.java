@@ -16,6 +16,8 @@ import com.csed26.speedmail.mail.Mail;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @CrossOrigin
@@ -146,9 +148,16 @@ public class Controller {
         return new Mail[0];
     }
 
-    /* ................... */@PostMapping("/search")
-    public Mail[] search(@RequestParam String search, @RequestParam String type) {
-        return null;
+    @PostMapping("/searchMail")
+    public Mail[] searchMail(@RequestParam String address,@RequestParam String search, @RequestParam String type) {
+        Server server = Server.getServer();
+        return server.serachMail(address, search, type);
+    }
+
+    @PostMapping("/searchContacts")
+    public Contact[] searchContact(@RequestParam String address,@RequestParam String search, @RequestParam String type) {
+        Server server = Server.getServer();
+        return server.serachContact(address, search, type);
     }
 
     @GetMapping("/foldes")
@@ -163,4 +172,16 @@ public class Controller {
         return server.getMail(id);
     }
 
+    @PostMapping("/createContact")
+    public boolean createContact(@RequestBody String address,@RequestBody String name,@RequestBody String[] addresses) {
+        Server server = Server.getServer();
+        return server.createContact(address, name, addresses);
+    }
+
+    @PostMapping("/deleteContact")
+    public boolean deleteContact(@RequestBody String address,@RequestBody String name) {
+        Server server = Server.getServer();
+        return server.deleteContact(address, name);
+    }
+    
 }

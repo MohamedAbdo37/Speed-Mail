@@ -526,11 +526,11 @@ public class Server implements ServerIF {
         return user.execute();
     }
 
-    public boolean deleteContact(String address1, String name,String address2 ) {
+    public boolean deleteContact(String address, String name) {
         User user;
         Contact contact;
         try {
-            user = Data.getUser(address1);
+            user = Data.getUser(address);
         } catch (IOException e) {
             System.out.println("User dose not exist");
             return false;
