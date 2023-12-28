@@ -570,5 +570,18 @@ public class Server implements ServerIF {
 
         user.setCommand(new RemoveContact(contact, address));
         return user.execute();
+
+    }
+
+    public String[] contacts(String address){
+        User user;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            System.out.println("User dose not exist");
+            return new String[0];
+        }.
+
+        return user.getContacts().toArray(new String[0]);
     }
 }
