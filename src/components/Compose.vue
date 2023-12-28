@@ -94,16 +94,17 @@ export default {
     this.to.forEach((input, index) => {
       this.to[index] = input.value;
     });
+    
     await  axios.get("http://localhost:8081/send", {
         params: {
-          to: ["hossam",'hossam'],
-          from: "hossam",
+          to: this.to.join(','),
+          from: this.from,
           messasge: "hossam",
           subject: "hossam",
-          tag: ["hossam"],
+          tag: this.tag.join(','),
           priority:100,
           date: "hossam",
-          attachment:null,
+          //attachments: this.attachments.join(',')
         },
       }).then((r) => {
         console.log('done send');

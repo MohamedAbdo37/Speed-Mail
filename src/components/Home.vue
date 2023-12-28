@@ -360,9 +360,9 @@ export default {
       this.title="inbox";
       const myElement = document.getElementById("inbox-button");
   myElement.style.backgroundColor = "rgb(211, 211, 212)";
-  axios.get('http://localhost:8081/gotoinbox', {
+  axios.get('http://localhost:8081/gotofolder', {
         params: {
-          foldername: "inbox",
+          foldername: "Inbox",
           address:this.userEmail,
         },
       }).then((r) => {
@@ -370,14 +370,14 @@ export default {
         this.mails=r.data;
       });
     
-      axios.get('http://localhost:8081/mountfoldernames', {
-        param:{
-          address:this.userEmail,
-        }
-      }).then((r) => {
-        console.log('done gotoinbox');
-        this.foldernames=r.data;
-      });
+      // axios.get('http://localhost:8081/mountfoldernames', {
+      //   param:{
+      //     address:this.userEmail,
+      //   }
+      // }).then((r) => {
+      //   console.log('done gotoinbox');
+      //   this.foldernames=r.data;
+      // });
   },
   computed: {
     filteredFoldernames() {
