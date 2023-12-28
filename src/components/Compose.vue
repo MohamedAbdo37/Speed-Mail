@@ -91,16 +91,25 @@ export default {
         this.priority = draft.priority;
       }
     })
-    this.to2.forEach((input, index) => {
+    let i = 0;
+    for(i = 0; i < this.to2.length; i++) {
       this.to.push({ value: '' });
-      this.to[index].value = input;
-      console.log(this.to[index])
-    });
-    this.tag2.forEach((input, index) => {
+      this.to[i].value = this.to2[i];
+    }
+    // this.to2.forEach((input, index) => {
+    //   this.to.push({ value: '' });
+    //   this.to[index].value = input;
+    //   console.log(this.to[index])
+    // });
+    for(i = 0; i < this.tag2.length; i++) {
       this.tag.push({ value: '' });
-      this.tag[index].value = input;
-      console.log(this.to[index])
-    });
+      this.tag[i].value = this.tag2[i];
+    }
+    // this.tag2.forEach((input, index) => {
+    //   this.tag.push({ value: '' });
+    //   this.tag[index].value = input;
+    //   console.log(this.to[index])
+    // });
   },
   methods: {
     home() {
