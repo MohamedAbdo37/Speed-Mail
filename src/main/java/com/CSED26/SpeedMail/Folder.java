@@ -234,8 +234,11 @@ public class Folder {
         this.folder(dest).addMail(mail);
     }
 
-    public void addContact(Contact contact){
-        this.folder(contacts).elementsId.add(contact.getId());
+    public void addContact(Contact contact) throws IOException{
+        Folder folder =this.folder(contacts);
+        folder.elementsId.add(contact.getId());
+        Data.saveFolder(folder);
+
     }
     // setters
 

@@ -33,7 +33,7 @@ public class Builder {
     }
 
     public void buildBody(String body) {
-        this.mail.setSubject(body);
+        this.mail.setBody(body);
     }
 
     public void buildDate(String date) {
