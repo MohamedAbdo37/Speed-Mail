@@ -230,7 +230,15 @@ export default {
       });
       axios.get(`http://localhost:8081/foldes?address=${this.userEmail}`).then((r) => {
         this.foldernames = r.data
-      })
+        console.log(r.data)
+        this.i=this.foldernames.length;
+        console.log(this.foldernames);
+       document.getElementById('show').style.display='block'
+        console.log(this.i);
+
+      });
+      
+
   },
   computed: {
     filteredFoldernames() {
@@ -316,6 +324,7 @@ export default {
 
     deletefolder(name){
       this.b=this.foldernames.indexOf(name);
+      console.log(name);
      // this.foldernames.splice(this.b, 1);
       this.foldernames[this.b]="";
       axios.delete('http://localhost:8081/deletefolder', {
@@ -421,6 +430,7 @@ this.mails.sort(compareDates);
       this.b=this.foldernames.indexOf(name);
      this.oldname=this.foldernames[this.b]
 },
+
 
     Search() {
       
