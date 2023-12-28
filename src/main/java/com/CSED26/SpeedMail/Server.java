@@ -230,7 +230,7 @@ public class Server implements ServerIF {
         Folder folder;
         try {
             user = Data.getUser(address);
-            folder = user.mainFolder().folder(oldName);
+            folder = user.mainFolder().folder(Folder.inBox).folder(oldName);
         } catch (IOException e) {
             return false;
         }
