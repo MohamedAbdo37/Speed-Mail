@@ -74,7 +74,7 @@ export default {
       date: '',
       tag: [],
       priority:50,
-
+      to2: [],
     };
   },
   mounted() {
@@ -145,9 +145,9 @@ export default {
       this.tag[index] = input.value;
     });
     this.to.forEach((input, index) => {
-      this.to[index] = input.value;
+      this.to2[index] = input.value;
     });
-    axios.post(`http://localhost:8081/draft?to=${this.to.join(',')}&from=${this.from}&subject=${this.subject}&tag=${this.tag.join(',')}&priority=${this.priority}&date=${this.date}&messasge=${this.message}`
+    axios.post(`http://localhost:8081/draft?to=${this.to.join(',')}&from=${this.userEmail}&subject=${this.subject}&tag=${this.tag.join(',')}&priority=${this.priority}&date=${this.date}&messasge=${this.message}`
         ).then((r) => {
         console.log('done draft');
         console.log(r.data);
