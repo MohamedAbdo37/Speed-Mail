@@ -45,11 +45,11 @@
         <button @click="draft()" class="send-button">draft</button>
  <!-- Add attachment -->
  <div class="input-container">
-      <label for="file-upload" class="icon">
-        <i class="fas fa-file"></i>
-      </label>
-      <input type="file" id="file-upload" @change="handleFileUpload">
-    </div>
+    <label for="file-upload" class="icon">
+      <i class="fas fa-file"></i>
+    </label>
+    <input type="file" id="file-upload" @change="handleFileUpload" multiple>
+  </div>
     <!-- Display attachments -->
     <div v-for="(attachment, index) in attachments" :key="index" class="display">
       <span @click="viewAttachment(attachment)">{{ attachment.name }}</span>
