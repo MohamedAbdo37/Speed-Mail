@@ -21,7 +21,7 @@ public class Mail {
     private List<String> types;
     private String body;
     private File[] attachments;
-    private boolean isDraft;
+    private boolean isDraft = true;
     private String date;
     private int priority;
 

@@ -2,7 +2,6 @@ package com.csed26.speedmail;
 
 import java.util.*;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import com.csed26.speedmail.commands.Command;
 import com.csed26.speedmail.mail.Mail;
@@ -13,6 +12,7 @@ public class User {
     private String address;
     private String name;
     private ArrayList<String> contacts;
+
     private Command command;
     private String password;
     private ArrayList<String> folders;
@@ -74,6 +74,10 @@ public class User {
         this.mainFolder().addToIndex(mail);
     }
 
+
+    public void setContacts(ArrayList<String> contacts2) {
+        this.contacts = contacts2;
+    }
     public void addContact(String contact) {
         this.contacts.add(contact);
     }

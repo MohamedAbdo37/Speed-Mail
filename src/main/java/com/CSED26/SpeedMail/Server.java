@@ -6,10 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.csed26.speedmail.commands.AddToContact;
+import com.csed26.speedmail.commands.CreateContact;
 import com.csed26.speedmail.commands.CreateFolder;
+import com.csed26.speedmail.commands.DeleteContact;
 import com.csed26.speedmail.commands.DeleteEmail;
 import com.csed26.speedmail.commands.DeleteFolder;
 import com.csed26.speedmail.commands.Move;
+import com.csed26.speedmail.commands.RemoveContact;
 import com.csed26.speedmail.commands.RenameFolder;
 import com.csed26.speedmail.commands.Restore;
 import com.csed26.speedmail.commands.SaveEmail;
@@ -107,7 +111,7 @@ public class Server implements ServerIF {
                     folder = Data.getFolder(address).folder("Inbox").folder(folderName);
                     break;
             }
-            
+
         } catch (IOException e) {
             System.out.println("folder dosen't exist");
             return new Mail[0];
@@ -262,66 +266,66 @@ public class Server implements ServerIF {
             case "sender":
                 allMails = getFolder("Inbox", address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].fromHas(content)) 
+                    if (allMails[i].fromHas(content))
                         result.add(allMails[i]);
                 break;
             case "receivers":
                 allMails = getFolder(Folder.send, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].fromHas(content)) 
+                    if (allMails[i].fromHas(content))
                         result.add(allMails[i]);
 
                 allMails = getFolder(Folder.drafts, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].fromHas(content)) 
+                    if (allMails[i].fromHas(content))
                         result.add(allMails[i]);
-                
+
                 allMails = getFolder(Folder.trash, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].fromHas(content)) 
+                    if (allMails[i].fromHas(content))
                         result.add(allMails[i]);
                 break;
             case "subject":
                 allMails = getFolder("Inbox", address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].subjectHas(content)) 
+                    if (allMails[i].subjectHas(content))
                         result.add(allMails[i]);
-                        
+
                 allMails = getFolder(Folder.send, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].subjectHas(content)) 
+                    if (allMails[i].subjectHas(content))
                         result.add(allMails[i]);
 
                 allMails = getFolder(Folder.drafts, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].subjectHas(content)) 
+                    if (allMails[i].subjectHas(content))
                         result.add(allMails[i]);
-                
+
                 allMails = getFolder(Folder.trash, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].subjectHas(content)) 
+                    if (allMails[i].subjectHas(content))
                         result.add(allMails[i]);
                 break;
             default:
-            
+
                 allMails = getFolder("Inbox", address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].bodyHas(content)) 
+                    if (allMails[i].bodyHas(content))
                         result.add(allMails[i]);
-                        
+
                 allMails = getFolder(Folder.send, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].bodyHas(content)) 
+                    if (allMails[i].bodyHas(content))
                         result.add(allMails[i]);
 
                 allMails = getFolder(Folder.drafts, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].bodyHas(content)) 
+                    if (allMails[i].bodyHas(content))
                         result.add(allMails[i]);
-                
+
                 allMails = getFolder(Folder.trash, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].bodyHas(content)) 
+                    if (allMails[i].bodyHas(content))
                         result.add(allMails[i]);
                 break;
         }
@@ -338,14 +342,14 @@ public class Server implements ServerIF {
             case "name":
                 allContacts = getContacts(address);
                 for (int i = 0; i < allContacts.length; i++)
-                    if (allContacts[i].nameHas(content)) 
+                    if (allContacts[i].nameHas(content))
                         result.add(allContacts[i]);
                 break;
-            
+
             default:
                 allContacts = getContacts(address);
                 for (int i = 0; i < allContacts.length; i++)
-                    if (allContacts[i].addressesHas(content)) 
+                    if (allContacts[i].addressesHas(content))
                         result.add(allContacts[i]);
                 break;
         }
@@ -466,7 +470,7 @@ public class Server implements ServerIF {
         return contacts;
     }
 
-    public String[] userFolders(String address){
+    public String[] userFolders(String address) {
         User user;
         try {
             user = Data.getUser(address);
@@ -477,6 +481,7 @@ public class Server implements ServerIF {
 
         return user.getFolders().toArray(new String[0]);
     }
+
     @Override
     public Contact getContact(String id) {
         try {
@@ -487,4 +492,83 @@ public class Server implements ServerIF {
         }
     }
 
+    public boolean createContact(String address, String name, String[] addresses) {
+        User user;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            System.out.println("User dose not exist");
+            return false;
+        }
+
+        user.setCommand(new CreateContact(user, name, addresses));
+        return user.execute();
+    }
+
+    public boolean AddContact(String address, String name, String[] addresses) {
+        User user;
+        Contact contact;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            System.out.println("User dose not exist");
+            return false;
+        }
+        try {
+            contact = user.mainFolder().contact(name);
+            if(contact == null)
+                return false;
+        } catch (IOException e) {
+            System.out.println("Contact dose not exist");
+            return false;
+        }
+        user.setCommand(new AddToContact(contact, addresses));
+        return user.execute();
+    }
+
+    public boolean deleteContact(String address1, String name,String address2 ) {
+        User user;
+        Contact contact;
+        try {
+            user = Data.getUser(address1);
+        } catch (IOException e) {
+            System.out.println("User dose not exist");
+            return false;
+        }
+
+        try {
+            contact = user.mainFolder().contact(name);
+            if(contact == null)
+                return false;
+        } catch (IOException e) {
+            System.out.println("Contact dose not exist");
+            return false;
+        }
+
+        user.setCommand(new DeleteContact(user, contact));
+        return user.execute();
+    }
+
+    public boolean removeContact(String address, String name) {
+        User user;
+        Contact contact;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            System.out.println("User dose not exist");
+            return false;
+        }
+
+        try {
+            contact = user.mainFolder().contact(name);
+            if(contact == null)
+                return false;
+        } catch (IOException e) {
+            System.out.println("Contact dose not exist");
+            return false;
+        }
+
+        user.setCommand(new RemoveContact(contact, address));
+        return user.execute();
+    }
 }

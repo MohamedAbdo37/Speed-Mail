@@ -24,6 +24,10 @@ public class Contact {
         Data.saveContact(this);
     }
 
+    public void removeContact(String address) throws IOException{
+        this.addresses.remove(address);
+        Data.saveContact(this);
+    }
     // Getters
     public ArrayList<String> getAddresses() {
         return addresses;

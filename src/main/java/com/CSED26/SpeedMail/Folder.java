@@ -234,8 +234,8 @@ public class Folder {
         this.folder(dest).addMail(mail);
     }
 
-    public void addContact(Contact contact) throws IOException{
-        Folder folder =this.folder(contacts);
+    public void addContact(Contact contact) throws IOException {
+        Folder folder = this.folder(contacts);
         folder.elementsId.add(contact.getId());
         Data.saveFolder(folder);
 
@@ -249,11 +249,23 @@ public class Folder {
         }
     }
 
-    public void removeFromContact(Contact contact) {
+    public void removeFromContact(Contact contact) throws IOException {
         this.folder(contacts).removeContact(contact.getId());
     }
 
-    private void removeContact(String id2) {
+    private void removeContact(String id2) throws IOException {
+        this.elementsId.remove(id2);
+        Data.saveFolder(this);
+    }
+
+    public Contact contact(String name) throws IOException {
+        Folder folder = this.folder(contacts);
+        for (String id : folder.getElementsId()) {
+            Contact contact = Data.getContact(id);
+            if (contact.getName().equals(name))
+                return contact;
+        }
+        return null;
     }
 
 }

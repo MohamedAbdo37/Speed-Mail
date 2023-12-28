@@ -13,10 +13,10 @@ public class CreateContact implements Command {
     private User user;
     private String name;
     private String[] adresses;
-    public CreateContact(User user, String name , List<String> adresses){
+    public CreateContact(User user, String name , String[] adresses){
         this.user = user;
         this.name = name;
-        this.adresses = adresses.toArray(new String[0]);
+        this.adresses = adresses;
     }
     @Override
     public boolean execute() {
