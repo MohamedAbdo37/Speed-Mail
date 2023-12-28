@@ -8,9 +8,11 @@ import java.util.List;
 import com.csed26.speedmail.Data;
 import com.csed26.speedmail.Types;
 import com.csed26.speedmail.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.csed26.speedmail.Server;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Mail {
     private String id;
     private ArrayList<String> to;
@@ -57,6 +59,7 @@ public class Mail {
         this.types = new ArrayList<>();
         this.body = "";
     }
+
 
     public void setBody(String body) {
         this.body = body;

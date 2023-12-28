@@ -72,7 +72,7 @@ public class Controller {
         return server.getFolder(name, address);
     }
 
-    @PostMapping("/gotofolder")
+    @GetMapping("/gotofolder")
     public Mail[] gotoFolder(@RequestParam String address, @RequestParam String foldername) {
         Server server = Server.getServer();
         return server.getFolder(foldername, address);
