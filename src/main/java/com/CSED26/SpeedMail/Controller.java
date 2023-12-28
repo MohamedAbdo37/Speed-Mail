@@ -3,6 +3,7 @@ package com.csed26.speedmail;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -60,6 +61,15 @@ public class Controller {
             @RequestParam String subject, @RequestParam String[] tag, @RequestParam int priority,
             @RequestParam String date, @RequestParam File[] attachments) {
         Server server = Server.getServer();
+        File[] attachmentsArray = new File[1];
+        //attachmentsArray[0] = attachments;
+        System.out.println(Arrays.toString(to));
+        System.out.println(from);
+        System.out.println(messasge);
+        System.out.println(subject);
+        System.out.println(Arrays.toString(tag));
+        System.out.println(priority);
+        System.out.println(date);
         Mail newMail = server.createMail(from, to, tag, attachments, subject, messasge, date, priority);
         boolean check = server.sendMail(from, newMail);
         return check;
