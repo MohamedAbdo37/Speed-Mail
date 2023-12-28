@@ -83,14 +83,24 @@ export default {
       let draft = r.data
       if(draft) {
         this.subject = draft.subject;
-        this.to = draft.to;
+        this.to2 = draft.to;
         this.message = draft.body;
         this.from = draft.from;
         this.date = draft.date;
-        this.tag = draft.types;
+        this.tag2 = draft.types;
         this.priority = draft.priority;
       }
     })
+    this.to2.forEach((input, index) => {
+      this.to.push({ value: '' });
+      this.to[index].value = input;
+      console.log(this.to[index])
+    });
+    this.tag2.forEach((input, index) => {
+      this.tag.push({ value: '' });
+      this.tag[index].value = input;
+      console.log(this.to[index])
+    });
   },
   methods: {
     home() {
