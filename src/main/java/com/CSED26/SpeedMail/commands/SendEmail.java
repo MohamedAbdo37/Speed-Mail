@@ -29,11 +29,12 @@ public class SendEmail implements Command {
             }
 
             this.mail.setIsDraft(false);
+            mail.setIsDraft(false);
+            Data.saveMail(mail);
         } catch (IOException e) {
             System.out.println("faild to send");
             return false;
         }
-
         return true;
     }
 

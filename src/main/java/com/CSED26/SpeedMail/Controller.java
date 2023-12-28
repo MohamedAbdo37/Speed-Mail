@@ -3,6 +3,7 @@ package com.csed26.speedmail;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,14 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.csed26.speedmail.mail.Mail;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @CrossOrigin
 public class Controller {
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public User logIN(@RequestParam String address, @RequestParam String password) {
         User user = null;
         try {
@@ -61,19 +64,28 @@ public class Controller {
             @RequestParam String subject, @ModelAttribute String[] tag, @RequestParam int priority,
             @RequestParam String date, @ModelAttribute File[] attachments) {
         Server server = Server.getServer();
+        File[] attachmentsArray = new File[1];
+        //attachmentsArray[0] = attachments;
+        System.out.println(Arrays.toString(to));
+        System.out.println(from);
+        System.out.println(messasge);
+        System.out.println(subject);
+        System.out.println(Arrays.toString(tag));
+        System.out.println(priority);
+        System.out.println(date);
         Mail newMail = server.createMail(from, to, tag, attachments, subject, messasge, date, priority);
         boolean check = server.sendMail(from, newMail);
         return check;
     }
 
-    @PostMapping("/refresh")
+    @PutMapping("/refresh")
     public Mail[] refresh(@RequestParam String address, @RequestParam String name) {
         Server server = Server.getServer();
 
         return server.getFolder(name, address);
     }
 
-    @PostMapping("/gotofolder")
+    @GetMapping("/gotofolder")
     public Mail[] gotoFolder(@RequestParam String address, @RequestParam String foldername) {
         Server server = Server.getServer();
         return server.getFolder(foldername, address);
@@ -85,7 +97,7 @@ public class Controller {
         return server.deleteFolder(address, name);
     }
 
-    @PostMapping("/renamefolder")
+    @PutMapping("/renamefolder")
     public boolean renameFolder(@RequestParam String address, @RequestParam String oldname,
             @RequestParam String newname) {
         Server server = Server.getServer();
@@ -93,7 +105,7 @@ public class Controller {
 
     }
 
-    @PostMapping("/movefolder")
+    @PutMapping("/movefolder")
     public boolean moveFolder(@RequestParam String address, @RequestParam String[] ids, @RequestParam String from,
             @RequestParam String to) {
         Server server = Server.getServer();
@@ -104,7 +116,7 @@ public class Controller {
         return true;
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String address, @RequestParam String[] ids) {
         Server server = Server.getServer();
         for (String id : ids) {
@@ -114,7 +126,7 @@ public class Controller {
         return true;
     }
 
-    @PostMapping("/restore")
+    @PutMapping("/restore")
     public boolean restore(@RequestParam String address, @RequestParam String[] ids) {
         Server server = Server.getServer();
         for (String id : ids) {
@@ -137,9 +149,40 @@ public class Controller {
         return new Mail[0];
     }
 
-    /* ................... */@PostMapping("/search")
-    public Mail[] search(@RequestParam String search, @RequestParam String type) {
-        return null;
+    @PostMapping("/searchMail")
+    public Mail[] searchMail(@RequestParam String address,@RequestParam String search, @RequestParam String type) {
+        Server server = Server.getServer();
+        return server.serachMail(address, search, type);
     }
 
+    @PostMapping("/searchContacts")
+    public Contact[] searchContact(@RequestParam String address,@RequestParam String search, @RequestParam String type) {
+        Server server = Server.getServer();
+        return server.serachContact(address, search, type);
+    }
+
+    @GetMapping("/foldes")
+    public String[] foldesName(@RequestParam String address) {
+        Server server =  Server.getServer();
+        return server.userFolders(address);
+    }
+    
+    @GetMapping("/mail")
+    public Mail mail(@RequestParam String id) {
+        Server server =  Server.getServer();
+        return server.getMail(id);
+    }
+
+    @PostMapping("/createContact")
+    public boolean createContact(@RequestBody String address,@RequestBody String name,@RequestBody String[] addresses) {
+        Server server = Server.getServer();
+        return server.createContact(address, name, addresses);
+    }
+
+    @PostMapping("/deleteContact")
+    public boolean deleteContact(@RequestBody String address,@RequestBody String name) {
+        Server server = Server.getServer();
+        return server.deleteContact(address, name);
+    }
+    
 }

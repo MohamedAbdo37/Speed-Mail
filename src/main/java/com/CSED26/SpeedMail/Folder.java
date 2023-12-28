@@ -21,8 +21,9 @@ public class Folder {
     public static String trash = "Trash";
     public static String contacts = "Contacts";
 
-    public void setFolderName(String folderName) {
+    public void setFolderName(String folderName) throws IOException {
         this.folderName = folderName;
+        Data.saveFolder(this);
     }
 
     public Folder(@JsonProperty("id") String id, @JsonProperty("folderName") String folderName,
@@ -68,8 +69,8 @@ public class Folder {
 
         try {
             Folder inbox = account.folder(inBox);
-            inbox.createFolder("Social");
-            inbox.createFolder("Offers");
+            // inbox.createFolder("Social");
+            // inbox.createFolder("Offers");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -209,11 +210,12 @@ public class Folder {
     }
 
     public void removeFromSend(Mail mail) throws IOException {
-        this.folder(drafts).removeMail(mail.getId());
+        this.folder(send).removeMail(mail.getId());
     }
 
-    public void deleteFolder(String name) {
+    public void deleteFolder(String name) throws IOException {
         this.folder(name).delete();
+        Data.saveFolder(this);
     }
 
     private void delete() {
@@ -232,9 +234,38 @@ public class Folder {
         this.folder(dest).addMail(mail);
     }
 
-    public void addContact(Contact contact){
-        this.folder(contacts).elementsId.add(contact.getId());
+    public void addContact(Contact contact) throws IOException {
+        Folder folder = this.folder(contacts);
+        folder.elementsId.add(contact.getId());
+        Data.saveFolder(folder);
+
     }
     // setters
+
+    public void removeFromInbox(Mail mail) throws IOException {
+        this.folder(inBox).removeMail(mail.getId());
+        for (Folder folder : this.folder(inBox).folders()) {
+            folder.removeMail(mail.getId());
+        }
+    }
+
+    public void removeFromContact(Contact contact) throws IOException {
+        this.folder(contacts).removeContact(contact.getId());
+    }
+
+    private void removeContact(String id2) throws IOException {
+        this.elementsId.remove(id2);
+        Data.saveFolder(this);
+    }
+
+    public Contact contact(String name) throws IOException {
+        Folder folder = this.folder(contacts);
+        for (String id : folder.getElementsId()) {
+            Contact contact = Data.getContact(id);
+            if (contact.getName().equals(name))
+                return contact;
+        }
+        return null;
+    }
 
 }

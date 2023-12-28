@@ -6,10 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.csed26.speedmail.commands.AddToContact;
+import com.csed26.speedmail.commands.CreateContact;
 import com.csed26.speedmail.commands.CreateFolder;
+import com.csed26.speedmail.commands.DeleteContact;
 import com.csed26.speedmail.commands.DeleteEmail;
 import com.csed26.speedmail.commands.DeleteFolder;
 import com.csed26.speedmail.commands.Move;
+import com.csed26.speedmail.commands.RemoveContact;
 import com.csed26.speedmail.commands.RenameFolder;
 import com.csed26.speedmail.commands.Restore;
 import com.csed26.speedmail.commands.SaveEmail;
@@ -184,7 +188,7 @@ public class Server implements ServerIF {
         } catch (IOException e) {
             return false;
         }
-        user.setCommand(new DeleteEmail(mail));
+        user.setCommand(new DeleteEmail(mail, user));
         return user.execute();
     }
 
@@ -230,11 +234,11 @@ public class Server implements ServerIF {
         Folder folder;
         try {
             user = Data.getUser(address);
-            folder = user.mainFolder().folder(oldName);
+            folder = user.mainFolder().folder(Folder.inBox).folder(oldName);
         } catch (IOException e) {
             return false;
         }
-        user.setCommand(new RenameFolder(folder, newName));
+        user.setCommand(new RenameFolder(folder, newName, user));
         return user.execute();
     }
 
@@ -244,11 +248,11 @@ public class Server implements ServerIF {
         Folder folder;
         try {
             user = Data.getUser(address);
-            folder = user.mainFolder().folder(folderName);
+            folder = user.mainFolder().folder(Folder.inBox);
         } catch (IOException e) {
             return false;
         }
-        user.setCommand(new DeleteFolder(folder, folderName));
+        user.setCommand(new DeleteFolder(folder, folderName, user));
         return user.execute();
 
     }
@@ -466,6 +470,18 @@ public class Server implements ServerIF {
         return contacts;
     }
 
+    public String[] userFolders(String address) {
+        User user;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            System.out.println("User dose not exist");
+            return new String[0];
+        }
+
+        return user.getFolders().toArray(new String[0]);
+    }
+
     @Override
     public Contact getContact(String id) {
         try {
@@ -476,4 +492,96 @@ public class Server implements ServerIF {
         }
     }
 
+    public boolean createContact(String address, String name, String[] addresses) {
+        User user;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            System.out.println("User dose not exist");
+            return false;
+        }
+
+        user.setCommand(new CreateContact(user, name, addresses));
+        return user.execute();
+    }
+
+    public boolean AddContact(String address, String name, String[] addresses) {
+        User user;
+        Contact contact;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            System.out.println("User dose not exist");
+            return false;
+        }
+        try {
+            contact = user.mainFolder().contact(name);
+            if(contact == null)
+                return false;
+        } catch (IOException e) {
+            System.out.println("Contact dose not exist");
+            return false;
+        }
+        user.setCommand(new AddToContact(contact, addresses));
+        return user.execute();
+    }
+
+    public boolean deleteContact(String address, String name) {
+        User user;
+        Contact contact;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            System.out.println("User dose not exist");
+            return false;
+        }
+
+        try {
+            contact = user.mainFolder().contact(name);
+            if(contact == null)
+                return false;
+        } catch (IOException e) {
+            System.out.println("Contact dose not exist");
+            return false;
+        }
+
+        user.setCommand(new DeleteContact(user, contact));
+        return user.execute();
+    }
+
+    public boolean removeContact(String address, String name) {
+        User user;
+        Contact contact;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            System.out.println("User dose not exist");
+            return false;
+        }
+
+        try {
+            contact = user.mainFolder().contact(name);
+            if(contact == null)
+                return false;
+        } catch (IOException e) {
+            System.out.println("Contact dose not exist");
+            return false;
+        }
+
+        user.setCommand(new RemoveContact(contact, address));
+        return user.execute();
+
+    }
+
+    public String[] contacts(String address){
+        User user;
+        try {
+            user = Data.getUser(address);
+        } catch (IOException e) {
+            System.out.println("User dose not exist");
+            return new String[0];
+        }.
+
+        return user.getContacts().toArray(new String[0]);
+    }
 }
