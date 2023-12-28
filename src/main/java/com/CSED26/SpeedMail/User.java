@@ -34,9 +34,9 @@ public class User {
             e.printStackTrace();
         }
 
-        this.addFolder(Folder.inBox);
-        this.addFolder("Social");
-        this.addFolder("Offers");
+        // this.addFolder(Folder.inBox);
+        // this.addFolder("Social");
+        // this.addFolder("Offers");
     }
 
     public User(@JsonProperty("address") String address, @JsonProperty("name") String name,

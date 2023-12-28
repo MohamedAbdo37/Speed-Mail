@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @CrossOrigin
 public class Controller {
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public User logIN(@RequestParam String address, @RequestParam String password) {
         User user = null;
         try {

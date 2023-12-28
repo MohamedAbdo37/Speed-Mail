@@ -69,8 +69,8 @@ public class Folder {
 
         try {
             Folder inbox = account.folder(inBox);
-            inbox.createFolder("Social");
-            inbox.createFolder("Offers");
+            // inbox.createFolder("Social");
+            // inbox.createFolder("Offers");
         } catch (Exception e) {
             e.printStackTrace();
         }
