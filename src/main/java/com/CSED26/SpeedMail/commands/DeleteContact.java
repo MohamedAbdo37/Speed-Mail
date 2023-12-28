@@ -1,5 +1,7 @@
 package com.csed26.speedmail.commands;
 
+import java.io.IOException;
+
 import com.csed26.speedmail.Contact;
 import com.csed26.speedmail.Folder;
 import com.csed26.speedmail.User;
@@ -16,7 +18,12 @@ public class DeleteContact implements Command {
 
     @Override
     public boolean execute() {
-        // user.mainFolder().removeFrom(Folder.contacts,contact);
+        try {
+            user.mainFolder().removeFromContact(contact);
+        } catch (IOException e) {
+            System.out.println("User dose not exist");
+            return false;
+        }
         return true;
     }
     

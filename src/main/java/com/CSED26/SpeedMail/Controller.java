@@ -151,11 +151,16 @@ public class Controller {
         return null;
     }
 
-    @GetMapping("path")
-    public String[] getMethodName(@RequestParam String address) {
+    @GetMapping("/foldes")
+    public String[] foldesName(@RequestParam String address) {
         Server server =  Server.getServer();
         return server.userFolders(address);
     }
     
+    @GetMapping("/mail")
+    public Mail mail(@RequestParam String id) {
+        Server server =  Server.getServer();
+        return server.getMail(id);
+    }
 
 }

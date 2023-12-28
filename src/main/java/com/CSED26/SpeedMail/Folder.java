@@ -249,4 +249,7 @@ public class Folder {
         }
     }
 
+    public void removeFromContact(Contact contact) {
+    }
+
 }
