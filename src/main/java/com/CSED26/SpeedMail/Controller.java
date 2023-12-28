@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @CrossOrigin
 public class Controller {
@@ -65,7 +64,7 @@ public class Controller {
             @RequestParam String date, @ModelAttribute File[] attachments) {
         Server server = Server.getServer();
         File[] attachmentsArray = new File[1];
-        //attachmentsArray[0] = attachments;
+        // attachmentsArray[0] = attachments;
         System.out.println(Arrays.toString(to));
         System.out.println(from);
         System.out.println(messasge);
@@ -143,46 +142,48 @@ public class Controller {
     }
 
     @PostMapping("/filter")
-    public Mail[] filter(@RequestParam String address, @RequestParam String filterby, @RequestParam String[] filer,
+    public Mail[] filter(@RequestParam String address, @RequestParam String filterby, @RequestParam String filer,
             @RequestParam String folder) {
-
-        return new Mail[0];
+        Server server = Server.getServer();
+        return server.filterBy(filterby, filer, server.getFolder(folder, address));
     }
 
     @PostMapping("/searchMail")
-    public Mail[] searchMail(@RequestParam String address,@RequestParam String search, @RequestParam String type) {
+    public Mail[] searchMail(@RequestParam String address, @RequestParam String search, @RequestParam String type) {
         Server server = Server.getServer();
         return server.serachMail(address, search, type);
     }
 
     @PostMapping("/searchContacts")
-    public Contact[] searchContact(@RequestParam String address,@RequestParam String search, @RequestParam String type) {
+    public Contact[] searchContact(@RequestParam String address, @RequestParam String search,
+            @RequestParam String type) {
         Server server = Server.getServer();
         return server.serachContact(address, search, type);
     }
 
     @GetMapping("/foldes")
     public String[] foldesName(@RequestParam String address) {
-        Server server =  Server.getServer();
+        Server server = Server.getServer();
         return server.userFolders(address);
     }
-    
+
     @GetMapping("/mail")
     public Mail mail(@RequestParam String id) {
-        Server server =  Server.getServer();
+        Server server = Server.getServer();
         return server.getMail(id);
     }
 
     @PostMapping("/createContact")
-    public boolean createContact(@RequestBody String address,@RequestBody String name,@RequestBody String[] addresses) {
+    public boolean createContact(@RequestBody String address, @RequestBody String name,
+            @RequestBody String[] addresses) {
         Server server = Server.getServer();
         return server.createContact(address, name, addresses);
     }
 
     @PostMapping("/deleteContact")
-    public boolean deleteContact(@RequestBody String address,@RequestBody String name) {
+    public boolean deleteContact(@RequestBody String address, @RequestBody String name) {
         Server server = Server.getServer();
         return server.deleteContact(address, name);
     }
-    
+
 }
