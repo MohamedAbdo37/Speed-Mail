@@ -25,14 +25,7 @@ import axios from 'axios'
         methods: {
             async signUp() {
                 console.log("signup")
-                await axios.get("http://localhost:8081/register", { 
-                    params: {
-                        name: this.name,
-                        address: this.email,
-                        password: String(this.password)
-                    }    
-                    
-                }).then((r) => {
+                await axios.post(`http://localhost:8081/register?name=${this.name}&address=${this.email}&password=${String(this.password)}`).then((r) => {
                     console.log(r.data);
                     this.$router.push( { name: 'Home', query: { email: this.email } });
                 })

@@ -4,14 +4,14 @@
             <h1>New Message</h1>
           <router-link to="/home" @click="home">X</router-link>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="from">from</label>
             <input type="text" id="from" required  v-model="from">
-        </div>
+        </div> -->
         <div class="form-group">
           <label for="to">To</label>
             <div v-for="(input, index) in to" :key="index">
-            <input v-model="input.value" @input="updateInput2(index, $event.target.value)" type="text" :id="'to' + index" required  >
+            <input v-model="input.value" @input="updateInput2(index, $event.target.value)" type="text" :id="'to' + index" required >
             <button @click="removeInput2(index)">Remove</button>
             </div>
             <button @click="addInput2" class="send-button">Add Input</button>
@@ -45,11 +45,11 @@
         <button @click="draft()" class="send-button">draft</button>
  <!-- Add attachment -->
  <div class="input-container">
-      <label for="file-upload" class="icon">
-        <i class="fas fa-file"></i>
-      </label>
-      <input type="file" id="file-upload" @change="handleFileUpload">
-    </div>
+    <label for="file-upload" class="icon">
+      <i class="fas fa-file"></i>
+    </label>
+    <input type="file" id="file-upload" @change="handleFileUpload" multiple>
+  </div>
     <!-- Display attachments -->
     <div v-for="(attachment, index) in attachments" :key="index" class="display">
       <span @click="viewAttachment(attachment)">{{ attachment.name }}</span>
@@ -74,8 +74,42 @@ export default {
       date: '',
       tag: [],
       priority:50,
-
+      to2: [],
+      tag2:[],
     };
+  },
+  mounted() {
+    axios.get(`http://localhost:8081/mail?id=${this.draftId}`).then((r) => {
+      let draft = r.data
+      if(draft) {
+        this.subject = draft.subject;
+        this.to2 = draft.to;
+        this.message = draft.body;
+        this.from = draft.from;
+        this.date = draft.date;
+        this.tag2 = draft.types;
+        this.priority = draft.priority;
+      }
+    })
+    let i = 0;
+    for(i = 0; i < this.to2.length; i++) {
+      this.to.push({ value: '' });
+      this.to[i].value = this.to2[i];
+    }
+    // this.to2.forEach((input, index) => {
+    //   this.to.push({ value: '' });
+    //   this.to[index].value = input;
+    //   console.log(this.to[index])
+    // });
+    for(i = 0; i < this.tag2.length; i++) {
+      this.tag.push({ value: '' });
+      this.tag[i].value = this.tag2[i];
+    }
+    // this.tag2.forEach((input, index) => {
+    //   this.tag.push({ value: '' });
+    //   this.tag[index].value = input;
+    //   console.log(this.to[index])
+    // });
   },
   methods: {
     home() {
@@ -86,30 +120,25 @@ export default {
       window.open(fileURL);
     },
    async send() {
-      this.date = new Date();
-      console.log(this.date)
-      this.tag.forEach((input, index) => {
-      this.tag[index] = input.value;
+    this.date = new Date();
+    console.log(this.date)
+    this.tag.forEach((input, index) => {
+    this.tag2[index] = input.value;
     });
     this.to.forEach((input, index) => {
-      this.to[index] = input.value;
+      this.to2[index] = input.value;
     });
-    await  axios.get("http://localhost:8081/send", {
-        params: {
-          to: ["hossam","hossam"],
-          from: "hossam",
-          messasge: "hossam",
-          subject: "hossam",
-          tag: ["hossam", "hossam"],
-          priority:100,
-          date: "hossam",
-          attachments :this.attachments,
-        },
-      }).then((r) => {
+    const params = new URLSearchParams();
+    this.attachments.forEach(file => {
+      params.append('attachments', file);
+    });
+    await axios.post(`http://localhost:8081/send?to=${this.to2.join(',')}&from=${this.userEmail}&subject=${this.subject}&tag=${this.tag2.join(',')}&priority=${this.priority}&date=${this.date}&messasge=${this.message}`
+        ).then((r) => {
         console.log('done send');
         console.log(r.data);
         console.log(this.date);
       });
+      this.$router.push( { name: 'Home', query: { email: this.userEmail } });
     },
     addInput1() {
           this.tag.push({ value: '' });
@@ -134,23 +163,13 @@ export default {
     draft() {
       this.date = new Date();
       this.tag.forEach((input, index) => {
-      this.tag[index] = input.value;
+      this.tag2[index] = input.value;
     });
     this.to.forEach((input, index) => {
-      this.to[index] = input.value;
+      this.to2[index] = input.value;
     });
-      axios.get('http://localhost:8081/draft', {
-        params: {
-          to: this.to,
-          from: this.from,
-          message: this.message,
-          subject: this.subject,
-          tag: this.tag,
-          priority:this.priority,
-          date: this.date,
-          attachments:this.attachments,
-        },
-      }).then((r) => {
+    axios.post(`http://localhost:8081/draft?to=${this.to2.join(',')}&from=${this.userEmail}&subject=${this.subject}&tag=${this.tag2.join(',')}&priority=${this.priority}&date=${this.date}&messasge=${this.message}`
+        ).then((r) => {
         console.log('done draft');
         console.log(r.data);
       });
@@ -169,6 +188,9 @@ export default {
   computed: {
     userEmail() {
       return this.$route.query.email;
+    },
+    draftId() {
+      return this.$route.query.iD;
     },
     tagvalues(){
       return this.tag.filter(tag1 => tag1.value);

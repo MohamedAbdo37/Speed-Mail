@@ -72,11 +72,11 @@
         <h1 >Drafts</h1>
         <div v-for="mail in  pagination" :key="mail.id" class="mail">
           <div class="properties-data">
-            <input type="checkbox" @change="updateSelected(mail.iD)" >
-            <div class="properties" @click="draftview(mail.iD)">
-              <div><h5>{{ mail.Subject }}</h5></div>
-              <div><h5>{{ mail.Type }}</h5></div>
-              <div><h5>{{ mail.Priority}}%</h5></div>
+            <input type="checkbox" @change="updateSelected(mail.id)" >
+            <div class="properties" @click="draftview(mail.id)">
+              <div><h5>{{ mail.subject }}</h5></div>
+              <div><h5>{{ mail.types }}</h5></div>
+              <div><h5>{{ mail.priority}}%</h5></div>
             </div>
           </div>
         </div>
@@ -341,6 +341,20 @@
       };
    
     },
+    mounted() {
+        this.title="inbox";
+        const myElement = document.getElementById("inbox-button");
+        myElement.style.backgroundColor = "rgb(211, 211, 212)";
+        axios.get('http://localhost:8081/gotofolder', {
+            params: {
+            foldername: "Drafts",
+            address:this.userEmail,
+            },
+        }).then((r) => {
+            console.log('done gotoinbox');
+            this.mails = r.data;
+        });
+    },
     computed: {
       filteredFoldernames() {
         return this.foldernames.filter(folder => folder !== '');
@@ -362,16 +376,17 @@
       gotoinbox(){
         this.title="inbox";
         const myElement = document.getElementById("inbox-button");
-    myElement.style.backgroundColor = "rgb(211, 211, 212)";
-    axios.get('http://localhost:8081/gotoinbox', {
-          params: {
-            foldername: "inbox",
-          },
-        }).then((r) => {
-          console.log('done gotoinbox');
-          this.mails=r.data;
-        });
-      },
+        myElement.style.backgroundColor = "rgb(211, 211, 212)";
+        axios.get('http://localhost:8081/gotoinbox', {
+            params: {
+                foldername: "inbox",
+            },
+            }).then((r) => {
+            console.log('done gotoinbox');
+            this.mails=r.data;
+            });
+            this.$router.push( { name: 'Home', query: { email: this.userEmail } });
+        },
       refresh(){
         axios.get('http://localhost:8081/refresh', {
           params: {
