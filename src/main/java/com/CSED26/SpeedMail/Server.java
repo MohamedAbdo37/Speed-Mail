@@ -107,7 +107,7 @@ public class Server implements ServerIF {
                     folder = Data.getFolder(address).folder("Inbox").folder(folderName);
                     break;
             }
-            
+
         } catch (IOException e) {
             System.out.println("folder dosen't exist");
             return new Mail[0];
@@ -259,85 +259,74 @@ public class Server implements ServerIF {
         Mail[] allMails;
         List<Mail> result = new ArrayList<>();
         switch (type) {
-<<<<<<< HEAD
-            case "Sender":
-
-                break;
-
-=======
             case "sender":
                 allMails = getFolder("Inbox", address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].fromHas(content)) 
+                    if (allMails[i].fromHas(content))
                         result.add(allMails[i]);
                 break;
             case "receivers":
                 allMails = getFolder(Folder.send, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].fromHas(content)) 
+                    if (allMails[i].fromHas(content))
                         result.add(allMails[i]);
 
                 allMails = getFolder(Folder.drafts, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].fromHas(content)) 
+                    if (allMails[i].fromHas(content))
                         result.add(allMails[i]);
-                
+
                 allMails = getFolder(Folder.trash, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].fromHas(content)) 
+                    if (allMails[i].fromHas(content))
                         result.add(allMails[i]);
                 break;
             case "subject":
                 allMails = getFolder("Inbox", address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].subjectHas(content)) 
+                    if (allMails[i].subjectHas(content))
                         result.add(allMails[i]);
-                        
+
                 allMails = getFolder(Folder.send, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].subjectHas(content)) 
+                    if (allMails[i].subjectHas(content))
                         result.add(allMails[i]);
 
                 allMails = getFolder(Folder.drafts, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].subjectHas(content)) 
+                    if (allMails[i].subjectHas(content))
                         result.add(allMails[i]);
-                
+
                 allMails = getFolder(Folder.trash, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].subjectHas(content)) 
+                    if (allMails[i].subjectHas(content))
                         result.add(allMails[i]);
                 break;
->>>>>>> f65a574f945d1d6f05c4fd4761d56776ba7fcf99
             default:
-            
+
                 allMails = getFolder("Inbox", address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].bodyHas(content)) 
+                    if (allMails[i].bodyHas(content))
                         result.add(allMails[i]);
-                        
+
                 allMails = getFolder(Folder.send, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].bodyHas(content)) 
+                    if (allMails[i].bodyHas(content))
                         result.add(allMails[i]);
 
                 allMails = getFolder(Folder.drafts, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].bodyHas(content)) 
+                    if (allMails[i].bodyHas(content))
                         result.add(allMails[i]);
-                
+
                 allMails = getFolder(Folder.trash, address);
                 for (int i = 0; i < allMails.length; i++)
-                    if (allMails[i].bodyHas(content)) 
+                    if (allMails[i].bodyHas(content))
                         result.add(allMails[i]);
                 break;
         }
-<<<<<<< HEAD
-        return null;
-=======
 
         return result.toArray(new Mail[0]);
->>>>>>> f65a574f945d1d6f05c4fd4761d56776ba7fcf99
     }
 
     @Override
@@ -349,14 +338,14 @@ public class Server implements ServerIF {
             case "name":
                 allContacts = getContacts(address);
                 for (int i = 0; i < allContacts.length; i++)
-                    if (allContacts[i].nameHas(content)) 
+                    if (allContacts[i].nameHas(content))
                         result.add(allContacts[i]);
                 break;
-            
+
             default:
                 allContacts = getContacts(address);
                 for (int i = 0; i < allContacts.length; i++)
-                    if (allContacts[i].addressesHas(content)) 
+                    if (allContacts[i].addressesHas(content))
                         result.add(allContacts[i]);
                 break;
         }

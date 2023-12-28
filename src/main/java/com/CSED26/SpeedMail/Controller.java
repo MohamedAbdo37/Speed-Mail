@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.csed26.speedmail.mail.Mail;
@@ -55,10 +56,10 @@ public class Controller {
         return check;
     }
 
-    @PostMapping("/send")
-    public boolean send(@RequestParam String[] to, @RequestParam String from, @RequestParam String messasge,
-            @RequestParam String subject, @RequestParam String[] tag, @RequestParam int priority,
-            @RequestParam String date, @RequestParam File[] attachments) {
+    @GetMapping("/send")
+    public boolean send(@ModelAttribute String[] to, @RequestParam String from, @RequestParam String messasge,
+            @RequestParam String subject, @ModelAttribute String[] tag, @RequestParam int priority,
+            @RequestParam String date, @ModelAttribute File[] attachments) {
         Server server = Server.getServer();
         Mail newMail = server.createMail(from, to, tag, attachments, subject, messasge, date, priority);
         boolean check = server.sendMail(from, newMail);

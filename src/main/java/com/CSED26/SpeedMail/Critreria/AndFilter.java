@@ -16,15 +16,10 @@ public class AndFilter implements Filter {
 
     @Override
     public List<Mail> apply(Mail[] mails) {
-        List<Mail> firstFilterdMails = new ArrayList<>();
-        List<Mail> secondFilterdMails = new ArrayList<>();
         List<Mail> filterdMails = new ArrayList<>();
-        firstFilterdMails = firstFilter.apply(mails);
-        secondFilterdMails = secondFilter.apply(mails);
-        filterdMails.addAll(firstFilterdMails);
-        firstFilterdMails = secondFilter.apply(firstFilterdMails.toArray(new Mail[0]));
-        secondFilterdMails.removeAll(firstFilterdMails);
-        filterdMails.addAll(secondFilterdMails);
+        filterdMails = firstFilter.apply(mails);
+        filterdMails = secondFilter.apply(filterdMails.toArray(new Mail[0]));
         return filterdMails;
+
     }
 }
