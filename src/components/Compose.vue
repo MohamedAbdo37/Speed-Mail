@@ -4,14 +4,14 @@
             <h1>New Message</h1>
           <router-link to="/home" @click="home">X</router-link>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="from">from</label>
             <input type="text" id="from" required  v-model="from">
-        </div>
+        </div> -->
         <div class="form-group">
           <label for="to">To</label>
             <div v-for="(input, index) in to" :key="index">
-            <input v-model="input.value" @input="updateInput2(index, $event.target.value)" type="text" :id="'to' + index" required  >
+            <input v-model="input.value" @input="updateInput2(index, $event.target.value)" type="text" :id="'to' + index" required >
             <button @click="removeInput2(index)">Remove</button>
             </div>
             <button @click="addInput2" class="send-button">Add Input</button>
@@ -77,6 +77,20 @@ export default {
 
     };
   },
+  mounted() {
+    axios.get(`http://localhost:8081/mail?id=${this.draftId}`).then((r) => {
+      let draft = r.data
+      if(draft) {
+        this.subject = draft.subject;
+        this.to = draft.to;
+        this.message = draft.body;
+        this.from = draft.from;
+        this.date = draft.date;
+        this.tag = draft.types;
+        this.priority = draft.priority;
+      }
+    })
+  },
   methods: {
     home() {
       this.$router.push( { name: 'Home', query: { email: this.userEmail } });
@@ -98,20 +112,8 @@ export default {
     this.attachments.forEach(file => {
       params.append('attachments', file);
     });
-    await  axios.get("http://localhost:8081/send?" + params.toString(), {
-        params: {
-          to: this.to.join(','),
-          from: this.from,
-          messasge: "hossam",
-          subject: "hossam",
-          tag: this.tag.join(','),
-          priority:100,
-          date: "hossam",
-          
-        },
-    
-
-      }).then((r) => {
+    await axios.post(`http://localhost:8081/send?to=${this.to.join(',')}&from=${this.userEmail}&subject=${this.subject}&tag=${this.tag.join(',')}&priority=${this.priority}&date=${this.date}&messasge=${this.message}`
+        ).then((r) => {
         console.log('done send');
         console.log(r.data);
         console.log(this.date);
@@ -145,18 +147,8 @@ export default {
     this.to.forEach((input, index) => {
       this.to[index] = input.value;
     });
-      axios.get('http://localhost:8081/draft', {
-        params: {
-          to: this.to,
-          from: this.from,
-          message: this.message,
-          subject: this.subject,
-          tag: this.tag,
-          priority:this.priority,
-          date: this.date,
-          attachments:this.attachments,
-        },
-      }).then((r) => {
+    axios.post(`http://localhost:8081/draft?to=${this.to.join(',')}&from=${this.from}&subject=${this.subject}&tag=${this.tag.join(',')}&priority=${this.priority}&date=${this.date}&messasge=${this.message}`
+        ).then((r) => {
         console.log('done draft');
         console.log(r.data);
       });
@@ -175,6 +167,9 @@ export default {
   computed: {
     userEmail() {
       return this.$route.query.email;
+    },
+    draftId() {
+      return this.$route.query.iD;
     },
     tagvalues(){
       return this.tag.filter(tag1 => tag1.value);

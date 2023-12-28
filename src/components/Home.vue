@@ -163,18 +163,18 @@
       <h1 >{{ title }}</h1>
       <div v-for="mail in  pagination" :key="mail.id" class="mail">
         <div class="properties-data" >
-          <input type="checkbox" @change="updateSelected(mail.iD)" >
-          <div class="properties" @click="if(this.opened != mail.iD)this.opened = mail.iD;else opened=''">
-            <div><h5>{{ mail.Subject }}</h5></div>
-            <div><h5>{{ mail.Type }}</h5></div>
-            <div><h5>{{ mail.Priority}}%</h5></div>
+          <input type="checkbox" @change="updateSelected(mail.id)" >
+          <div class="properties" @click="if(this.opened != mail.id)this.opened = mail.id;else opened=''">
+            <div><h5>{{ mail.subject }}</h5></div>
+            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; "><h5>{{ mail.types.toString() }}</h5></div>
+            <div><h5>{{ mail.priority}}%</h5></div>
           </div>
         </div>
-        <div class="message" v-show="opened == mail.iD">
-          <h3>from: {{ mail.From }}</h3>
-          <h3>date: {{ mail.Date }}</h3>
+        <div class="message" v-show="opened == mail.id">
+          <h3>from: {{ mail.from }}</h3>
+          <h3>date: {{ mail.date }}</h3>
           <h3>message:</h3>
-          <p style="float: left; white-space: pre-wrap;">{{ mail.Body }}</p>
+          <p style="float: left; white-space: pre-wrap;">{{ mail.body }}</p>
 
         </div>
       </div>
@@ -211,156 +211,15 @@ export default {
       filter: [],
       selected:[],
       opened: "",
-      mails: [
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "MohamedAbdo2002@gmail.com",
-          Subject: "CO Cache Lab",
-          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
-          Type: "social",
-          Priority:100,
-          iD:"g1",
-          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne, voila je me regarde les autre portant je ne leur trouve rien 6555555651652"
-        },
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "MohamedAbdo2002@gmail.com",
-          Subject: "CO Cache Lab",
-          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
-          Type: "social",
-          Priority:100,
-          iD:"g2",
-          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
-        },
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "MohamedAbdo2002@gmail.com",
-          Subject: "CO Cache Lab",
-          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
-          Type: "social",
-          Priority:100,
-          iD:"g3",
-          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
-        },
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "MohamedAbdo2002@gmail.com",
-          Subject: "CO Cache Lab",
-          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
-          Type: "social",
-          Priority:100,
-          iD:"g4",
-          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
-        },
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "MohamedAbdo2002@gmail.com",
-          Subject: "CO Cache Lab",
-          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
-          Type: "social",
-          Priority:100,
-          iD:"g5",
-          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
-        },
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "MohamedAbdo2002@gmail.com",
-          Subject: "CO Cache Lab",
-          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
-          Type: "social",
-          Priority:100,
-          iD:"g6",
-          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
-        },
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "MohamedAbdo2002@gmail.com",
-          Subject: "CO Cache Lab",
-          Date: "Wed Dec 30 2023 18:45:12 GMT+0200 (Eastern European Standard Time)",
-          Type: "social",
-          Priority:100,
-          iD:"g7",
-          Body: "Dear Yahia\n   J'espere que vous allez bien et votre famille aussi\n J'ai quelques deficultes avex le lab de cache memory, il prend trop long temps en fait et ca me donne l'ampression que le lab a quelque chose qui sonne"
-        },
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "MohamedHassan2002@gmail.com",
-          Subject: "OOP project",
-          Date: "Fri Dec 25 2023 10:30:00 GMT+0200 (Eastern European Standard Time)",
-          Type: "social",
-          Priority:10,
-          iD:"g8",
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          iD:"g9",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          iD:"g10",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          iD:"g11",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          iD:"g12",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          iD:"g13",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-        {
-          To: "Yahiaibrahime123@gmail.com",
-          From: "Hossamosama2003@gmail.com",
-          Subject: "OOP project",
-          Date: "Sun Dec 31 2023 23:13:43 GMT+0200 (Eastern European Standard Time)",
-          Type: "crying",
-          iD:"g14",
-          Priority:50,
-          Body: "Dear Yahian\n  J'espere que tu vas bien et votre famille aussi"
-        },
-      ],
+      mails: [],
     };
  
   },
   mounted(){
       this.title="inbox";
       const myElement = document.getElementById("inbox-button");
-  myElement.style.backgroundColor = "rgb(211, 211, 212)";
-  axios.get('http://localhost:8081/gotofolder', {
+      myElement.style.backgroundColor = "rgb(211, 211, 212)";
+      axios.get('http://localhost:8081/gotofolder', {
         params: {
           foldername: "Inbox",
           address:this.userEmail,
@@ -369,15 +228,6 @@ export default {
         console.log('done gotoinbox');
         this.mails=r.data;
       });
-    
-      // axios.get('http://localhost:8081/mountfoldernames', {
-      //   param:{
-      //     address:this.userEmail,
-      //   }
-      // }).then((r) => {
-      //   console.log('done gotoinbox');
-      //   this.foldernames=r.data;
-      // });
   },
   computed: {
     filteredFoldernames() {
@@ -396,9 +246,9 @@ export default {
       this.title="sent";
       const myElement = document.getElementById("sent-button");
   myElement.style.backgroundColor = "rgb(211, 211, 212)";
-  axios.get('http://localhost:8081/gotosend', {
+  axios.get('http://localhost:8081/gotofolder', {
         params: {
-          foldername: "send",
+          foldername: "Send",
           address:this.userEmail,
         },
       }).then((r) => {
@@ -411,10 +261,10 @@ export default {
     gotoinbox(){
       this.title="inbox";
       const myElement = document.getElementById("inbox-button");
-  myElement.style.backgroundColor = "rgb(211, 211, 212)";
-  axios.get('http://localhost:8081/gotoinbox', {
+      myElement.style.backgroundColor = "rgb(211, 211, 212)";
+      axios.get('http://localhost:8081/gotofolder', {
         params: {
-          foldername: "inbox",
+          foldername: "Inbox",
           address:this.userEmail,
         },
       }).then((r) => {
@@ -465,7 +315,7 @@ export default {
       this.b=this.foldernames.indexOf(name);
      // this.foldernames.splice(this.b, 1);
       this.foldernames[this.b]="";
-      axios.get('http://localhost:8081/deletefolder', {
+      axios.delete('http://localhost:8081/deletefolder', {
         params: {
           name:name,
           address:this.userEmail,
@@ -480,13 +330,9 @@ export default {
 
 
     rename(old,newname){
-      axios.get('http://localhost:8081/renamefolder', {
-        params: {
-          oldname:old,
-          newname:newname,
-          address:this.userEmail,
-        },
-      }).then((r) => {
+      console.log(old);
+      console.log(newname)
+      axios.put(`http://localhost:8081/renamefolder?oldname=${old}&newname=${newname}&address=${this.userEmail}`).then((r) => {
         console.log('done move folder');
        // this.mails=r.data;
         console.log(r.data)
@@ -513,12 +359,7 @@ console.log(r.data)
   this.title="Trash";
   const myElement = document.getElementById("trash-button");
   myElement.style.backgroundColor = "rgb(211, 211, 212)";
-  axios.get('http://localhost:8081/Trash', {
-        params: {
-          name: "trash",
-          address:this.userEmail,
-        },
-      }).then((r) => {
+  axios.get(`http://localhost:8081/gotofolder?address=${this.userEmail}&foldername=Trash`).then((r) => {
         console.log('done trash');
         this.mails=r.data;
       });
@@ -534,12 +375,7 @@ console.log(r.data)
 
 
   deletee(){
-    axios.get('http://localhost:8081/delete', {
-        params: {
-          ID: this.selected,
-          address:this.userEmail,
-        },
-      }).then((r) => {
+    axios.delete(`http://localhost:8081/delete?ids=${this.selected.join(',')}&address=${this.userEmail}`).then((r) => {
         console.log('done delete');
        // this.mails= r.data;
        console.log(r.data)
@@ -639,12 +475,8 @@ this.mails.sort(compareDates);
       console.log(this.i);
       console.log(name)
       if(name!==''||name==null){
-      axios.get('http://localhost:8081/addfolder', {
-        params: {
-          name:name,
-          address:this.userEmail,
-        },
-      }).then((r) => {
+      axios.post(`http://localhost:8081/addfolder?address=${this.userEmail}&name=${name}`
+      ).then((r) => {
         console.log('done move folder');
       //  console.log(r.data);
         console.log(r.data)
